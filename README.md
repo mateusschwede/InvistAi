@@ -1,6 +1,2 @@
 # Desenvolvimento
-Projetos de aula de Desenvolvimento
-
-fiz modificações aquifnffbf
-dmfngnb
-diego
+Desenvolvimento do software InvistAí, da aula de Desenvolvimento
