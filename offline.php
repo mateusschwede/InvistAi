@@ -12,6 +12,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12 text-center">
+            <h1>InvistAí</h1>
             <h2>Erro de conexão com a base de dados</h2>
             <h4 class="text-muted">Tente novamente em breve</h4>
             <a href="index.php" class="btn btn-secondary btn-lg">Recarregar</a>
