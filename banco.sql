@@ -1,20 +1,14 @@
 CREATE DATABASE invistai CHARSET=utf8;
 USE invistai;
 
-CREATE TABLE analista (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(30) NOT NULL,
-    senha VARCHAR(5) NOT NULL
-);
-
-CREATE TABLE cliente (
+CREATE TABLE pessoa (
     cpf VARCHAR(11) NOT NULL, /*PK*/
-    nome VARCHAR(60),
+    nome VARCHAR(60) NOT NULL,
     email VARCHAR(60),
     telefone VARCHAR(11),
-    senha VARCHAR(5),
+    senha VARCHAR(5) NOT NULL,
+    tipo INT NOT NULL DEFAULT 2, /*1-Analista, 2-Cliente*/
     ativo BOOLEAN NOT NULL DEFAULT 1
-    /*Ideia: Especificar campo analista e unificar(analista e cliente) tudo em única tabela*/
 );
 
 CREATE TABLE acao (
