@@ -37,4 +37,4 @@ CREATE TABLE carteira_acao (
     nPercentual INT
 );
 
-/* Banco OK */
+/* teste */
