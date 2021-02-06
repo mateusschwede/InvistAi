@@ -38,3 +38,4 @@ CREATE TABLE carteira_acao (
 );
 
 /* teste */
+/* Teste update VsCode */
