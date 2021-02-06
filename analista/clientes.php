@@ -25,8 +25,8 @@
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
-                            <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.php">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="clientes.php">Clientes</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                            <li class="nav-item"><a class="nav-link active" aria-current="page" href="clientes.php">Clientes</a></li>
                             <li class="nav-item"><a class="nav-link" href="../logout.php">Logout</a></li>
                         </ul>
                     </div>
@@ -38,7 +38,9 @@
 
     <div class="row">
         <div class="col-sm-12">
-            CONTEUDO AQUI
+            <a href="addCliente.php" class="btn btn-primary">Pré-cadastrar cliente</a>
+            Clientes ativos aqui (btnInativarCliente)
+            Clientes inativos aqui (btnAtivarCliente)
         </div>
     </div>
 
