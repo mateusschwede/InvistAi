@@ -2,6 +2,7 @@
 
 /* CSS PARA TODOS OS ARQUIVOS */
 #navbar {padding: 0%;} /*Navbars fixados às laterais*/
-
+input:required:invalid{color: lightcoral;} /*Cor para input escrito de forma inválida segundo 'pattern' definido*/
+input:required:valid{color: lightgreen;}
 
 /* ARQUIVO MODELO.HTML */
