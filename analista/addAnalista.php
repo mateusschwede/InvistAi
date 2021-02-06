@@ -1,14 +1,14 @@
 <?php
     require_once '../conexao.php';
 
-    if((!empty($_POST['nome'])) and (!empty($_POST['termo'])) and (!empty($_POST['senha']))) {
-        $r = $db->prepare("SELECT * FROM analista WHERE nome=? AND senha=?");
-        $r->execute(array($_POST['nome'],$_POST['senha']));
+    if((!empty($_POST['cpf'])) and (!empty($_POST['nome'])) and (!empty($_POST['termo'])) and (!empty($_POST['senha']))) {
+        $r = $db->prepare("SELECT cpf FROM pessoa WHERE cpf=?");
+        $r->execute(array($_POST['cpf']));
         if(($r->rowCount()==0) and ($_POST['termo']=="admin")) {
-            $r = $db->prepare("INSERT INTO analista(nome,senha) VALUES (?,?)");
-            $r->execute(array($_POST['nome'],$_POST['senha']));
+            $r = $db->prepare("INSERT INTO pessoa(cpf,nome,senha,tipo) VALUES (?,?,?,1)");
+            $r->execute(array($_POST['cpf'],$_POST['nome'],$_POST['senha']));
             echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>Analista adicionado!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
-        } else {echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Dado(s) inválido(s)!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";}
+        } else {echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Termo inválido ou Cpf já existente!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";}
     }
 ?>
 
@@ -30,6 +30,9 @@
         <div class="col-sm-12 text-center">
             <h1>Novo analista</h1>
             <form action="addAnalista.php" method="post">
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="cpf (somente números)" required name="cpf" pattern="\d{11}">
+                </div>
                 <div class="mb-3">
                     <input type="text" class="form-control" placeholder="nome" required name="nome" maxlength="60" style="text-transform:lowercase;">
                 </div>
