@@ -37,5 +37,3 @@ CREATE TABLE carteira_acao (
     nPercentual INT
 );
 
-/* teste */
-/* Teste update VsCode */
