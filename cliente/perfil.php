@@ -39,7 +39,10 @@
 
     <div class="row">
         <div class="col-sm-12">
-            CONTEUDO AQUI
+            Perfil do Cliente aqui
+            Dados do cliente
+            btnAtualizarDadosCliente
+            Coisas do tipo... :)
         </div>
     </div>
 
