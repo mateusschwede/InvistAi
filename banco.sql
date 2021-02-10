@@ -29,7 +29,7 @@ CREATE TABLE carteira (
     id INT AUTO_INCREMENT PRIMARY KEY,
     objetivo VARCHAR(60) NOT NULL, /*Ex: aposentadoria do bisneto, velório da sogra*/
     investimento FLOAT NOT NULL, /*Valor investido*/
-    sobraAportes FLOAT NOT NULL DEFAULT 0 /*Resto do valor na divisão entre as ações*/
+    sobraAportes FLOAT NOT NULL DEFAULT 0, /*Resto do valor na divisão entre as ações*/
     cpfCliente VARCHAR(11) NOT NULL /*FK*/
 );
 
