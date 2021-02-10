@@ -1,5 +1,25 @@
 <?php
     require_once 'conexao.php';
+
+    if( (!empty($_POST['cpf'])) and (!empty($_POST['senha'])) ) {
+        $r = $db->prepare("SELECT * FROM pessoa WHERE cpf=? AND senha=? AND inativado=0");
+        $r->execute(array($_POST['cpf'],$_POST['senha']));
+        
+        if($r->rowCount()==0) {echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Dado(s) incorreto(s) ou inativados!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";}
+        else {
+            session_start();
+            $_SESSION['cpf'] = $_POST['cpf'];
+            
+            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+            foreach($linhas as $l) {                
+                if($l['tipo']==1) {header("location: analista/index.php");}
+                elseif($l['tipo']==2) {
+                    if($l['email']==null) {header("location: cliente/primeiroAcesso.php");}
+                    else {header("location: cliente/index.php");}
+                }
+            }
+        }
+    }
 ?>
 
 <!DOCTYPE html>

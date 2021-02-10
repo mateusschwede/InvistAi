@@ -1,5 +1,6 @@
 <?php
     require_once '../conexao.php';
+    session_start();
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +28,7 @@
                         <ul class="navbar-nav">
                             <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.php">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="#">Item1</a></li>
-                            <li class="nav-item"><a class="nav-link" href="../logout.php">Logout</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../logout.php"><?=$_SESSION['cpf']?>-logout</a></li>
                         </ul>
                     </div>
                 </div>
