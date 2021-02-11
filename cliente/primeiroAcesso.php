@@ -2,10 +2,10 @@
     require_once '../conexao.php';
     session_start();
 
-    $r = $db->prepare("SELECT nome FROM pessoa WHERE cpf=?");
+    $r = $db->prepare("SELECT * FROM pessoa WHERE cpf=?");
     $r->execute(array($_SESSION['cpf']));
     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-    foreach($linhas as $l) {$nome = $l['nome'];}
+    foreach($linhas as $l) {$nome = $l['nome'];$senha = $l['senha'];}
 
     if( (!empty($_POST['nome'])) and (!empty($_POST['email'])) and (!empty($_POST['celular'])) and (!empty($_POST['endereco'])) and (!empty($_POST['senha'])) ) {
         $r = $db->prepare("UPDATE pessoa SET nome=?,email=?,celular=?,endereco=?,senha=? WHERE cpf=?");
@@ -47,7 +47,7 @@
                     <input type="text" class="form-control" placeholder="endereço completo" required name="endereco" maxlength="200" style="text-transform:lowercase;">
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="nova senha" required name="senha" maxlength="5" style="text-transform:lowercase;" value="<?=$_SESSION['senha']?>">
+                    <input type="text" class="form-control" placeholder="nova senha" required name="senha" maxlength="5" style="text-transform:lowercase;" value="<?=$senha?>">
                 </div>
                 <button type="button" class="btn btn-danger" onclick="window.location.href='../index.php'">Voltar</button>
                 <button type="submit" class="btn btn-success">Confirmar</button>
