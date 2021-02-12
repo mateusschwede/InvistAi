@@ -8,10 +8,13 @@
         if($r->rowCount()==0) {echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Dado(s) incorreto(s) ou inativados!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";}
         else {
             session_start();
-            $_SESSION['cpf'] = $_POST['cpf'];
             
             $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-            foreach($linhas as $l) {                
+            foreach($linhas as $l) {
+                
+                $_SESSION['cpf'] = $l['cpf'];
+                $_SESSION['tipo'] = $l['tipo'];             
+
                 if($l['tipo']==1) {header("location: analista/index.php");}
                 elseif($l['tipo']==2) {
                     if($l['email']==null) {header("location: cliente/primeiroAcesso.php");}

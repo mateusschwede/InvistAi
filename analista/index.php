@@ -1,4 +1,4 @@
-<?php
+<?phpb.
     require_once '../conexao.php';
     session_start();
 ?>
@@ -14,39 +14,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<div class="container">
-    <div class="container-fluid">
+<div class="container-fluid">
 
-        
-        <!-- Menu de Navegação -->
-        <div class="row">
-            <div class="col-sm-12" id="navbar">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <div class="container-fluid">
-                        <a class="navbar-brand" href="index.php">InvistAí(Analista)</a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                            <ul class="navbar-nav">
-                                <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.php">Home</a></li>
-                                <li class="nav-item"><a class="nav-link" href="clientes.php">Clientes</a></li>
-                                <li class="nav-item"><a class="nav-link" href="../logout.php"><?=$_SESSION['cpf']?>-logout</a></li>
-                            </ul>
-                        </div>
+    
+    <!-- Menu de Navegação -->
+    <div class="row">
+        <div class="col-sm-12" id="navbar">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="index.php">InvistAí(Analista)</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.php">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="clientes.php">Clientes</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../logout.php"><?=$_SESSION['cpf']?>-logout</a></li>
+                        </ul>
                     </div>
-                </nav>
-            </div>
+                </div>
+            </nav>
         </div>
-
-
-        <div class="row">
-            <div class="col-sm-12">
-                CONTEUDO AQUI
-                <a href="movimentacoes.php" class="btn btn-primary">Ver movimentações de cliente</a>
-            </div>
-        </div>
-
-
     </div>
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            CONTEUDO AQUI
+            <a href="movimentacoes.php" class="btn btn-primary">Ver movimentações de cliente</a>s
+        </div>
+    </div>
+
+
 </div>
 </body>
 </html>
