@@ -14,74 +14,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<div class="container-fluid">
+<div class="container">
+    <div class="container-fluid">
 
-    
-    <!-- Menu de Navegação -->
-    <div class="row">
-        <div class="col-sm-12" id="navbar">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="index.php">InvistAí(Analista)</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                            <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="clientes.php">Clientes</a></li>
-                            <li class="nav-item"><a class="nav-link" href="../logout.php"><?=$_SESSION['cpf']?>-logout</a></li>
-                        </ul>
+        
+        <!-- Menu de Navegação -->
+        <div class="row">
+            <div class="col-sm-12" id="navbar">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="index.php">InvistAí(Analista)</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav">
+                                <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="clientes.php">Clientes</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../logout.php"><?=$_SESSION['cpf']?>-logout</a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </nav>
-        </div>
-    </div>
-
-
-    <div class="row">
-        <div class="col-sm-12">
-            <form action="movimentacoes.php" method="post">
-                <div class="mb-3">
-                    <label class="form-label">Cliente</label>
-                    <select class="form-select" name="cpf">
-                        <?php
-                            $r = $db->query("SELECT cpf,nome FROM pessoa WHERE tipo=2 AND inativado=0");
-                            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                            foreach($linhas as $l) {
-                                echo "<option value='".$l['cpf']."'>(cpf ".$l['cpf'].") ".$l['nome']."</option>";
-                            }
-                        ?>
-                    </select>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Data</th>
-                            <th scope="col">Ativo</th>
-                            <th scope="col">Tipo</th>
-                            <th scope="col">Quantidade</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">dataMovimentacao</th>
-                            <td>OIBR4</td>
-                            <td>Compra</td>
-                            <td>300</td>
-                        </tr>
-                    </tbody>
-                </table>
+                </nav>
             </div>
-            <a href="index.php" class="btn btn-danger">Voltar</a>
         </div>
-    </div>
 
+
+        <div class="row">
+            <div class="col-sm-12">
+                <form action="movimentacoes.php" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Cliente</label>
+                        <select class="form-select" name="cpf">
+                            <?php
+                                $r = $db->query("SELECT cpf,nome FROM pessoa WHERE tipo=2 AND inativado=0");
+                                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                                foreach($linhas as $l) {
+                                    echo "<option value='".$l['cpf']."'>(cpf ".$l['cpf'].") ".$l['nome']."</option>";
+                                }
+                            ?>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Data</th>
+                                <th scope="col">Ativo</th>
+                                <th scope="col">Tipo</th>
+                                <th scope="col">Quantidade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">dataMovimentacao</th>
+                                <td>OIBR4</td>
+                                <td>Compra</td>
+                                <td>300</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a href="index.php" class="btn btn-danger">Voltar</a>
+            </div>
+        </div>
+
+    </div>
 </div>
 </body>
 </html>

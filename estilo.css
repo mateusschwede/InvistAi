@@ -6,3 +6,13 @@ input:required:invalid{color: lightcoral;} /*Cor para input escrito de forma inv
 input:required:valid{color: rgb(115, 190, 115);}
 
 /* ARQUIVO MODELO.HTML */
+
+/* MODIFICACAO KIEFER */
+* {
+    box-sizing: border-box;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 92%;
+}

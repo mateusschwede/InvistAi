@@ -13,36 +13,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<div class="container-fluid">
+<div class="container">
+    <div class="container-fluid">
 
-    
-    <!-- Menu de Navegação -->
-    <div class="row">
-        <div class="col-sm-12" id="navbar">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="index.php"><img src="anexos/icone.png" alt="" width="30" height="24"> InvistAí</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                            <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Item1</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Item2</a></li>
-                        </ul>
+        
+        <!-- Menu de Navegação -->
+        <div class="row">
+            <div class="col-sm-12" id="navbar">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="index.php"><img src="anexos/icone.png" alt="" width="30" height="24"> InvistAí</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav">
+                                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Item1</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Item2</a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </nav>
+                </nav>
+            </div>
         </div>
-    </div>
 
 
-    <div class="row">
-        <div class="col-sm-12">
-            CONTEUDO AQUI
+        <div class="row">
+            <div class="col-sm-12">
+                CONTEUDO AQUI
+            </div>
         </div>
-    </div>
-
-
 </div>
+
+    </div>
 </body>
 </html>

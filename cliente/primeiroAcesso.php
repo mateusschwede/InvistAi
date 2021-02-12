@@ -25,37 +25,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<div class="container-fluid">
+<div class="container">
+    <div class="container-fluid">
 
 
-    <div class="row text-center">
-        <div class="col-sm-12">
-            <h2><?=$nome?>, bem-vindo(a) ao InvistAí!</h2>
-            <h4 class="text-muted">Complete seu cadastro para acessar o sistema</h4>
-            
-            <form action="primeiroAcesso.php" method="post">
-                <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="nome e sobrenome" required name="nome" maxlength="60" style="text-transform:lowercase;" value="<?=$nome?>">
-                </div>
-                <div class="mb-3">
-                    <input type="email" class="form-control" placeholder="email" required name="email" maxlength="60" style="text-transform:lowercase;">
-                </div>
-                <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="celular (somente números)" required name="celular" pattern="\d{11}">
-                </div>
-                <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="endereço completo" required name="endereco" maxlength="200" style="text-transform:lowercase;">
-                </div>
-                <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="nova senha" required name="senha" maxlength="5" style="text-transform:lowercase;" value="<?=$senha?>">
-                </div>
-                <button type="button" class="btn btn-danger" onclick="window.location.href='../index.php'">Voltar</button>
-                <button type="submit" class="btn btn-success">Confirmar</button>
-            </form>
+        <div class="row text-center">
+            <div class="col-sm-12">
+                <h2><?=$nome?>, bem-vindo(a) ao InvistAí!</h2>
+                <h4 class="text-muted">Complete seu cadastro para acessar o sistema</h4>
+                
+                <form action="primeiroAcesso.php" method="post">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="nome e sobrenome" required name="nome" maxlength="60" style="text-transform:lowercase;" value="<?=$nome?>">
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" class="form-control" placeholder="email" required name="email" maxlength="60" style="text-transform:lowercase;">
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="celular (somente números)" required name="celular" pattern="\d{11}">
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="endereço completo" required name="endereco" maxlength="200" style="text-transform:lowercase;">
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="nova senha" required name="senha" maxlength="5" style="text-transform:lowercase;" value="<?=$senha?>">
+                    </div>
+                    <button type="button" class="btn btn-danger" onclick="window.location.href='../index.php'">Voltar</button>
+                    <button type="submit" class="btn btn-success">Confirmar</button>
+                </form>
+            </div>
         </div>
+
+
     </div>
-
-
 </div>
 </body>
 </html>
