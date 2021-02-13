@@ -17,9 +17,7 @@ CREATE TABLE pessoa (
 
 CREATE TABLE acao (
     ativo VARCHAR(5) NOT NULL, /*PK - Código dela, ex: OIBR4*/
-    cnpj VARCHAR(14) NOT NULL,
     nome VARCHAR(60) NOT NULL,
-    atividade VARCHAR(80) NOT NULL,
     setor VARCHAR(80) NOT NULL,
     cotacaoAtual FLOAT NOT NULL, /*Preço da ação*/
     inativado BOOLEAN NOT NULL DEFAULT 0

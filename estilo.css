@@ -4,6 +4,7 @@
 #navbar {padding: 0%;} /*Navbars fixados às laterais*/
 input:required:invalid{color: lightcoral;} /*Cor para input escrito de forma inválida segundo 'pattern' definido*/
 input:required:valid{color: rgb(115, 190, 115);}
+#logout {color: tomato;}
 
 * {
     box-sizing: border-box;
@@ -15,6 +16,3 @@ input:required:valid{color: rgb(115, 190, 115);}
 }
 
 /* ARQUIVO MODELO.HTML */
-
-
-
