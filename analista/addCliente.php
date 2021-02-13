@@ -40,6 +40,7 @@
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav">
                                 <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="perfil.php">Perfil</a></li>
                                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="clientes.php">Clientes</a></li>
                                 <li class="nav-item"><a class="nav-link" href="../logout.php" id="logout"><?=$_SESSION['cpf']?>-logout</a></li>
                             </ul>

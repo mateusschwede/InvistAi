@@ -29,7 +29,7 @@
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav">
                                 <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                                <li class="nav-item"><a class="nav-link" href="perfil.php">Perfil</a></li>
+                                <li class="nav-item"><a class="nav-link active" aria-current="page"  href="perfil.php">Perfil</a></li>
                                 <li class="nav-item"><a class="nav-link" href="clientes.php">Clientes</a></li>
                                 <li class="nav-item"><a class="nav-link" href="../logout.php" id="logout"><?=$_SESSION['cpf']?>-logout</a></li>
                             </ul>
@@ -42,48 +42,24 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <form action="movimentacoes.php" method="post">
-                    <div class="mb-3">
-                        <label class="form-label">Cliente</label>
-                        <select class="form-select" name="cpf">
-                            <?php
-                                $r = $db->query("SELECT cpf,nome FROM pessoa WHERE tipo=2 AND inativado=0");
-                                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                                foreach($linhas as $l) {
-                                    echo "<option value='".$l['cpf']."'>(cpf ".$l['cpf'].") ".$l['nome']."</option>";
-                                }
-                            ?>
-                        </select>
-                    </div>
-                </form>
+                <h1>Perfil do analista</h1>
+                <?php
+                    $r = $db->prepare("SELECT * FROM pessoa WHERE cpf=?");
+                    $r->execute(array($_SESSION['cpf']));
+                    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                    foreach($linhas as $l) {
+                        echo "
+                            <p><b>CPF:</b> ".$_SESSION['cpf']."</p>
+                            <p><b>RG:</b> ".$l['rg']."</p>
+                            <p><b>Nome:</b> ".$l['nome']."</p>
+                            <p><b>Senha:</b> ".$l['senha']."</p>
+                        ";
+                    }
+                ?>
+                <a href="updateAnalista.php?cpf=<?=$_SESSION['cpf']?>" class="btn btn-warning">Editar informações</a>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Data</th>
-                                <th scope="col">Ativo</th>
-                                <th scope="col">Tipo</th>
-                                <th scope="col">Quantidade</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">dataMovimentacao</th>
-                                <td>OIBR4</td>
-                                <td>Compra</td>
-                                <td>300</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <a href="index.php" class="btn btn-danger">Voltar</a>
-            </div>
-        </div>
 
     </div>
 </div>
