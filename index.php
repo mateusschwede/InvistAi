@@ -53,7 +53,7 @@
                     <div class="mb-3">
                         <input type="password" class="form-control" placeholder="senha" required name="senha" maxlength="5" style="text-transform:lowercase;">
                     </div>
-                    <button type="submit" class="btn btn-primary btn-lg">Entrar</button>
+                    <button id="submitWithEnter" type="submit" class="btn btn-primary btn-lg">Entrar</button>
                 </form>
                 <br>
                 <a href="analista/addAnalista.php" class="btn btn-secondary btn-sm">Novo analista</a>

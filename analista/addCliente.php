@@ -66,7 +66,7 @@
                         <input type="password" class="form-control" placeholder="senha temporária" required name="senha" maxlength="5" style="text-transform:lowercase;">
                     </div>
                     <button type="button" class="btn btn-danger" onclick="window.location.href='clientes.php'">Voltar</button>
-                    <button type="submit" class="btn btn-success">Adicionar</button>
+                    <button type="submit" class="btn btn-success" id="submitWithEnter">Adicionar</button>
                 </form>
             </div>
         </div>

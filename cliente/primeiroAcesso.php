@@ -51,7 +51,7 @@
                         <input type="text" class="form-control" placeholder="nova senha" required name="senha" maxlength="5" style="text-transform:lowercase;" value="<?=$senha?>">
                     </div>
                     <button type="button" class="btn btn-danger" onclick="window.location.href='../index.php'">Voltar</button>
-                    <button type="submit" class="btn btn-success">Confirmar</button>
+                    <button type="submit" class="btn btn-success" id="submitWithEnter">Confirmar</button>
                 </form>
             </div>
         </div>

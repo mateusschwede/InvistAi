@@ -1,3 +1,4 @@
+/* Função para aceitar somente números nos inputs */
 function isNumber(evt) {
     evt = (evt) ? evt : window.event;
     var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -6,3 +7,10 @@ function isNumber(evt) {
     }
     return true;
 }
+
+/* Enviar formulário com tecla Enter */
+document.addEventListener('keydown', function(e) {
+    if(e.key === 'Enter'){
+    document.getElementById("submitWithEnter").click();
+    }
+});
