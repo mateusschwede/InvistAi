@@ -15,7 +15,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<div class="container">
     <div class="container-fluid">
 
         
@@ -54,7 +53,8 @@
                                 <p><b>Nome:</b> ".$l['nome']."</p>
                                 <p><b>Setor:</b> ".$l['setor']."</p>
                                 <p><b>Cotação:</b> R$ ".number_format($l['cotacaoAtual'],2)."</p>
-                                <a href='inatAcao.php?ativo=".$l['ativo']."' class='btn btn-danger'>Inativar</a>
+                                <a href='updateAcao.php?ativo=".$l['ativo']."' class='btn btn-warning btn-sm'>Editar</a>
+                                <a href='inatAcao.php?ativo=".$l['ativo']."' class='btn btn-danger btn-sm'>Inativar</a>
                                 <hr>
                             ";
                         }
@@ -72,7 +72,7 @@
                                 <p class='text-muted'><b>Nome:</b> ".$l['nome']."</p>
                                 <p class='text-muted'><b>Setor:</b> ".$l['setor']."</p>
                                 <p class='text-muted'><b>Cotação:</b> R$ ".number_format($l['cotacaoAtual'],2)."</p>
-                                <a href='ativAcao.php?ativo=".$l['ativo']."' class='btn btn-success'>Ativar</a>
+                                <a href='ativAcao.php?ativo=".$l['ativo']."' class='btn btn-success btn-sm'>Ativar</a>
                                 <hr>
                             ";
                         }
@@ -83,6 +83,5 @@
 
 
     </div>
-</div>
 </body>
 </html>

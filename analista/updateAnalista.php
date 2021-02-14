@@ -38,7 +38,7 @@
             <div class="col-sm-12 text-center">
             <?= $msgSucesso ?  "<div class='alert alert-success alert-dismissible fade show' role='alert'>Dados Atualizados!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>" : "" ?>
 
-                <h1>Novo analista</h1>
+                <h1>Editar analista</h1>
                 <form action="updateAnalista.php" method="post">
                     <div class="mb-3">
                         <input type="text" class="form-control" placeholder="cpf" required name="cpf" pattern="\d{11}" onkeypress="return isNumber(event)">
@@ -55,8 +55,8 @@
                     <div class="mb-3">
                         <input type="password" class="form-control" placeholder="senha" required name="senha" maxlength="5" style="text-transform:lowercase;">
                     </div>
-                    <button type="button" class="btn btn-danger" onclick="window.location.href='../index.php'">Voltar</button>
-                    <button type="submit" class="btn btn-success" id="submitWithEnter">Adicionar</button>
+                    <button type="button" class="btn btn-danger" onclick="window.location.href='perfil.php'">Voltar</button>
+                    <button type="submit" class="btn btn-success" id="submitWithEnter">Atualizar</button>
                 </form>
             </div>
         </div>
