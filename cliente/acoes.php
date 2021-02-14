@@ -24,14 +24,13 @@
             <div class="col-sm-12" id="navbar">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                     <div class="container-fluid">
-                        <a class="navbar-brand" href="index.php"><img src="https://img.icons8.com/fluent/24/000000/bad-idea.png"/> InvistAí(Analista)</a>
+                        <a class="navbar-brand" href="index.php"><img src="https://img.icons8.com/fluent/24/000000/bad-idea.png"/> InvistAí(Cliente)</a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav">
                                 <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                                <li class="nav-item"><a class="nav-link active" aria-current="page"  href="perfil.php">Perfil</a></li>
-                                <li class="nav-item"><a class="nav-link" href="acoes.php">Ações</a></li>
-                                <li class="nav-item"><a class="nav-link" href="clientes.php">Clientes</a></li>
+                                <li class="nav-item"><a class="nav-link" href="perfil.php">Perfil</a></li>
+                                <li class="nav-item"><a class="nav-link active" aria-current="page" href="acoes.php">Ações</a></li>
                                 <li class="nav-item"><a class="nav-link" href="../logout.php" id="logout"><?=$_SESSION['cpf']?>-logout</a></li>
                             </ul>
                         </div>
@@ -43,21 +42,22 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <h1>Perfil do analista</h1>
+                <h1>Ações</h1>
                 <?php
-                    $r = $db->prepare("SELECT * FROM pessoa WHERE cpf=?");
-                    $r->execute(array($_SESSION['cpf']));
-                    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                    foreach($linhas as $l) {
-                        echo "
-                            <p><b>CPF:</b> ".$_SESSION['cpf']."</p>
-                            <p><b>RG:</b> ".$l['rg']."</p>
-                            <p><b>Nome:</b> ".$l['nome']."</p>
-                            <p><b>Senha:</b> ".$l['senha']."</p>
-                        ";
-                    }
+                    $r = $db->query("SELECT * FROM acao WHERE inativado=0 ORDER BY ativo");
+                    if($r->rowCount()>0) {
+                        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                        foreach($linhas as $l) {
+                            echo "
+                                <p><b>Ativo:</b> ".strtoupper($l['ativo'])."</p>
+                                <p><b>Nome:</b> ".$l['nome']."</p>
+                                <p><b>Setor:</b> ".$l['setor']."</p>
+                                <p><b>Cotação:</b> R$ ".number_format($l['cotacaoAtual'],2)."</p>
+                                <hr>
+                            ";
+                        }
+                    } else {echo "<p class='text-muted'>Nenhuma ação ativa</p>";}
                 ?>
-                <a href="updateAnalista.php?cpf=<?=$_SESSION['cpf']?>" class="btn btn-warning">Editar informações</a>
             </div>
         </div>
 

@@ -29,8 +29,8 @@
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav">
                                 <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                                <li class="nav-item"><a class="nav-link" href="perfil.php">Perfil</a></li>
-                                <li class="nav-item"><a class="nav-link" href="acoes.php">Ações</a></li>
+                                <li class="nav-item"><a class="nav-link"href="perfil.php">Perfil</a></li>
+                                <li class="nav-item"><a class="nav-link active" aria-current="page" href="acoes.php">Ações</a></li>
                                 <li class="nav-item"><a class="nav-link" href="clientes.php">Clientes</a></li>
                                 <li class="nav-item"><a class="nav-link" href="../logout.php" id="logout"><?=$_SESSION['cpf']?>-logout</a></li>
                             </ul>
@@ -43,48 +43,44 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <form action="movimentacoes.php" method="post">
-                    <div class="mb-3">
-                        <label class="form-label">Cliente</label>
-                        <select class="form-select" name="cpf">
-                            <?php
-                                $r = $db->query("SELECT cpf,nome FROM pessoa WHERE tipo=2 AND inativado=0");
-                                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                                foreach($linhas as $l) {
-                                    echo "<option value='".$l['cpf']."'>(cpf ".$l['cpf'].") ".$l['nome']."</option>";
-                                }
-                            ?>
-                        </select>
-                    </div>
-                </form>
+                <h1>Ações</h1>
+                <?php
+                    $r = $db->query("SELECT * FROM acao WHERE inativado=0 ORDER BY ativo");
+                    if($r->rowCount()>0) {
+                        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                        foreach($linhas as $l) {
+                            echo "
+                                <p><b>Ativo:</b> ".strtoupper($l['ativo'])."</p>
+                                <p><b>Nome:</b> ".$l['nome']."</p>
+                                <p><b>Setor:</b> ".$l['setor']."</p>
+                                <p><b>Cotação:</b> R$ ".number_format($l['cotacaoAtual'],2)."</p>
+                                <a href='inatAcao.php?ativo=".$l['ativo']."' class='btn btn-danger'>Inativar</a>
+                                <hr>
+                            ";
+                        }
+                    } else {echo "<p class='text-muted'>Nenhuma ação ativa</p>";}
+                ?>
+
+                <h2>Ações inativadas</h2>
+                <?php
+                    $r = $db->query("SELECT * FROM acao WHERE inativado=1 ORDER BY ativo");
+                    if($r->rowCount()>0) {
+                        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                        foreach($linhas as $l) {
+                            echo "
+                                <p class='text-muted'><b>Ativo:</b> ".strtoupper($l['ativo'])."</p>
+                                <p class='text-muted'><b>Nome:</b> ".$l['nome']."</p>
+                                <p class='text-muted'><b>Setor:</b> ".$l['setor']."</p>
+                                <p class='text-muted'><b>Cotação:</b> R$ ".number_format($l['cotacaoAtual'],2)."</p>
+                                <a href='ativAcao.php?ativo=".$l['ativo']."' class='btn btn-success'>Ativar</a>
+                                <hr>
+                            ";
+                        }
+                    } else {echo "<p class='text-muted'>Nenhuma ação inativada</p>";}
+                ?>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Data</th>
-                                <th scope="col">Ativo</th>
-                                <th scope="col">Tipo</th>
-                                <th scope="col">Quantidade</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">dataMovimentacao</th>
-                                <td>OIBR4</td>
-                                <td>Compra</td>
-                                <td>300</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <a href="index.php" class="btn btn-danger">Voltar</a>
-            </div>
-        </div>
 
     </div>
 </div>
