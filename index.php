@@ -45,6 +45,7 @@
 
         <div class="row">
             <div class="col-sm-12 text-center">
+                <img src="https://img.icons8.com/fluent/96/000000/bad-idea.png"/>
                 <h1>InvistAí</h1>
                 <h4 class="text-muted">Software de recomendações de compras de ações</h4>
                 <form action="index.php" method="post">
