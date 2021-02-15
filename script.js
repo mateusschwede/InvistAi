@@ -14,3 +14,10 @@ document.addEventListener('keydown', function(e) {
     document.getElementById("submitWithEnter").click();
     }
 });
+
+/* Confirmar logout*/
+function confirmlogout() {
+    if (confirm("Tem certeza que deseja fazer logout?")) {
+       location.href="../logout.php";
+    }
+ }
