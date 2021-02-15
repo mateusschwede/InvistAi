@@ -21,3 +21,4 @@ function confirmlogout() {
        location.href="../logout.php";
     }
  }
+
