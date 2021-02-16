@@ -11,15 +11,18 @@ function isNumber(evt) {
 /* Enviar formulário com tecla Enter */
 document.addEventListener('keydown', function(e) {
     if(e.key === 'Enter'){
-    document.getElementById("submitWithEnter").click();
+        document.getElementById("submitWithEnter").click();
     }
 });
 
 /* Confirmar logout*/
 function confirmlogout() {
     if (confirm("Tem certeza que deseja fazer logout?")) {
-       location.href="../logout.php";
+        location.href="../logout.php";
     }
- }
-
-
+}
+function confirmlogout2() {
+    if (confirm("Tem certeza que deseja fazer logout?")) {
+        location.href="../../logout.php";
+    }
+}

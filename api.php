@@ -1,4 +1,3 @@
-
 <?php
     function getlastprice($sig){
         $url =  "https://api-cotacao-b3.labdo.it/api/cotacao/cd_acao/".$sig;

@@ -12,6 +12,4 @@
 	} else {
 		header("Location: perfil.php");
 	}
-  
-
 ?>

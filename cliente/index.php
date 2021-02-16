@@ -36,7 +36,7 @@
                                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.php">Home</a></li>
                                 <li class="nav-item"><a class="nav-link" href="perfil.php">Perfil</a></li>
                                 <li class="nav-item"><a class="nav-link" href="acoes.php">Ações</a></li>
-                                  <li class="nav-item"><a class="nav-link" href="#" onclick="confirmlogout()" id="logout"><?=$_SESSION['nome']?>-logout</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#" onclick="confirmlogout()" id="logout"><?=$_SESSION['nome']?>-logout</a></li>
                             </ul>
                         </div>
                     </div>
@@ -47,8 +47,8 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <h2>MINHAS CARTEIRAS</h2> 
-                <a href="carteira/addCarteira.php" class="btn btn-secondary btn-sm">Adicionar Carteira</a>
+                <h1>Minhas Carteiras</h1> 
+                <a href="carteira/addCarteira.php" class="btn btn-primary">Adicionar Carteira</a>
             </div>
         </div>
 
