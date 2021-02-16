@@ -1,6 +1,11 @@
 <?php
     require_once '../conexao.php';
     session_start();
+
+    if(!isset($_SESSION['logado'])):
+        header('Location: index.php');
+    endif;
+    
     $msgSucesso = false;
     if((!empty($_POST['cpf'])) and (!empty($_POST['rg'])) and (!empty($_POST['nome'])) and (!empty($_POST['termo'])) and (!empty($_POST['senha']))) {
         $r = $db->prepare("UPDATE pessoa SET cpf = :cpf, rg = :rg, nome = :nome, senha = :senha, tipo = :tipo WHERE cpf = :cpf");

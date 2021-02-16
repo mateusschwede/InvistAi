@@ -2,6 +2,10 @@
     require_once '../conexao.php';
     session_start();
 
+    if(!isset($_SESSION['logado'])):
+        header('Location: ../acessoNegado.php');
+    endif;
+
     if((!empty($_POST['cpf'])) and (!empty($_POST['rg'])) and (!empty($_POST['nome'])) and (!empty($_POST['senha']))) {
         $r = $db->prepare("SELECT cpf FROM pessoa WHERE cpf=? OR rg=?");
         $r->execute(array($_POST['cpf'],$_POST['rg']));

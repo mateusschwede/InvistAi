@@ -8,6 +8,8 @@
         if($r->rowCount()==0) {echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Dado(s) incorreto(s) ou inativados!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";}
         else {
             session_start();
+
+            $_SESSION['logado'] = true;
             
             $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
             foreach($linhas as $l) {

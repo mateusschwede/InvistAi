@@ -2,6 +2,10 @@
     require_once '../conexao.php';
     session_start();
 
+    if(!isset($_SESSION['logado'])):
+        header('Location: ../acessoNegado.php');
+    endif;
+
     $r = $db->prepare("SELECT * FROM pessoa WHERE cpf=?");
     $r->execute(array($_SESSION['cpf']));
     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
