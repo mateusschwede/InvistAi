@@ -19,8 +19,7 @@ CREATE TABLE acao (
     ativo VARCHAR(5) NOT NULL, /*PK - Código dela, ex: OIBR4*/
     nome VARCHAR(60) NOT NULL,
     setor VARCHAR(80) NOT NULL,
-    cotacaoAtual FLOAT NOT NULL, /*Preço da ação*/
-    inativado BOOLEAN NOT NULL DEFAULT 0
+    cotacaoAtual FLOAT NOT NULL /*Preço da ação*/
 );
 
 CREATE TABLE carteira (
