@@ -10,7 +10,6 @@ Desenvolvimento do software InvistAí, da aula de Desenvolvimento
 - Pré-cadastrar cliente
 - Listar clientes
 - Listar ações
-- Ativar ação inativada
 
 ### Cliente
 - Login/Logout
