@@ -47,7 +47,8 @@
 
         <div class="row">
             <div class="col-sm-12">
-                CARTEIRAS AQUI
+                <h2>MINHAS CARTEIRAS</h2> 
+                <a href="carteira/addCarteira.php" class="btn btn-secondary btn-sm">Adicionar Carteira</a>
             </div>
         </div>
 
