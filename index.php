@@ -40,6 +40,7 @@
 <script src="../script.js"></script> 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript" src="script.js"></script>
+    <script type="text/javascript" src="pace.min.js"></script>
 
 </head>
 <body id="login">
