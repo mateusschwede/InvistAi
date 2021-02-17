@@ -3,7 +3,7 @@
     session_start();
 
     if(!isset($_SESSION['logado'])):
-        header('Location: ../../acessoNegado.php');
+       // header('Location: ../../acessoNegado.php');
     endif;
 
     if((!empty($_POST['objetivo'])) and (!empty($_POST['valor'])) ) {
@@ -64,7 +64,7 @@
                         <input type="text" class="form-control" placeholder="Objetivo (ex: aposentadoria)" required name="objetivo" required maxlength="200" style="text-transform:lowercase;">
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" required name="valor" pattern="\d{1,6}\.\d{2}" placeholder="valor do investimento (ex: 300.99)">
+                        <input type="text" class="form-control" required name="valor" pattern="\d{1,6}\.\d{2}" placeholder="valor do investimento (ex: 300.99)" onkeypress="return isNumberAndDot(event)">
                         <div class="form-text">Use ponto no lugar de vírgula</div>
                     </div>
                     <a href="../index.php" class="btn btn-danger">Voltar</a>
