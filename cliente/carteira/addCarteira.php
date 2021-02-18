@@ -3,7 +3,7 @@
     session_start();
 
     if(!isset($_SESSION['logado'])):
-       // header('Location: ../../acessoNegado.php');
+       header('Location: ../../acessoNegado.php');
     endif;
 
     if((!empty($_POST['objetivo'])) and (!empty($_POST['valor'])) ) {
@@ -70,7 +70,6 @@
                     <a href="../index.php" class="btn btn-danger">Voltar</a>
                     <button type="reset" class="btn btn-warning">Limpar</button>
                     <button type="submit" class="btn btn-success" id="submitWithEnter">Adicionar</button>
-                    <button type="reset" class="btn btn-warning">Limpar</button>
                 </form>
             </div>
             </div>
