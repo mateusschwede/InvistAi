@@ -1,13 +1,12 @@
 <?php
     require_once 'conexao.php';
     $r = $db->query("SELECT dtUltimaCotacao FROM acao LIMIT 1");
-$linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-foreach($linhas as $l) {$ultimaCotacaoBD = $l['dtUltimaCotacao'];}
-echo $ultimaCotacaoBD;
-if($ultimaCotacaoBD!=$ultimaCotacao) {
-    require_once 'api/dados.php';
-    require_once 'api/valores.php';
-}
+    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+    foreach($linhas as $l) {$ultimaCotacaoBD = $l['dtUltimaCotacao'];}
+    if($ultimaCotacaoBD!=$ultimaCotacao) {
+        require_once 'api/dados.php';
+        require_once 'api/valores.php';
+    }
 
     if( (!empty($_POST['cpf'])) and (!empty($_POST['senha'])) ) {
         $r = $db->prepare("SELECT * FROM pessoa WHERE cpf=? AND senha=? AND inativado=0");
