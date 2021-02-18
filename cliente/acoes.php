@@ -44,26 +44,7 @@
             </div>
         </div>
 
-
-        <div class="row">
-            <div class="col-sm-12">
-                <h1>Ações</h1>
-                <?php
-                    $r = $db->query("SELECT * FROM acao ORDER BY ativo");
-                    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                    foreach($linhas as $l) {
-                        echo "
-                            <p><b>Ativo:</b> ".strtoupper($l['ativo'])."</p>
-                            <p><b>Nome:</b> ".$l['nome']."</p>
-                            <p><b>Setor:</b> ".$l['setor']."</p>
-                            <p><b>Cotação:</b> R$ ".number_format($l['cotacaoAtual'],2)."</p>
-                            <hr>
-                        ";
-                    }
-                ?>
-            </div>
-        </div>
-
+        <?php require_once '../acoes.php'; ?>
 
     </div>
 </body>

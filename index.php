@@ -1,5 +1,7 @@
 <?php
     require_once 'conexao.php';
+    require_once 'api/dados.php';
+    require_once 'api/valores.php';
 
     if( (!empty($_POST['cpf'])) and (!empty($_POST['senha'])) ) {
         $r = $db->prepare("SELECT * FROM pessoa WHERE cpf=? AND senha=? AND inativado=0");
@@ -16,7 +18,7 @@
                 
                 $_SESSION['cpf'] = $l['cpf'];
                 $_SESSION['tipo'] = $l['tipo'];
-                $_SESSION['nome'] = $l['nome'];             
+                $_SESSION['nome'] = $l['nome'];
 
                 if($l['tipo']==1) {header("location: analista/index.php");}
                 elseif($l['tipo']==2) {
