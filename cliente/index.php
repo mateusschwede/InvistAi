@@ -71,7 +71,7 @@
                                             <th scope='row'>".($l['id'])."</th>
                                             <td class='setn'>".$l['objetivo']."</td>
                                             <td class='set'> R$ ".number_format($l['investimento'],2,".",",")."</td>
-                                            <td class='set'><a href='remCarteira.php' class='btn btn-danger btn-sm'>Excluir</a> <a href='updateCarteira.php' class='btn btn-warning btn-sm'>Editar</a> <a href='verCarteira.php' class='btn btn-primary btn-sm'>Ver</a> <a href='investirCarteira.php' class='btn btn-success btn-sm'>Investir</a></td>
+                                            <td class='set'><a href='remCarteira.php' class='btn btn-danger btn-sm'>Excluir</a> <a href='updateCarteira.php' class='btn btn-warning btn-sm'>Editar</a> <a href='carteira/verCarteira.php?id=".$l['id']."' class='btn btn-primary btn-sm'>Ver</a> <a href='investirCarteira.php' class='btn btn-success btn-sm'>Investir</a></td>
                                         </tr>
                                     ";
                                 }
