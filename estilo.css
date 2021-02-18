@@ -37,3 +37,6 @@ input:required:valid{color: rgb(115, 190, 115);}
 .set{
     text-transform: lowercase !important;
 }
+.setn{
+    text-transform: capitalize !important;
+}
