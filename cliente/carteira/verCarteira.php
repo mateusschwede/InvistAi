@@ -63,7 +63,9 @@
                     }
                 ?>
                 
-                <br>
+                <a href="../investirCarteira.php" class="btn btn-success">Investir</a>
+                <br><br>
+                
                 <h3>Ações vinculadas</h3>
                 <?php
                     $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
