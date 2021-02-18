@@ -34,3 +34,6 @@ input:required:valid{color: rgb(115, 190, 115);}
     width: 100%;
     height: 4px;
 }
+.set{
+    text-transform: lowercase !important;
+}
