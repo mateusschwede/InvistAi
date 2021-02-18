@@ -62,7 +62,7 @@
                     <button id="submitWithEnter" type="submit" class="btn btn-primary btn-lg">Entrar</button>
                 </form>
                 <br>
-                <a href="cliente/addAnalista.php" class="btn btn-secondary btn-sm">Novo analista</a>
+                <a href="analista/addAnalista.php" class="btn btn-secondary btn-sm">Novo analista</a>
             </div>
         </div>
 

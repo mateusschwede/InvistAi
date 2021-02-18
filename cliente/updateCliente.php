@@ -7,14 +7,17 @@
     endif;
     
     $msgSucesso = false;
-    if((!empty($_POST['cpf'])) and (!empty($_POST['rg'])) and (!empty($_POST['nome'])) and (!empty($_POST['termo'])) and (!empty($_POST['senha']))) {
-        $r = $db->prepare("UPDATE pessoa SET cpf = :cpf, rg = :rg, nome = :nome, senha = :senha, tipo = :tipo WHERE cpf = :cpf");
-        print_r($_POST);
-        print_r($_SESSION);
+    if((!empty($_POST['cpf'])) and (!empty($_POST['rg'])) and (!empty($_POST['nome'])) and (!empty($_POST['email'])) and (!empty($_POST['celular'])) and (!empty($_POST['endereco'])) and  (!empty($_POST['senha']))) {
+        $r = $db->prepare("UPDATE pessoa SET cpf = :cpf, rg = :rg, nome = :nome, email = :email, celular = :celular, endereco = :endereco, senha = :senha, tipo = :tipo WHERE cpf = :cpf");
+        //print_r($_POST);
+        //print_r($_SESSION);
         $r->execute(array(
             ":cpf" => $_SESSION['cpf'],
             ":rg" => $_POST['rg'],
             ":nome" => $_POST['nome'],
+            ":email" => $_POST['email'],
+            ":celular" => $_POST['celular'],
+            ":endereco" => $_POST['endereco'],
             ":senha" => $_POST['senha'],
             ":tipo" => $_SESSION['tipo']
         ));
@@ -44,8 +47,8 @@
             <div class="col-sm-12 text-center">
             <?= $msgSucesso ?  "<div class='alert alert-success alert-dismissible fade show' role='alert'>Dados Atualizados!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>" : "" ?>
 
-                <h1>Editar Analista</h1>
-                <form action="updateAnalista.php" method="post">
+                <h1>Editar Cliente</h1>
+                <form action="updateCliente.php" method="post">
                     <div class="mb-3">
                         <input type="text" class="form-control" placeholder="cpf" required name="cpf" pattern="\d{11}" onkeypress="return isNumber(event)">
                     </div>
@@ -56,8 +59,15 @@
                         <input type="text" class="form-control" placeholder="nome" required name="nome" maxlength="60" style="text-transform:lowercase;">
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="termo de segurança" required name="termo" maxlength="5" style="text-transform:lowercase;">
+                        <input type="email" class="form-control" placeholder="email" required name="email" maxlength="60" style="text-transform:lowercase;">
                     </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="celular (somente números)" required name="celular" pattern="\d{11}">
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="endereço completo" required name="endereco" maxlength="200" style="text-transform:lowercase;">
+                    </div>
+                   
                     <div class="mb-3">
                         <input type="password" class="form-control" placeholder="senha" required name="senha" maxlength="5" style="text-transform:lowercase;">
                     </div>
