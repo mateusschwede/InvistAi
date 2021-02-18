@@ -1,9 +1,10 @@
 <?php
     require_once 'conexao.php';
+    
     $r = $db->query("SELECT dtUltimaCotacao FROM acao LIMIT 1");
     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
     foreach($linhas as $l) {$ultimaCotacaoBD = $l['dtUltimaCotacao'];}
-    if($ultimaCotacaoBD!=$ultimaCotacao) {
+    if(($ultimaCotacaoBD!=$ultimaCotacao) OR ($r->rowCount()==0)) {
         require_once 'api/dados.php';
         require_once 'api/valores.php';
     }
