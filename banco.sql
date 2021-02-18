@@ -1,5 +1,3 @@
-/*Os nomes dos dados foram os mesmos informados pelo Tiago, para ñ confundirmos com as instruções do doc dele*/
-
 CREATE DATABASE invistai CHARSET=utf8;
 USE invistai;
 
@@ -16,10 +14,11 @@ CREATE TABLE pessoa (
 );
 
 CREATE TABLE acao (
-    ativo VARCHAR(5) NOT NULL, /*PK - Código dela, ex: OIBR4*/
-    nome VARCHAR(60) NOT NULL,
-    setor VARCHAR(80) NOT NULL,
-    cotacaoAtual FLOAT NOT NULL /*Preço da ação*/
+    ativo VARCHAR(8) NOT NULL, /*PK - Código dela, ex: OIBR4*/
+    nome VARCHAR(100) NOT NULL,
+    setor VARCHAR(200) NOT NULL,
+    cotacaoAtual FLOAT NOT NULL DEFAULT 0, /*Preço da ação*/
+    dtUltimaCotacao DATE NOT NULL DEFAULT now()
 );
 
 CREATE TABLE carteira (
