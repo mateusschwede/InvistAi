@@ -50,7 +50,7 @@
                 <h1>Editar Cliente</h1>
                 <form action="updateCliente.php" method="post">
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="cpf" required name="cpf" pattern="\d{11}" onkeypress="return isNumber(event)" maxlength="11">
+                        <input type="text" class="form-control" placeholder="cpf" required name="cpf" pattern="\d{11}" onkeypress="return isNumber(event)">
                     </div>
                     <div class="mb-3">
                         <input type="text" class="form-control" placeholder="rg" required name="rg" pattern="\d{10}" onkeypress="return isNumber(event)">
