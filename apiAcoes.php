@@ -17,8 +17,8 @@ foreach($acao as $a):
         $nome = strtolower($a->nm_empresa);
         $setor = strtolower($a->segmento);
 
-        $r = $db->prepare("INSERT INTO acao(ativo,nome,setor) VALUES (?,?,?)");
-        $r->execute(array($ativoBD,$nome,$setor));
+        $r = $db->prepare("INSERT INTO acao(ativo,nome,setor,dtUltimaCotacao) VALUES (?,?,?,?)");
+        $r->execute(array($ativoBD,$nome,$setor,$ultimaCotacao));
 
         echo "Ativo: ".$ativo[0]."<br>Nome: $a->nm_empresa<br>Setor: $a->segmento<hr>";
     }
