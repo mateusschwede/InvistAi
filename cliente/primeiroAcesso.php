@@ -49,7 +49,7 @@
                         <input type="email" class="form-control" placeholder="email" required name="email" maxlength="60" style="text-transform:lowercase;">
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="celular (somente números)" required name="celular" pattern="\d{11}">
+                        <input type="text" class="form-control" placeholder="celular" required name="celular" pattern="\d{11}" onkeypress="return isNumber(event)">
                     </div>
                     <div class="mb-3">
                         <input type="text" class="form-control" placeholder="endereço completo" required name="endereco" maxlength="200" style="text-transform:lowercase;">
