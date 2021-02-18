@@ -54,7 +54,7 @@
                 <h4 class="text-muted">Software de recomendações de compras de ações</h4>
                 <form action="index.php" method="post">
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="cpf" required name="cpf" pattern="\d{11}" onkeypress="return isNumber(event)">
+                        <input type="text" class="form-control" placeholder="cpf" required name="cpf" pattern="\d{11}" onkeypress="return isNumber(event)" maxlength="11">
                     </div>
                     <div class="mb-3">
                         <input type="password" class="form-control" placeholder="senha" required name="senha" maxlength="5" style="text-transform:lowercase;">
