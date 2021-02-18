@@ -1,5 +1,5 @@
 <?php
-require_once 'conexao.php';
+require_once '../conexao.php';
 
 $url1 = "https://api-cotacao-b3.labdo.it/api/sysinfo";
 $ac = json_decode(file_get_contents($url1));
@@ -26,18 +26,5 @@ foreach($acao as $a):
 endforeach;
 
 
-$url2 = "https://api-cotacao-b3.labdo.it/api/cotacao/dt/".$ultimaCotacao."/02";
-$acao2 = json_decode(file_get_contents($url2));
-$r = $db->query("SELECT * FROM acao");
-$linhas = $r->fetchAll(PDO::FETCH_ASSOC);
 
-foreach($linhas as $l) {
-    foreach($acao2 as $a2) {
-        if($l['nome']==strtolower($a2->nm_empresa_rdz)) {
-            $cotacao = number_format($a2->vl_fechamento,2,".");
-            $r = $db->prepare("UPDATE acao SET cotacaoAtual=? WHERE ativo=?");
-            $r->execute(array($cotacao,$l['ativo']));
-        }
-    }
-
-} 
+}

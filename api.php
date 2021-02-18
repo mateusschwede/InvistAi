@@ -4,5 +4,6 @@
         $acao = json_decode(file_get_contents($url));
         return $acao[0]->vl_fechamento;
       }
+      getlastprice("dmmo11")
       ///exemplo de uso: getlastprice("pomo4")
 ?>
