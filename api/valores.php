@@ -16,7 +16,7 @@ if($ultimaCotacaoBD!=$ultimaCotacao) {
     foreach($linhas as $l) {
         foreach($acao2 as $a2) {
             if($l['ativo']==$a2->cd_acao) {
-                $cotacao = number_format($a2->vl_fechamento,2,".");
+                $cotacao = number_format($a2->vl_fechamento,2,".",",");
                 $r = $db->prepare("UPDATE acao SET cotacaoAtual=?,dtUltimaCotacao=? WHERE ativo=?");
                 $r->execute(array($cotacao,$ultimaCotacao,$l['ativo']));
             }
