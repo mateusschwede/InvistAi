@@ -8,7 +8,7 @@
     
     $msgSucesso = false;
     if((!empty($_POST['cpf'])) and (!empty($_POST['rg'])) and (!empty($_POST['nome'])) and (!empty($_POST['termo'])) and (!empty($_POST['senha']))) {
-        $r = $db->prepare("UPDATE pessoa SET cpf = :cpf, rg = :rg, nome = :nome, senha = :senha, tipo = :tipo WHERE cpf = :cpf");
+        $r = $db->prepare("UPDATE pessoa SET nome = :nome, senha = :senha, tipo = :tipo WHERE cpf = :cpf");
         print_r($_POST);
         print_r($_SESSION);
         $r->execute(array(
@@ -20,6 +20,25 @@
         ));
         $msgSucesso = true;
     }
+
+    if(!$_GET['cpf']) {
+        header('Location: ../acessoNegado.php');
+    }
+
+    $req = $db->prepare("SELECT * FROM pessoa WHERE cpf = :cpf");
+
+    $req->execute(array(
+        ":cpf" => $_GET['cpf']
+    ));
+
+    $analista = $req->fetchAll();
+
+    if (!count($analista)) {
+        header('Location: ../acessoNegado.php');
+    }
+
+    $analista = $analista[0];
+    print_r($analista);
 ?>
 
 <!DOCTYPE html>
@@ -47,22 +66,22 @@
                 <h1>Editar Analista</h1>
                 <form action="updateAnalista.php" method="post">
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="cpf" required name="cpf" pattern="\d{11}" onkeypress="return isNumber(event)">
+                        <input type="text" class="form-control" placeholder="cpf" required name="cpf" pattern="\d{11}" onkeypress="return isNumber(event)" disabled value="<?=$analista['cpf']?>>
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="rg" required name="rg" pattern="\d{10}" onkeypress="return isNumber(event)">
+                        <input type="text" class="form-control" placeholder="rg" required name="rg" pattern="\d{10}" onkeypress="return isNumber(event)" disabled value="<?=$analista['rg']?>>
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="nome" required name="nome" maxlength="60" style="text-transform:lowercase;">
+                        <input type="text" class="form-control" placeholder="nome" required name="nome" maxlength="60" style="text-transform:lowercase;" value="<?=$analista['nome']?>">
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="termo de segurança" required name="termo" maxlength="5" style="text-transform:lowercase;">
+                        <input type="text" class="form-control" placeholder="termo de segurança" required name="termo" maxlength="5" style="text-transform:lowercase;" disabled value="<?=$analista['termo']?>>
                     </div>
                     <div class="mb-3">
-                        <input type="password" class="form-control" placeholder="senha" required name="senha" id="senha" maxlength="5" style="text-transform:lowercase;">
+                        <input type="password" class="form-control" placeholder="senha" required name="senha" id="senha" maxlength="5" style="text-transform:lowercase;" value="<?=$analista['senha']?>>
                     </div>
                     <div class="mb-3">
-                        <input type="password" class="form-control" placeholder="confirmar senha" required name="senha-confirma" id="senha-confirma" maxlength="5" style="text-transform:lowercase;">
+                        <input type="password" class="form-control" placeholder="confirmar senha" required name="senha-confirma" id="senha-confirma" maxlength="5" style="text-transform:lowercase;" value="<?=$analista['senha-confirma']?>>
                     </div>
                 <button type="button" class="btn btn-danger" onclick="window.location.href='perfil.php'">Voltar</button>
                     <button type="submit" class="btn btn-success" id="submitWithEnter" onclick="return validadePassoword()">Atualizar</button>
