@@ -24,8 +24,7 @@ CREATE TABLE acao (
 CREATE TABLE carteira (
     id INT AUTO_INCREMENT PRIMARY KEY,
     objetivo VARCHAR(60) NOT NULL, /*Ex: aposentadoria do bisneto, velório da sogra*/
-    investimento FLOAT NOT NULL, /*Valor investido*/
-    sobraAportes FLOAT NOT NULL DEFAULT 0, /*Resto do valor na divisão entre as ações*/
+    percInvestimento FLOAT NOT NULL, /*percent investido*/
     cpfCliente VARCHAR(11) NOT NULL /*FK*/
 );
 
@@ -37,6 +36,7 @@ CREATE TABLE carteira_acao (
     partAtual FLOAT NOT NULL, /*percent de participação atualizado de uma ação em relação a toda carteira (precoAção / patrAtualizado)*/
     objetivo INT NOT NULL, /*percent definido pelo cliente para investimento da ação na carteira*/
     distObjetivo FLOAT NOT NULL, /*percent de distância que falta para alcançar o objetivo*/
+    sobraAportes FLOAT NOT NULL DEFAULT 0, /*Resto do valor na divisão entre as ações*/
     qntAcoesComprar FLOAT NOT NULL /*qtd de recomendação de compra de ações*/
 );
 
