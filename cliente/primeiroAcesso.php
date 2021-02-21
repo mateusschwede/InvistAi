@@ -57,8 +57,11 @@
                     <div class="mb-3">
                         <input type="text" class="form-control" placeholder="nova senha" required name="senha" maxlength="5" style="text-transform:lowercase;" value="<?=$senha?>">
                     </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control" placeholder="confirmar senha" required name="senha-confirma" id="senha-confirma" maxlength="5" style="text-transform:lowercase;">
+                    </div>
                     <button type="button" class="btn btn-danger" onclick="window.location.href='../index.php'">Voltar</button>
-                    <button type="submit" class="btn btn-success" id="submitWithEnter">Confirmar</button>
+                    <button type="submit" class="btn btn-success" id="submitWithEnter" onclick="return validadePassoword()">Confirmar</button>
                     <button type="reset" class="btn btn-warning">Limpar</button>
                 </form>
             </div>

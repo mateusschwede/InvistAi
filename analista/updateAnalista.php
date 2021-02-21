@@ -59,10 +59,13 @@
                         <input type="text" class="form-control" placeholder="termo de segurança" required name="termo" maxlength="5" style="text-transform:lowercase;">
                     </div>
                     <div class="mb-3">
-                        <input type="password" class="form-control" placeholder="senha" required name="senha" maxlength="5" style="text-transform:lowercase;">
+                        <input type="password" class="form-control" placeholder="senha" required name="senha" id="senha" maxlength="5" style="text-transform:lowercase;">
                     </div>
-                    <button type="button" class="btn btn-danger" onclick="window.location.href='perfil.php'">Voltar</button>
-                    <button type="submit" class="btn btn-success" id="submitWithEnter">Atualizar</button>
+                    <div class="mb-3">
+                        <input type="password" class="form-control" placeholder="confirmar senha" required name="senha-confirma" id="senha-confirma" maxlength="5" style="text-transform:lowercase;">
+                    </div>
+                <button type="button" class="btn btn-danger" onclick="window.location.href='perfil.php'">Voltar</button>
+                    <button type="submit" class="btn btn-success" id="submitWithEnter" onclick="return validadePassoword()">Atualizar</button>
                     <button type="reset" class="btn btn-warning">Limpar</button>
                 </form>
             </div>

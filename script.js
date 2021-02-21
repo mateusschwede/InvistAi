@@ -1,7 +1,7 @@
 /* Função para aceitar somente números nos inputs */
 function isNumber(evt) {
     evt = (evt) ? evt : window.event;
-    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    let charCode = (evt.which) ? evt.which : evt.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
         return false;
     }
@@ -10,7 +10,7 @@ function isNumber(evt) {
 /* números e ponto*/
 function isNumberAndDot(evt) {
     evt = (evt) ? evt : window.event;
-    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    let charCode = (evt.which) ? evt.which : evt.keyCode;
     if(charCode === 46) {
         return true;
     }
@@ -37,4 +37,28 @@ function confirmlogout2() {
     if (confirm("Tem certeza que deseja fazer logout?")) {
         location.href="../../logout.php";
     }
+}
+
+/** Confere se a senha e confirmacao de senha sao iguais */
+
+function validadePassoword() {
+
+    let senha = document.getElementById('senha');
+    let senhaC = document.getElementById('senha-confirma');
+
+    function validarSenha() {
+        if (senha.value != senhaC.value) {
+            senhaC.setCustomValidity("Senhas diferentes!");
+            senhaC.reportValidity();
+            return false;
+        } else {
+            senhaC.setCustomValidity("");
+            return true;
+        }
+    }
+
+    validarSenha();
+
+    // verificar também quando o campo for modificado, para que a mensagem suma quando as senhas forem iguais
+    senhaC.addEventListener('input', validarSenha);
 }
