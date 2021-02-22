@@ -1,7 +1,6 @@
 <?php
     require_once 'conexao.php';
-    require_once 'api/dados.php';
-    require_once 'api/valores.php';
+
 
     if( (!empty($_POST['cpf'])) and (!empty(md5($_POST['senha'])))) {
         $r = $db->prepare("SELECT * FROM pessoa WHERE cpf=? AND senha=? AND inativado=0");
