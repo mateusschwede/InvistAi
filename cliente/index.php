@@ -1,10 +1,7 @@
 <?php
     require_once '../conexao.php';
     session_start();
-    
-    if(!isset($_SESSION['logado'])):
-        header('Location: ../acessoNegado.php');
-    endif;
+    if(!isset($_SESSION['logado'])) {header('Location: ../acessoNegado.php');}
 ?>
 
 <!DOCTYPE html>
@@ -47,22 +44,28 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <h1>Minhas Carteiras</h1> 
+                <h1>Minhas Carteiras</h1>
+                <h3>Investimento Total: R$</h3>
+
                 <a href="carteira/addCarteira.php" class="btn btn-primary">Adicionar Carteira</a>
-                
                 <div class="table-responsive">
                     <table class='table table-striped'>
                         <thead>
                             <tr>
                                 <th scope='col'>Cód</th>
                                 <th scope='col'>Objetivo</th>
-                                <th scope='col'>Investimento</th>
-                                <th scope='col'>Ações</th>
+                                <th scope='col'>Previsto(%)</th>
+                                <th scope='col'>Atual(%)</th>
+                                <th scope='col'>Valor</th>
+                                <th scope='col'>Previsto</th>
+                                <th scope='col'>Diferença</th>
+                                <th scope='col'>Situação</th>
+                                <th scope='col'>Ação</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                                $r = $db->prepare("SELECT * FROM carteira WHERE cpfCliente=? ORDER BY objetivo");
+                                $r = $db->prepare("SELECT * FROM carteira WHERE cpfCliente=?");
                                 $r->execute(array($_SESSION['cpf']));
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                                 foreach($linhas as $l) {
@@ -70,7 +73,12 @@
                                         <tr>
                                             <th scope='row'>".($l['id'])."</th>
                                             <td class='setn'>".$l['objetivo']."</td>
-                                            <td class='set'> R$ ".number_format($l['investimento'],2,".",",")."</td>
+                                            <td class='set'>Previsto(%)</td>
+                                            <td class='set'>Atual(%)</td>
+                                            <td class='set'>Valor</td>
+                                            <td class='set'>Previsto</td>
+                                            <td class='set'>Diferença</td>
+                                            <td class='set'>Situação</td>
                                             <td class='set'><a href='remCarteira.php' class='btn btn-danger btn-sm'>Excluir</a> <a href='updateCarteira.php' class='btn btn-warning btn-sm'>Editar</a> <a href='carteira/verCarteira.php?id=".$l['id']."' class='btn btn-primary btn-sm'>Ver</a> <a href='investirCarteira.php' class='btn btn-success btn-sm'>Investir</a></td>
                                         </tr>
                                     ";

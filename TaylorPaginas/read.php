@@ -30,8 +30,8 @@
         $e1=$e2=$e3="Não definido";  // nome da ação
         foreach($pdo->query($sql2)as $lis)
                         {  
-        if($data['a1']==$lis['ide']){$ep1=$lis['emp'];$v1=$data['p1'];$va1=$lis['valor']; $e1=$lis['ide'];}        
-        if($data['a2']==$lis['ide']){$ep2=$lis['emp'];$v2=$data['p2'];$va2=$lis['valor'];$e2=$lis['ide'];}         
+        if($data['a1']==$lis['ide']){$ep1=$lis['emp'];$v1=$data['p1'];$va1=$lis['valor']; $e1=$lis['ide'];}
+        if($data['a2']==$lis['ide']){$ep2=$lis['emp'];$v2=$data['p2'];$va2=$lis['valor'];$e2=$lis['ide'];}
         if($data['a3']==$lis['ide']){$ep3=$lis['emp'];$v3=$data['p3'];$va3=$lis['valor'];$e3=$lis['ide'];}
 
         if($e1 == $lis['ide']) {   

@@ -1,15 +1,14 @@
 <?php
 require 'banco.php';
 $a=$_GET['a'];
-  session_start();
+session_start();
 $id=$_SESSION['id'];
 $_SESSION['a']=$a;
 
 
     $_GET['id']=$id;
       $qt1=$qt2=$qt3=$c1=$c2=$c3=0;
-    if(!empty($_GET['id']))
-    {
+    if(!empty($_GET['id'])) {
         $id = $_GET['id'];
     }
     if(null==$id)
@@ -55,7 +54,7 @@ $sql1 = "SELECT * FROM carteira where idcli = $id && tipo = '$a'";
         if($data1['a4']==$lis['ide']){$ep4=$lis['emp'];$v4=$data1['v4'];$va3=$lis['valor'];$e4=$lis['ide'];}
         if($data1['a5']==$lis['ide']){$ep5=$lis['emp'];$v5=$data1['v5'];$va3=$lis['valor'];$e5=$lis['ide'];}
         // pegamos aqui o nome e a cotação da ação nas variáveis $empr e $cota
-        if($a1 == $lis['ide']) 
+        if($a1 == $lis['ide'])
         {   
             $empr1 = $lis['emp'];
             $cota1= $lis['valor'];
@@ -131,17 +130,19 @@ $tottal=0;
       if($a5==$lnc['idct']) {$c5+= $tot; $qt5+=$q;}          
   // tela do lance
 
-                      echo '<tr style="font-size:80%;>
-        <th scope="row"></th>
-        <td></td>
-       <td>'. $x . '</td>
-        <td>'. $t . '</td>
-        <td>'. $ep . '</td>
-        <td>'. $qq . '</td>
-        <td>'. $lnc['quant'] . '</td>  
-        <td>'. $tot . '</td>
-        <td>'. $lnc['datac'] . '</td>
-        </tr>';
+    echo '
+        <tr style="font-size:80%;>
+            <th scope="row"></th>
+            <td></td>
+            <td>'. $x . '</td>
+            <td>'. $t . '</td>
+            <td>'. $ep . '</td>
+            <td>'. $qq . '</td>
+            <td>'. $lnc['quant'] . '</td>  
+            <td>'. $tot . '</td>
+            <td>'. $lnc['datac'] . '</td>
+        </tr>
+    ';
 
   
 
@@ -152,14 +153,11 @@ $tt=$c1+$c2+$c3+$c4+$c5;
 
   }
    
-
-
-
 }
 echo '<tr><tr style="font-size:80%;"><td></td><td></td><td></td><td></td><td></td><td>Total:R$</td><td>'.$total.'</td></tr></tbody></table>';
 
 }
-                     Banco::desconectar();
+Banco::desconectar();
 $config='';
 if($vv1>0){$config.='['.$empr1.'-'.$vv1.'%]';}
 if($vv2>0){$config.='['.$empr2.'-'.$vv2.'%]';}
@@ -231,17 +229,5 @@ $_SESSION['$cota5']=$cota5;
          
 
         
-          </body>
-         
-          </html>
-
-
-
-
-
-
-
-
-
-
- 
+</body>
+</html>

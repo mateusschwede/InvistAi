@@ -1,19 +1,28 @@
 <?php
     require_once '../../conexao.php';
     session_start();
+    if(!isset($_SESSION['logado'])){header('Location: ../../acessoNegado.php');}
 
-    if(!isset($_SESSION['logado'])):
-       header('Location: ../../acessoNegado.php');
-    endif;
+    $r = $db->prepare("SELECT SUM(percInvestimento) FROM carteira WHERE cpfCliente=?");
+    $r->execute(array($_SESSION['cpf']));
+    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+    foreach($linhas as $l) {$percInvestimento = 100-$l['SUM(percInvestimento)'];}
 
-    if((!empty($_POST['objetivo'])) and (!empty($_POST['valor'])) ) {
-        $r = $db->prepare("SELECT id FROM carteira  WHERE objetivo=? AND cpfCliente=?");
-        $r->execute(array($_POST['objetivo'],$_SESSION['cpf']));
-        if(($r->rowCount()==0)) {
-            $r = $db->prepare("INSERT INTO carteira(objetivo,investimento,cpfCliente) VALUES (?,?,?)");
-            $r->execute(array($_POST['objetivo'],number_format($_POST['valor'],2,"."),$_SESSION['cpf']));
-            echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>Carteira adicionada!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
-        } else {echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Objetivo já existente!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";}
+    if( (!empty($_POST['objetivo'])) and (!empty($_POST['percInvestimento'])) ) {
+        $r = $db->prepare("SELECT objetivo FROM carteira WHERE cpfCliente=? AND objetivo=?");
+        $r->execute(array($_SESSION['cpf'],$_POST['objetivo']));
+        
+        if($r->rowCount()>0) {echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Objetivo já existente!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";}
+        else {
+            $r = $db->prepare("INSERT INTO carteira(objetivo,percInvestimento,cpfCliente) VALUES (?,?,?)");
+            $r->execute(array($_POST['objetivo'],$_POST['percInvestimento'],$_SESSION['cpf']));  
+            
+            $r = $db->prepare("SELECT id FROM carteira WHERE objetivo=? AND percInvestimento=? AND cpfCliente=?");
+            $r->execute(array($_POST['objetivo'],$_POST['percInvestimento'],$_SESSION['cpf']));
+            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+            foreach($linhas as $l) {$_SESSION['idCarteira'] = $l['id'];}
+            header("location: telaAcoes.php");
+        }
     }
 ?>
 
@@ -61,15 +70,27 @@
                 <h1>Adicionar carteira</h1>
                 <form action="addCarteira.php" method="post">
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Objetivo (ex: aposentadoria)" required name="objetivo" required maxlength="200" style="text-transform:lowercase;">
+                        <label class="form-label">Objetivo</label>
+                        <select class="form-select" required name="objetivo">                            
+                            <option value='aposentadoria'>aposentadoria</option>
+                            <option value='estudos'>estudos</option>
+                            <option value='hobbie'>hobbie</option>
+                            <option value='imovel'>imovel</option>
+                            <option value='poupança'>poupança</option>
+                            <option value='saude'>saude</option>
+                            <option value='serimonia'>serimonia</option>
+                            <option value='trabalho'>trabalho</option>
+                            <option value='veiculo'>veiculo</option>
+                            <option value='viagem'>viagem</option>
+                            <option value='outro'>outro</option>
+                        </select>
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" required name="valor" pattern="\d{1,6}\.\d{2}" placeholder="valor do investimento (ex: 300.99)" onkeypress="return isNumberAndDot(event)">
-                        <div class="form-text">Use ponto no lugar de vírgula</div>
+                        <input type="number" class="form-control" required name="percInvestimento" min="10" max=<?=$percInvestimento?> step="10" placeholder="Percentual Investimento" value=<?=$percInvestimento?> onkeypress="return isNumberAndDot(event)">
+                        <div class="form-text">O percentual não pode ultrapassar a soma dos percentuais das carteiras cadastradas</div>
                     </div>
-                    <a href="../index.php" class="btn btn-danger">Voltar</a>
-                    <button type="reset" class="btn btn-warning">Limpar</button>
-                    <button type="submit" class="btn btn-success" id="submitWithEnter">Adicionar</button>
+                    <a href="../index.php" class="btn btn-danger">Cancelar</a>
+                    <button type="submit" class="btn btn-success" id="submitWithEnter">Próximo</button>
                 </form>
             </div>
             </div>

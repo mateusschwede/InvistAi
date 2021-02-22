@@ -35,7 +35,7 @@ CREATE TABLE carteira_acao (
     patrAtualizado FLOAT NOT NULL, /*precoAção X qtdAcao*/
     partAtual FLOAT NOT NULL, /*percent de participação atualizado de uma ação em relação a toda carteira (precoAção / patrAtualizado)*/
     objetivo INT NOT NULL, /*percent definido pelo cliente para investimento da ação na carteira*/
-    distObjetivo FLOAT NOT NULL, /*percent de distância que falta para alcançar o objetivo*/
+    distObjetivo FLOAT NOT NULL, /*percent de distância que falta para alcançar o objetivo (situacao)*/
     sobraAportes FLOAT NOT NULL DEFAULT 0, /*Resto do valor na divisão entre as ações*/
     qntAcoesComprar FLOAT NOT NULL /*qtd de recomendação de compra de ações*/
 );
