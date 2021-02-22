@@ -13,7 +13,7 @@
 
     if( (!empty($_POST['nome'])) and (!empty($_POST['email'])) and (!empty($_POST['celular'])) and (!empty($_POST['endereco'])) and (!empty($_POST['senha'])) ) {
         $r = $db->prepare("UPDATE pessoa SET nome=?,email=?,celular=?,endereco=?,senha=? WHERE cpf=?");
-        $r->execute(array($_POST['nome'],$_POST['email'],$_POST['celular'],$_POST['endereco'],$_POST['senha'],$_SESSION['cpf']));
+        $r->execute(array($_POST['nome'],$_POST['email'],$_POST['celular'],$_POST['endereco'],md5($_POST['senha']),$_SESSION['cpf']));
         echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>Cadastro atualizado, retorne e faça login!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
     }
 ?>
@@ -55,7 +55,7 @@
                         <input type="text" class="form-control" placeholder="endereço completo" required name="endereco" maxlength="200" style="text-transform:lowercase;">
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="nova senha" required name="senha" maxlength="5" style="text-transform:lowercase;" value="<?=$senha?>">
+                        <input type="password" class="form-control" placeholder="nova senha" required name="senha" maxlength="5" style="text-transform:lowercase;">
                     </div>
                     <div class="mb-3">
                         <input type="password" class="form-control" placeholder="confirmar senha" required name="senha-confirma" id="senha-confirma" maxlength="5" style="text-transform:lowercase;">

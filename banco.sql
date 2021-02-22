@@ -9,7 +9,7 @@ CREATE TABLE pessoa (
     celular VARCHAR(11),
     endereco VARCHAR(200),
     tipo INT NOT NULL, /*1-analista / 2-cliente*/
-    senha VARCHAR(5) NOT NULL,
+    senha VARCHAR(32) NOT NULL,
     inativado BOOLEAN DEFAULT 0
 );
 

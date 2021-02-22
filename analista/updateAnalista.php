@@ -13,7 +13,7 @@
         $r->execute(array(
             ":cpf" => $_SESSION['cpf'],
             ":nome" => $_POST['nome'],
-            ":senha" => $_POST['senha']
+            ":senha" => md5($_POST['senha'])
         ));
         header('Location: ./perfil.php');
     }

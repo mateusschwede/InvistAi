@@ -11,7 +11,7 @@
         $r->execute(array($_POST['cpf'],$_POST['rg']));
         if(($r->rowCount()==0)) {
             $r = $db->prepare("INSERT INTO pessoa(cpf,rg,nome,senha,tipo) VALUES (?,?,?,?,2)");
-            $r->execute(array($_POST['cpf'],$_POST['rg'],$_POST['nome'],$_POST['senha']));
+            $r->execute(array($_POST['cpf'],$_POST['rg'],$_POST['nome'],md5($_POST['senha'])));
             echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>Cliente adicionado!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
         } else {echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Cpf ou rg já existente!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";}
     }

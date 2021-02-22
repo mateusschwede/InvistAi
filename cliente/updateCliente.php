@@ -18,7 +18,7 @@
             ":email" => $_POST['email'],
             ":celular" => $_POST['celular'],
             ":endereco" => $_POST['endereco'],
-            ":senha" => $_POST['senha'],
+            ":senha" => md5($_POST['senha']),
             ":tipo" => $_SESSION['tipo']
         ));
         $msgSucesso = true;

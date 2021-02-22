@@ -3,9 +3,9 @@
     require_once 'api/dados.php';
     require_once 'api/valores.php';
 
-    if( (!empty($_POST['cpf'])) and (!empty($_POST['senha'])) ) {
+    if( (!empty($_POST['cpf'])) and (!empty(md5($_POST['senha'])))) {
         $r = $db->prepare("SELECT * FROM pessoa WHERE cpf=? AND senha=? AND inativado=0");
-        $r->execute(array($_POST['cpf'],$_POST['senha']));
+        $r->execute(array($_POST['cpf'],md5($_POST['senha'])));
         
         if($r->rowCount()==0) {echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Dado(s) incorreto(s) ou inativados!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";}
         else {
