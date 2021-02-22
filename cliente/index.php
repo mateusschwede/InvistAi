@@ -54,7 +54,7 @@
                             <tr>
                                 <th scope='col'>Cód</th>
                                 <th scope='col'>Objetivo</th>
-                                <th scope='col'>Previsto(%)</th>
+                                <th scope='col'>Previsto</th>
                                 <th scope='col'>Atual(%)</th>
                                 <th scope='col'>Valor</th>
                                 <th scope='col'>Previsto</th>
@@ -73,7 +73,7 @@
                                         <tr>
                                             <th scope='row'>".($l['id'])."</th>
                                             <td class='setn'>".$l['objetivo']."</td>
-                                            <td class='set'>Previsto(%)</td>
+                                            <td class='set'>".$l['percInvestimento']."%</td>
                                             <td class='set'>Atual(%)</td>
                                             <td class='set'>Valor</td>
                                             <td class='set'>Previsto</td>
