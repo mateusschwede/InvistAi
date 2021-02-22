@@ -38,11 +38,10 @@ CREATE TABLE carteira_acao (
     distObjetivo FLOAT NOT NULL, /*percent de distância que falta para alcançar o objetivo (situacao)*/
 );
 
-CREATE TABLE lance (
+CREATE TABLE lance ( /*Fazer investimento*/
     id INT AUTO_INCREMENT PRIMARY KEY,
     cpfCliente VARCHAR(11) NOT NULL, /*FK*/
     idCarteira INT NOT NULL, /*FK*/
-    qtdAcoesComprar INT NOT NULL,
     dataCotacao DATE NOT NULL DEFAULT now(),
     sobraAportes FLOAT NOT NULL DEFAULT 0, /*Resto do valor na divisão entre as ações*/
 );

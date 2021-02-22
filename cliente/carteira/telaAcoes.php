@@ -56,7 +56,7 @@
                         ";
                     }
                 ?>
-                <a href="carteira/addAcaoCarteira.php" class="btn btn-primary">Adicionar ação</a>
+                <a href="addAcaoCarteira.php" class="btn btn-primary">Adicionar ação</a>
 
                 <h3>Ações vinculadas</h3>
                 <?php
