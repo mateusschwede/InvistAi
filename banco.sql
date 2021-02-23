@@ -30,7 +30,7 @@ CREATE TABLE carteira (
 
 CREATE TABLE carteira_acao (
     idCarteira INT NOT NULL, /*FK*/
-    ativoAcao VARCHAR(5) NOT NULL, /*FK código ação*/
+    ativoAcao VARCHAR(8) NOT NULL, /*FK código ação*/
     qtdAcao INT NOT NULL, /*Qtd de ações compras de acordo com objetivo*/
     patrAtualizado FLOAT NOT NULL, /*precoAção X qtdAcao*/
     partAtual FLOAT NOT NULL, /*percent de participação atualizado de uma ação em relação a toda carteira (precoAção / patrAtualizado)*/

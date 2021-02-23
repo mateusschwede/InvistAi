@@ -45,7 +45,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <h1>Minhas Carteiras</h1>
-                <h3>Investimento Total: R$</h3>
+                <h3>Investimento Total: R$(Total investido - TotalSobraInvestimentos)</h3>
 
                 <a href="carteira/addCarteira.php" class="btn btn-primary">Adicionar Carteira</a>
                 <div class="table-responsive">

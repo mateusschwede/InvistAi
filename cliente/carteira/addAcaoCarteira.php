@@ -59,10 +59,12 @@
                         <label class="form-label">Ação</label>
                         <select class="form-select" required name="ativoAcao">                            
                             <?php
-                                $r2 = $db->query("SELECT * FROM acao");
-                                $linhas2 = $r2->fetchAll(PDO::FETCH_ASSOC);
-                                foreach($linhas2 as $l2) {
-                                    echo "<option value=".$l2['ativo'].">(".$l2['ativo'].") ".$l2['nome']."</option>";
+                                $r = $db->query("SELECT ativo,nome FROM acao");
+                                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                                foreach($linhas as $l) {
+                                    $r = $db->prepare("SELECT ativoAcao FROM carteira_acao WHERE idCarteira=? AND ativo=?");
+                                    $r->execute(array($_SESSION['idCarteira'],$l['ativo']));
+                                    if($r->rowCount()==0) {echo "<option value=".$l['ativo'].">(".$l['ativo'].") ".$l['nome']."</option>";}
                                 }
                             ?>
                         </select>
@@ -71,7 +73,7 @@
                         <input type="number" class="form-control" required name="objetivo" min="10" max="<?=$somaPerc?>" step="10" placeholder="Objetivo(%)" value="<?=$somaPerc?>" onkeypress="return isNumberAndDot(event)">
                         <div class="form-text">O objetivo não pode ultrapassar a soma dos percentuais das ações cadastradas na carteira</div>
                     </div>
-                    <a href="../index.php" class="btn btn-danger">Cancelar</a>
+                    <a href="telaAcoes.php" class="btn btn-danger">Cancelar</a>
                     <button type="submit" class="btn btn-success" id="submitWithEnter">Adicionar</button>
                 </form>
             </div>
