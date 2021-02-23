@@ -10,7 +10,7 @@ CREATE TABLE pessoa (
     endereco VARCHAR(200),
     tipo INT NOT NULL, /*1-analista / 2-cliente*/
     senha VARCHAR(32) NOT NULL,
-    inativado BOOLEAN DEFAULT 0
+    inativado BOOLEAN NOT NULL DEFAULT 0
 );
 
 CREATE TABLE acao (
@@ -39,7 +39,7 @@ CREATE TABLE carteira_acao (
     patrAtualizado FLOAT NOT NULL DEFAULT 0, /*precoAção X qtdAcao*/
     objetivo INT NOT NULL, /*percent definido pelo cliente para investimento da ação na carteira (Taylor: previsto(%))*/
     partAtual FLOAT NOT NULL DEFAULT 0, /*percent de participação atualizado de ação em relação a toda carteira (precoAção / patrAtualizado) (Taylor: Atual(%))*/
-    distObjetivo FLOAT NOT NULL DEFAULT 0, /*percent de distância que falta para alcançar o objetivo (Taylor: situacao)*/
+    distObjetivo FLOAT NOT NULL DEFAULT 0 /*percent de distância que falta para alcançar o objetivo (Taylor: situacao)*/
 );
 
 CREATE TABLE investimento ( /*Fazer investimento (BD Taylor: Lance)*/
@@ -48,7 +48,7 @@ CREATE TABLE investimento ( /*Fazer investimento (BD Taylor: Lance)*/
     idCarteira INT NOT NULL, /*FK*/
     valor FLOAT NOT NULL DEFAULT 0,
     dataInvestimento DATE NOT NULL DEFAULT now(),
-    sobraAportes FLOAT NOT NULL DEFAULT 0, /*Resto do valor na divisão entre as ações*/
+    sobraAportes FLOAT NOT NULL DEFAULT 0 /*Resto do valor na divisão entre as ações*/
 );
 
 

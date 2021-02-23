@@ -80,7 +80,7 @@
                                             <td class='set'>Previsto</td>
                                             <td class='set'>Diferença</td>
                                             <td class='set'>Situação</td>
-                                            <td class='set'><a href='remCarteira.php' class='btn btn-danger btn-sm'>Excluir</a> <a href='updateCarteira.php' class='btn btn-warning btn-sm'>Editar</a> <a href='carteira/verCarteira.php?id=".$l['id']."' class='btn btn-primary btn-sm'>Ver</a> <a href='investirCarteira.php' class='btn btn-success btn-sm'>Investir</a></td>
+                                            <td class='set'><a href='remCarteira.php' class='btn btn-danger btn-sm'>Excluir</a> <a href='updateCarteira.php' class='btn btn-warning btn-sm'>Editar</a> <a href='carteira/verCarteira.php?id=".$l['id']."' class='btn btn-primary btn-sm'>Ver</a> <a href='carteira/investirCarteira.php?id=".$l['id']."' class='btn btn-success btn-sm'>Investir</a></td>
                                         </tr>
                                     ";
                                 }
