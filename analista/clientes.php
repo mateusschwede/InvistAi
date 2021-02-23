@@ -1,5 +1,6 @@
 <?php
     require_once '../conexao.php';
+    require_once 'removerClientePreCadastrado.php';
     session_start();
 
     if(!isset($_SESSION['logado'])):
@@ -66,7 +67,8 @@
                             echo "
                                 <tr>
                                     <th scope='row'>".strtoupper($l['nome'])."</th>
-                                    <td class='setn'>".$l['cpf']."</td>";                            
+                                    <td class='setn'>".$l['cpf']."</td>
+                                    <td class='setn'> <button onclick='' class='btn btn-danger'>Desativar</button></td>";                              
                                 echo "</tr>";
                             }
                         ?>
@@ -87,8 +89,9 @@
                             echo "
                                 <tr>
                                     <th scope='row'>".strtoupper($l['nome'])."</th>
-                                    <td class='setn'>".$l['cpf']."</td>";                            
-                                echo "</tr>";
+                                    <td class='setn'>".$l['cpf']."</td>
+                                    <td class='setn'> <button onclick='confirmRemoveUnregisteredClient(".$l['cpf'].")' class='btn btn-danger'>Remover</button></td>";                           
+                            echo "</tr>";
                             }
                         ?>
 
@@ -108,7 +111,8 @@
                             echo "
                                 <tr>
                                     <th scope='row'>".strtoupper($l['nome'])."</th>
-                                    <td class='setn'>".$l['cpf']."</td>";                            
+                                    <td class='setn'>".$l['cpf']."</td>
+                                    <td class='setn'> <button onclick='' class='btn btn-danger'>Reativar</button></td>";                              
                                 echo "</tr>";
                             }
                         ?>
