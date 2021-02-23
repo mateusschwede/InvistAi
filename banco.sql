@@ -28,23 +28,33 @@ CREATE TABLE carteira (
     cpfCliente VARCHAR(11) NOT NULL /*FK*/
 );
 
+
+
+
+
 CREATE TABLE carteira_acao (
     idCarteira INT NOT NULL, /*FK*/
     ativoAcao VARCHAR(8) NOT NULL, /*FK código ação*/
     qtdAcao INT NOT NULL DEFAULT 0, /*Qtd de ações compras de acordo com objetivo*/
     patrAtualizado FLOAT NOT NULL DEFAULT 0, /*precoAção X qtdAcao*/
-    partAtual FLOAT NOT NULL DEFAULT 0, /*percent de participação atualizado de uma ação em relação a toda carteira (precoAção / patrAtualizado)*/
-    objetivo INT NOT NULL, /*percent definido pelo cliente para investimento da ação na carteira*/
-    distObjetivo FLOAT NOT NULL DEFAULT 0, /*percent de distância que falta para alcançar o objetivo (situacao)*/
+    objetivo INT NOT NULL, /*percent definido pelo cliente para investimento da ação na carteira (Taylor: previsto(%))*/
+    partAtual FLOAT NOT NULL DEFAULT 0, /*percent de participação atualizado de ação em relação a toda carteira (precoAção / patrAtualizado) (Taylor: Atual(%))*/
+    distObjetivo FLOAT NOT NULL DEFAULT 0, /*percent de distância que falta para alcançar o objetivo (Taylor: situacao)*/
 );
 
-CREATE TABLE lance ( /*Fazer investimento*/
+CREATE TABLE investimento ( /*Fazer investimento (BD Taylor: Lance)*/
     id INT AUTO_INCREMENT PRIMARY KEY,
     cpfCliente VARCHAR(11) NOT NULL, /*FK*/
     idCarteira INT NOT NULL, /*FK*/
-    dataCotacao DATE NOT NULL DEFAULT now(),
+    valor FLOAT NOT NULL DEFAULT 0,
+    dataInvestimento DATE NOT NULL DEFAULT now(),
     sobraAportes FLOAT NOT NULL DEFAULT 0, /*Resto do valor na divisão entre as ações*/
 );
+
+
+
+
+
 
 CREATE TABLE movimentacao ( /*Table para representar as movimentações do cliente x ao analista (compras e vendas de ações)*/
     id INT AUTO_INCREMENT PRIMARY KEY,
