@@ -28,16 +28,12 @@ document.addEventListener('keydown', function(e) {
 });
 
 /* Confirmar logout*/
-function confirmlogout() {
+function confirmlogout(x) {
     if (confirm("Tem certeza que deseja fazer logout?")) {
-        location.href="../logout.php";
+        location.href= x ;
     }
 }
-function confirmlogout2() {
-    if (confirm("Tem certeza que deseja fazer logout?")) {
-        location.href="../../logout.php";
-    }
-}
+
 
 /** Confere se a senha e confirmacao de senha sao iguais */
 
