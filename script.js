@@ -33,7 +33,12 @@ function confirmlogout(x) {
         location.href= x ;
     }
 }
-
+/* Confirmar exclusão do analista */
+function confirmremove(x) {
+    if (confirm("Tem certeza que deseja excluir sua conta?")) {
+        location.href= "removerAnalista.php"+ x ;
+    }
+}
 
 /** Confere se a senha e confirmacao de senha sao iguais */
 

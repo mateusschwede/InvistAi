@@ -63,7 +63,7 @@
                 ?>
                 <a href="updateAnalista.php?cpf=<?=$_SESSION['cpf']?>" class="btn btn-warning">Editar informações</a>
 
-                <a href="removerAnalista.php?cpf=<?=$_SESSION['cpf']?>" class="btn btn-danger">Remover Analista</a>
+                <a  href="#" onclick="confirmremove('?cpf=<?=$_SESSION['cpf']?>')"  class="btn btn-danger">Remover Analista</a>
 
             </div>
         </div>
