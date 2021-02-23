@@ -49,8 +49,78 @@
         <div class="row">
             <div class="col-sm-12">
                 <a href="addCliente.php" class="btn btn-primary">Pré-cadastrar cliente</a>
-                Clientes ativos aqui (btnInativarCliente)
-                Clientes inativos aqui (btnAtivarCliente)
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        
+                        Clientes ativos (btnInativarCliente) <br>
+
+                        <?php
+                            $r = $db->query("SELECT * FROM pessoa 
+                                            WHERE tipo = 2 and
+                                            inativado = 0 and
+                                            email is not null
+                                            ORDER BY nome");
+                            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                            foreach($linhas as $l) {
+                            echo "
+                                <tr>
+                                    <th scope='row'>".strtoupper($l['nome'])."</th>
+                                    <td class='setn'>".$l['cpf']."</td>";                            
+                                echo "</tr>";
+                            }
+                        ?>
+
+
+                    </div>
+                    <div class="col-sm-4"> 
+                        
+                        Clientes pré-cadastrados (btnRomeverClientePendente) <br>
+
+                        <?php
+                            $r = $db->query("SELECT * FROM pessoa 
+                                            WHERE tipo = 2 and
+                                            email is null
+                                            ORDER BY nome");
+                            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                            foreach($linhas as $l) {
+                            echo "
+                                <tr>
+                                    <th scope='row'>".strtoupper($l['nome'])."</th>
+                                    <td class='setn'>".$l['cpf']."</td>";                            
+                                echo "</tr>";
+                            }
+                        ?>
+
+
+                    </div>
+                    <div class="col-sm-4">
+                        
+                        Clientes inativos (btnAtivarCliente) <br>   
+
+                        <?php
+                            $r = $db->query("SELECT * FROM pessoa 
+                                            WHERE tipo = 2 and
+                                            inativado = 1
+                                            ORDER BY nome");
+                            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                            foreach($linhas as $l) {
+                            echo "
+                                <tr>
+                                    <th scope='row'>".strtoupper($l['nome'])."</th>
+                                    <td class='setn'>".$l['cpf']."</td>";                            
+                                echo "</tr>";
+                            }
+                        ?>
+                    </div>
+                </div>
+                             
+                
+
+               
+
+                
+                
             </div>
         </div>
 
