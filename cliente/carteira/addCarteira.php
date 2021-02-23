@@ -2,6 +2,7 @@
     require_once '../../conexao.php';
     session_start();
     if(!isset($_SESSION['logado'])){header('Location: ../../acessoNegado.php');}
+    if(isset($_SESSION['msg'])) {echo $_SESSION['msg'];unset($_SESSION['msg']);}
 
     $r = $db->prepare("SELECT SUM(percInvestimento) FROM carteira WHERE cpfCliente=?");
     $r->execute(array($_SESSION['cpf']));

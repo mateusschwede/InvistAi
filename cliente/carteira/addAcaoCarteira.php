@@ -8,9 +8,17 @@
     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
     foreach($linhas as $l) {$somaPerc = 100-$l['SUM(objetivo)'];}
 
-    //Código inserção de ação na carteira aqui:
-    //$_SESSION['idCarteira']
-    
+    if( (!empty($_POST['ativoAcao'])) and (!empty($_POST['objetivo'])) ) {
+        $r = $db->prepare("SELECT ativoAcao FROM carteira_acao WHERE idCarteira=? AND ativoAcao=?");
+        $r->execute(array($_SESSION['idCarteira'],$_POST['ativoAcao']));
+        if($r->rowCount()>0) {echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Ação já adicionada na carteira!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";}
+        else {
+            $r = $db->prepare("INSERT INTO carteira_acao(idCarteira,ativoAcao,objetivo) VALUES (?,?,?)");
+            $r->execute(array($_SESSION['idCarteira'],$_POST['ativoAcao'],$_POST['objetivo']));
+            $_SESSION['msg'] = "<div class='alert alert-success alert-dismissible fade show' role='alert'>Ação adicionada na carteira ".$_SESSION['idCarteira']."!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+            header("location: telaAcoes.php");
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -62,9 +70,7 @@
                                 $r = $db->query("SELECT ativo,nome FROM acao");
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                                 foreach($linhas as $l) {
-                                    $r = $db->prepare("SELECT ativoAcao FROM carteira_acao WHERE idCarteira=? AND ativo=?");
-                                    $r->execute(array($_SESSION['idCarteira'],$l['ativo']));
-                                    if($r->rowCount()==0) {echo "<option value=".$l['ativo'].">(".$l['ativo'].") ".$l['nome']."</option>";}
+                                    echo "<option value=".$l['ativo'].">(".$l['ativo'].") ".$l['nome']."</option>";
                                 }
                             ?>
                         </select>

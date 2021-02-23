@@ -31,11 +31,11 @@ CREATE TABLE carteira (
 CREATE TABLE carteira_acao (
     idCarteira INT NOT NULL, /*FK*/
     ativoAcao VARCHAR(8) NOT NULL, /*FK código ação*/
-    qtdAcao INT NOT NULL, /*Qtd de ações compras de acordo com objetivo*/
-    patrAtualizado FLOAT NOT NULL, /*precoAção X qtdAcao*/
-    partAtual FLOAT NOT NULL, /*percent de participação atualizado de uma ação em relação a toda carteira (precoAção / patrAtualizado)*/
+    qtdAcao INT NOT NULL DEFAULT 0, /*Qtd de ações compras de acordo com objetivo*/
+    patrAtualizado FLOAT NOT NULL DEFAULT 0, /*precoAção X qtdAcao*/
+    partAtual FLOAT NOT NULL DEFAULT 0, /*percent de participação atualizado de uma ação em relação a toda carteira (precoAção / patrAtualizado)*/
     objetivo INT NOT NULL, /*percent definido pelo cliente para investimento da ação na carteira*/
-    distObjetivo FLOAT NOT NULL, /*percent de distância que falta para alcançar o objetivo (situacao)*/
+    distObjetivo FLOAT NOT NULL DEFAULT 0, /*percent de distância que falta para alcançar o objetivo (situacao)*/
 );
 
 CREATE TABLE lance ( /*Fazer investimento*/
