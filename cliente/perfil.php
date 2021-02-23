@@ -59,8 +59,7 @@
                             <p><b>Nome:</b> ".$l['nome']."</p>
                             <p><b>Email:</b> ".$l['email']."</p>
                             <p><b>Celular:</b> ".$l['celular']."</p>
-                            <p><b>Endereço:</b> ".$l['endereco']."</p>
-                            <p><b>Senha:</b> ".$l['senha']."</p>
+                            <p><b>Endereço:</b> ".$l['endereco']."</p>                            
                         ";
                     }
                 ?>
