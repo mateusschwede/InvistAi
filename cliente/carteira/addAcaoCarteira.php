@@ -67,10 +67,10 @@
                         <label class="form-label">Ação</label>
                         <select class="form-select" required name="ativoAcao">                            
                             <?php
-                                $r = $db->query("SELECT ativo,nome FROM acao WHERE cotacaoAtual!=0");
+                                $r = $db->query("SELECT ativo,nome,cotacaoAtual FROM acao WHERE cotacaoAtual!=0");
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                                 foreach($linhas as $l) {
-                                    echo "<option value=".$l['ativo'].">(".$l['ativo'].") ".$l['nome']."</option>";
+                                    echo "<option value=".$l['ativo'].">(".$l['ativo'].") ".$l['nome']." - R$ ".number_format($l['cotacaoAtual'],2,".",",")."</option>";
                                 }
                             ?>
                         </select>
