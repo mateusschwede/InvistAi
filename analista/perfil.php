@@ -58,7 +58,6 @@
                             <p><b>CPF:</b> ".$_SESSION['cpf']."</p>
                             <p><b>RG:</b> ".$l['rg']."</p>
                             <p><b>Nome:</b> ".$l['nome']."</p>
-                            <p><b>Senha:</b> ".$l['senha']."</p>
                         ";
                     }
                 ?>
