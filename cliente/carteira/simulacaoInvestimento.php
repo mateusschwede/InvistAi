@@ -50,9 +50,8 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <h3>Investir à carteira <?=$_SESSION['idCarteira']?>:</h3>
+                <h2>Investir na carteira <?=$_SESSION['idCarteira']?>:</h2>
 
-                Usar este valor para investir:
                 <?php
                     $r = $db->query("SELECT valor FROM investimento ORDER BY id DESC LIMIT 1");
                     if($r->rowCount()==0) {$ultimoInvestimento = 0;}
@@ -118,7 +117,7 @@
 
                 <form action="simulacaoInvestimento.php" method="post">
                     <input type="hidden" name="valorInvestimento" value="<?$ultimoInvestimento+$_SESSION['valorInvestimento']?>">
-                    <!--Variáveis da tabela como input hidden aqui, para inseri-los no BD(table investimento)-->
+                    <!--Colocar variáveis da tabela como input hidden aqui, para inseri-los no BD(table investimento)-->
                     <a href="canInvestimento.php" class="btn btn-danger">Cancelar</a>
                     <input type="submit" class="btn btn-success" value="Confirmar">
                 </form>

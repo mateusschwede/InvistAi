@@ -50,8 +50,15 @@
 
         <div class="row">
             <div class="col-sm-12">
-            <div class="container">
-                <h1>Investir na carteira <?=$_GET['id']?></h1>
+                <h1>Carteira <?=$_GET['id']?></h1>
+                <?php
+                    $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
+                    $r->execute(array($_GET['id']));
+                    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                    foreach($linhas as $l) {echo "<span class='btn btn-dark btn-sm'>".$l['ativoAcao']." <span class='badge bg-warning'>".$l['objetivo']."%</span></span> ";}
+                ?>
+
+                <br><br><h3>Investir na carteira:</h3>
                 <form action="investirCarteira.php?idCarteira=<?=$_GET['id']?>" method="post">
                     <div class="mb-3">
                         <input type="text" class="form-control" required name="valorInvestimento" pattern="\d{1,9}\.\d{2}" placeholder="Valor à investir" onkeypress="return isNumberAndDot(event)">
@@ -61,14 +68,37 @@
                     <button type="submit" class="btn btn-success" id="submitWithEnter">Simular</button>
                 </form>
             </div>
-            </div>
         </div>
 
         <div class="row">
             <div class="col-sm-12">
-                <br>
-                <h3>Investimentos na carteira:</h3>
-                <p>Tabela de investimentos na carteira aqui</p>
+            <br><h4>Investimentos:</h4>
+                
+                <div class="table-responsive">
+                    <table class='table table-striped'>
+                        <thead>
+                            <tr>
+                                <th scope='col'>Data</th>
+                                <th scope='col'>Ativo</th>
+                                <th scope='col'>Nome</th>
+                                <th scope='col'>Cotação atual (R$)</th>
+                                <th scope='col'>Quantidade</th>
+                                <th scope='col'>Valor (R$)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope='row'>x</th>
+                                <td class='set'>x</td>
+                                <td class='set'>x</td>
+                                <td class='set'>x</td>
+                                <td class='set'>x</td>
+                                <td class='set'>x</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>
