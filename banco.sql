@@ -38,20 +38,10 @@ CREATE TABLE carteira_acao (
 
 
 
-CREATE TABLE investimento ( /*Fazer investimento (BD Taylor: Lance)*/
+CREATE TABLE investimento (
     id INT AUTO_INCREMENT PRIMARY KEY,
     idCarteira INT NOT NULL, /*FK*/
     dataInvestimento DATE NOT NULL DEFAULT now(),
-    valorPrevisao FLOAT NOT NULL DEFAULT 0, /*Valor Previsão(R$)*/
-    valorAtual FLOAT NOT NULL DEFAULT 0, /*Valor Atual(R$)*/
-    atTotal FLOAT NOT NULL DEFAULT 0, /*Valor AtTotal(%)*/
-    nrCt INT NOT NULL DEFAULT 0, /*Valor NrCt, nº de cotas*/
-    ativoAcao VARCHAR(8) NOT NULL, /*FK código ação*/
-    incluir FLOAT NOT NULL DEFAULT 0, /*Valor Incluir, ver com Taylor*/
-    qtdCotas INT NOT NULL DEFAULT 0, /*Valor Cotas*/
-    comprar FLOAT NOT NULL DEFAULT 0, /*Valor Comprar, Valor da 'compra' (cotacaoAtual X cotas)*/
-    total FLOAT NOT NULL DEFAULT 0, /*Valor Total(%)*/
-    proporcao FLOAT NOT NULL DEFAULT 0, /*Valor Proporcao(%)*/
     
     totValorPrevisao FLOAT NOT NULL DEFAULT 0, /*Soma das Proporcao(R$) na Carteira do investimento na data atual*/
     totValorAtual FLOAT NOT NULL DEFAULT 0, /*Soma das valorAtual(R$) na Carteira do investimento na data atual*/
@@ -59,6 +49,20 @@ CREATE TABLE investimento ( /*Fazer investimento (BD Taylor: Lance)*/
     totCotas INT NOT NULL DEFAULT 0, /*Soma dos Cotas na Carteira do investimento na data atual*/
     totComprar FLOAT NOT NULL DEFAULT 0, /*Valor real a ser investido na carteira (Soma dos comprar)*/
     sobraAportes FLOAT NOT NULL DEFAULT 0 /*(totIncluir - totComprar)*/
+);
+
+CREATE TABLE investimento_acao ( /*Fazer investimento (BD Taylor: Lance)*/
+    idInvestimento INT NOT NULL, /*FK*/
+    ativoAcao VARCHAR(8) NOT NULL, /*FK código ação*/
+    valorPrevisao FLOAT NOT NULL DEFAULT 0, /*Valor Previsão(R$)*/
+    valorAtual FLOAT NOT NULL DEFAULT 0, /*Valor Atual(R$)*/
+    atTotal FLOAT NOT NULL DEFAULT 0, /*Valor AtTotal(%)*/
+    nrCt INT NOT NULL DEFAULT 0, /*Valor NrCt, nº de cotas*/
+    incluir FLOAT NOT NULL DEFAULT 0, /*Valor Incluir, ver com Taylor*/
+    qtdCotas INT NOT NULL DEFAULT 0, /*Valor Cotas*/
+    comprar FLOAT NOT NULL DEFAULT 0, /*Valor Comprar, Valor da 'compra' (cotacaoAtual X cotas)*/
+    total FLOAT NOT NULL DEFAULT 0, /*Valor Total(%)*/
+    proporcao FLOAT NOT NULL DEFAULT 0 /*Valor Proporcao(%)*/
 );
 
 
