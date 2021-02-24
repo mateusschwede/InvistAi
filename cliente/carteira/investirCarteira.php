@@ -57,10 +57,18 @@
                         <input type="text" class="form-control" required name="valorInvestimento" pattern="\d{1,9}\.\d{2}" placeholder="Valor à investir" onkeypress="return isNumberAndDot(event)">
                         <div class="form-text">Use ponto no lugar de vírgula</div>
                     </div>
-                    <a href="../index.php" class="btn btn-danger">Cancelar</a>
+                    <a href="../index.php" class="btn btn-danger">Voltar</a>
                     <button type="submit" class="btn btn-success" id="submitWithEnter">Simular</button>
                 </form>
             </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <br>
+                <h3>Investimentos na carteira:</h3>
+                <p>Tabela de investimentos na carteira aqui</p>
             </div>
         </div>
     </div>

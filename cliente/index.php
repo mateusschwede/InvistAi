@@ -46,7 +46,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <h1>Minhas Carteiras</h1>
-                <h3>Investimento Total: R$(Total investido - TotalSobraInvestimentos)</h3>
+                <h3>Total investido: R$(Soma dos ultimos totComprar de cada carteira do cliente (table 'investimento'))</h3>
 
                 <a href="carteira/addCarteira.php" class="btn btn-primary">Adicionar Carteira</a>
                 <div class="table-responsive">
@@ -80,7 +80,7 @@
                                             <td class='set'>Previsto</td>
                                             <td class='set'>Diferença</td>
                                             <td class='set'>Situação</td>
-                                            <td class='set'><a href='remCarteira.php' class='btn btn-danger btn-sm'>Excluir</a> <a href='updateCarteira.php' class='btn btn-warning btn-sm'>Editar</a> <a href='carteira/verCarteira.php?id=".$l['id']."' class='btn btn-primary btn-sm'>Ver</a> <a href='carteira/investirCarteira.php?id=".$l['id']."' class='btn btn-success btn-sm'>Investir</a></td>
+                                            <td class='set'><button type='button' class='btn btn-danger btn-sm' disabled>Excluir</button> <button type='button' class='btn btn-warning btn-sm' disabled>Editar</button> <a href='carteira/investirCarteira.php?id=".$l['id']."' class='btn btn-success btn-sm'>Investimento</a></td>
                                         </tr>
                                     ";
                                 }
@@ -91,7 +91,7 @@
             </div>
         </div>
 
-
+        
     </div>
 </body>
 </html>

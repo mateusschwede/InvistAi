@@ -118,6 +118,7 @@
 
                 <form action="simulacaoInvestimento.php" method="post">
                     <input type="hidden" name="valorInvestimento" value="<?$ultimoInvestimento+$_SESSION['valorInvestimento']?>">
+                    <!--Variáveis da tabela como input hidden aqui, para inseri-los no BD(table investimento)-->
                     <a href="canInvestimento.php" class="btn btn-danger">Cancelar</a>
                     <input type="submit" class="btn btn-success" value="Confirmar">
                 </form>
