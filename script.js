@@ -63,10 +63,3 @@ function validadePassoword() {
     // verificar também quando o campo for modificado, para que a mensagem suma quando as senhas forem iguais
     senhaC.addEventListener('input', validarSenha);
 }
-
-// confirmar remocao do cliente pré cadastrado
-function confirmRemoveUnregisteredClient(client) {
-    if (confirm("Tem certeza que deseja remover?")) {
-        // chamar funcao php do arquivo removerClientePreCadastrado 
-    }
-}
