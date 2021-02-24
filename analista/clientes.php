@@ -1,6 +1,5 @@
 <?php
     require_once '../conexao.php';
-    require_once 'removerClientePreCadastrado.php';
     session_start();
 
     if(!isset($_SESSION['logado'])):
@@ -50,12 +49,27 @@
         <div class="row">
             <div class="col-sm-12">
                 <a href="addCliente.php" class="btn btn-primary">Pré-cadastrar cliente</a>
-
-                <div class="row">
-                    <div class="col-sm-4">
-                        
+                <div class="row">                    
+                    <div class="col-sm-4">                         
+                        Clientes pré-cadastrados <br>
+                        <?php
+                            $r = $db->query("SELECT * FROM pessoa 
+                                            WHERE tipo = 2 and
+                                            email is null
+                                            ORDER BY nome");
+                            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                            foreach($linhas as $l) {
+                            echo "
+                                <tr>
+                                    <th scope='row'>".strtoupper($l['nome'])."</th>
+                                    <td class='setn'>".$l['cpf']."</td>                                    
+                                    <a  href='removeUnregisteredClient.php?cpf=".$l['cpf']."'  class='btn btn-danger'>remover</a>                        
+                                </tr><br>";
+                            }
+                        ?>
+                    </div>
+                    <div class="col-sm-4">                        
                         Clientes ativos (btnInativarCliente) <br>
-
                         <?php
                             $r = $db->query("SELECT * FROM pessoa 
                                             WHERE tipo = 2 and
@@ -68,39 +82,13 @@
                                 <tr>
                                     <th scope='row'>".strtoupper($l['nome'])."</th>
                                     <td class='setn'>".$l['cpf']."</td>
-                                    <td class='setn'> <button onclick='' class='btn btn-danger'>Desativar</button></td>";                              
-                                echo "</tr>";
+                                    <a  href='disableClient.php?cpf=".$l['cpf']."'  class='btn btn-danger'>Desativar</a>                            
+                                </tr><br>";
                             }
                         ?>
-
-
                     </div>
-                    <div class="col-sm-4"> 
-                        
-                        Clientes pré-cadastrados (btnRomeverClientePendente) <br>
-
-                        <?php
-                            $r = $db->query("SELECT * FROM pessoa 
-                                            WHERE tipo = 2 and
-                                            email is null
-                                            ORDER BY nome");
-                            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                            foreach($linhas as $l) {
-                            echo "
-                                <tr>
-                                    <th scope='row'>".strtoupper($l['nome'])."</th>
-                                    <td class='setn'>".$l['cpf']."</td>
-                                    <td class='setn'> <button onclick='confirmRemoveUnregisteredClient(".$l['cpf'].")' class='btn btn-danger'>Remover</button></td>";                           
-                            echo "</tr>";
-                            }
-                        ?>
-
-
-                    </div>
-                    <div class="col-sm-4">
-                        
+                    <div class="col-sm-4">                        
                         Clientes inativos (btnAtivarCliente) <br>   
-
                         <?php
                             $r = $db->query("SELECT * FROM pessoa 
                                             WHERE tipo = 2 and
@@ -112,23 +100,14 @@
                                 <tr>
                                     <th scope='row'>".strtoupper($l['nome'])."</th>
                                     <td class='setn'>".$l['cpf']."</td>
-                                    <td class='setn'> <button onclick='' class='btn btn-danger'>Reativar</button></td>";                              
-                                echo "</tr>";
+                                    <a  href='enableClient.php?cpf=".$l['cpf']."'  class='btn btn-danger'>Ativar</a>  
+                                </tr><br>";
                             }
                         ?>
                     </div>
                 </div>
-                             
-                
-
-               
-
-                
-                
             </div>
         </div>
-
-
     </div>
 </body>
 </html>
