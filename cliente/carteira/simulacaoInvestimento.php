@@ -60,7 +60,8 @@
                         $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                         foreach($linhas as $l) {$ultimoInvestimento = number_format($l['valor'],2,".",",");}
                     }
-                    echo "<span class='btn btn-dark'>R$ ".number_format($ultimoInvestimento,2,".",",")." + R$ ".number_format($_SESSION['valorInvestimento'],2,".",",")." = <span class='badge bg-warning'>R$ ".number_format(($ultimoInvestimento+$_SESSION['valorInvestimento']),2,".",",")."</span></span>";
+                    echo "<span class='btn btn-dark'>R$ ".number_format($_SESSION['valorInvestimento'],2,".",",")." + R$ ".number_format($ultimoInvestimento,2,".",",")." = <span class='badge bg-warning'>R$ ".number_format(($ultimoInvestimento+$_SESSION['valorInvestimento']),2,".",",")."</span></span>";
+                    $investimentoReal = $ultimoInvestimento+$_SESSION['valorInvestimento'];
                 ?>
 
                 <div class="table-responsive">
@@ -69,8 +70,8 @@
                             <tr>
                                 <th scope='col'>Previsão(%)</th>
                                 <th scope='col'>Previsão(R$)</th>
-                                <th scope='col'>Atual(%)</th>
                                 <th scope='col'>Atual(R$)</th>
+                                <th scope='col'>At/Total(%)</th>
                                 <th scope='col'>Nr Ct</th>
                                 <th scope='col'>Ativo</th>
                                 <th scope='col'>Cotação(R$)</th>
@@ -82,20 +83,35 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                            </tr>
+                            <?php
+                                $r = $db->prepare("SELECT ativoAcao,objetivo,qtdAcao FROM carteira_acao WHERE idCarteira=?");
+                                $r->execute(array($_SESSION['idCarteira']));
+                                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                                foreach($linhas as $l) {
+
+                                    $r = $db->prepare("SELECT cotacaoAtual FROM acao WHERE ativo=?");
+                                    $r->execute(array($l['ativoAcao']));
+                                    $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach($linhas2 as $l2) {
+                                        echo "
+                                            <tr>
+                                                <td class='set'>".$l['objetivo']."</td>
+                                                <td class='set'>".number_format(($investimentoReal/100)*$l['objetivo'],2,".",",")."</td>
+                                                <td class='set'>x</td>
+                                                <td class='set'>x</td>
+                                                <td class='set'>x</td>
+                                                <td class='setx'>".strtoupper($l['ativoAcao'])."</td>
+                                                <td class='set'>".number_format($l2['cotacaoAtual'],2,".",",")."</td>
+                                                <td class='set'>x</td>
+                                                <td class='set'>x</td>
+                                                <td class='set'>x</td>
+                                                <td class='set'>x</td>
+                                                <td class='set'>x</td>
+                                            </tr>
+                                        ";
+                                    }
+                                }
+                            ?>
                         </tbody>
                     </table>
                 </div>
