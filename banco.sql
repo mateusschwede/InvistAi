@@ -31,7 +31,7 @@ CREATE TABLE carteira (
 CREATE TABLE carteira_acao (
     idCarteira INT NOT NULL, /*FK*/
     ativoAcao VARCHAR(8) NOT NULL, /*FK código ação*/
-    objetivo INT NOT NULL, /*percent definido pelo cliente para ação na carteira (Taylor: previsto(%))*/
+    objetivo INT NOT NULL /*percent definido pelo cliente para ação na carteira (Taylor: previsto(%))*/
 );
 
 

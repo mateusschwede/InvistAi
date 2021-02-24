@@ -3,10 +3,55 @@
     session_start();
     if(!isset($_SESSION['logado'])){header('Location: ../../acessoNegado.php');}
 
+
+    //Código IF que insere os dados no BD assim que cliente informa simulação. Ao confirmar, remove as variáveis $_SESSION e mantem as coisas. Ao cancelar, deleta nas tables 'investimento' e 'investimento_acao' e remove as $_SESSION
     if(!empty($_POST['valorInvestimento'])) {
-        //Programar Confirmar Investimento (Inserir na table 'investimento'). Tem a $_SESSION['valorInvestimento'], $_SESSION['cpfCliente] e $_SESSION['idCarteira'] para auxiar
-        unset($_SESSION['idCarteira']);
-        unset($_SESSION['valorInvestimento']);
+        
+        $r = $db->prepare("INSERT INTO investimento(idCarteira) VALUES (?)");
+        $r->execute(array($_SESSION['idCarteira']));
+
+        $r = $db->prepare("SELECT id FROM investimento WHERE idCarteira=?");
+        $r->execute(array($_SESSION['idCarteira']));
+        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+        foreach($linhas as $l) {$_SESSION['idInvestimento']=$l['id'];}
+
+        $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
+        $r->execute(array($_SESSION['idCarteira']));
+        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+        foreach($linhas as $l) {
+
+            $r = $db->prepare("SELECT cotacaoAtual FROM acao WHERE id=?");
+            $r->execute(array($l['idAcao']));
+            $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
+            foreach($linhas2 as $l2) {$cotacaoAtual = $l2['cotacaoAtual'];}
+
+            //Programar, pra cada ação, o 'investimento_acao'
+            $r = $db->prepare("INSERT INTO investimento_acao(idInvestimento,ativoAcao,valorPrevisao,qtdCotas,comprar) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+            $r->execute(array(
+                $_SESSION['idInvestimento'],
+                $l['ativoAcao'],
+                ($_SESSION['valorInvestimento']/$l['objetivo']),                
+                (($_SESSION['valorInvestimento']/$l['objetivo']) / $cotacaoAtual),
+                ( (($_SESSION['valorInvestimento']/$l['objetivo']) / $cotacaoAtual) * $cotacaoAtual ),
+            ));
+        }
+
+        //unset($_SESSION['idCarteira']);
+        //unset($_SESSION['valorInvestimento']);
+    }
+
+    //Exibir dados para teste (Pra ver se os dados entraram certinho)
+    $r = $db->prepare("SELECT * FROM investimento_acao WHERE idInvestimento=?");
+    $r->execute(array($_SESSION['idInvestimento']));
+    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+    foreach($linhas as $l) {
+        echo "
+            Id Investimento: ".$l['idInvestimento']."<br>
+            Ativo: ".$l['ativoAcao']."<br>
+            Previsão(R$): ".$l['valorPrevisao']."<br>
+            Cotas: ".$l['qtdCotas']."<br>
+            Comprar: ".$l['comprar']."<br>
+        ";
     }
 ?>
 
@@ -53,7 +98,8 @@
                 <h2>Investir na carteira <?=$_SESSION['idCarteira']?>:</h2>
 
                 <?php
-                    $r = $db->query("SELECT valor FROM investimento ORDER BY id DESC LIMIT 1");
+                    $r = $db->prepare("SELECT totComprar FROM investimento WHERE idCarteira=? ORDER BY id DESC LIMIT 1");
+                    $r->execute(array($_SESSION['idCarteira']));
                     if($r->rowCount()==0) {$ultimoInvestimento = 0;}
                     else {
                         $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
@@ -82,42 +128,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                                $r = $db->prepare("SELECT ativoAcao,objetivo,qtdAcao FROM carteira_acao WHERE idCarteira=?");
-                                $r->execute(array($_SESSION['idCarteira']));
-                                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                                foreach($linhas as $l) {
-
-                                    $r = $db->prepare("SELECT cotacaoAtual FROM acao WHERE ativo=?");
-                                    $r->execute(array($l['ativoAcao']));
-                                    $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
-                                    foreach($linhas2 as $l2) {
-                                        echo "
-                                            <tr>
-                                                <td class='set'>".$l['objetivo']."</td>
-                                                <td class='set'>".number_format(($investimentoReal/100)*$l['objetivo'],2,".",",")."</td>
-                                                <td class='set'>x</td>
-                                                <td class='set'>x</td>
-                                                <td class='set'>x</td>
-                                                <td class='setx'>".strtoupper($l['ativoAcao'])."</td>
-                                                <td class='set'>".number_format($l2['cotacaoAtual'],2,".",",")."</td>
-                                                <td class='set'>x</td>
-                                                <td class='set'>x</td>
-                                                <td class='set'>x</td>
-                                                <td class='set'>x</td>
-                                                <td class='set'>x</td>
-                                            </tr>
-                                        ";
-                                    }
-                                }
-                            ?>
+                            <tr>
+                                <td class='set'>x</td>
+                                <td class='set'>x</td>
+                                <td class='set'>x</td>
+                                <td class='set'>x</td>
+                                <td class='set'>x</td>
+                                <td class='setx'>X</td>
+                                <td class='set'>x</td>
+                                <td class='set'>x</td>
+                                <td class='set'>x</td>
+                                <td class='set'>x</td>
+                                <td class='set'>x</td>
+                                <td class='set'>x</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
 
                 <form action="simulacaoInvestimento.php" method="post">
                     <input type="hidden" name="valorInvestimento" value="<?$ultimoInvestimento+$_SESSION['valorInvestimento']?>">
-                    <!--Colocar variáveis da tabela como input hidden aqui, para inseri-los no BD(table investimento)-->
                     <a href="canInvestimento.php" class="btn btn-danger">Cancelar</a>
                     <input type="submit" class="btn btn-success" value="Confirmar">
                 </form>
