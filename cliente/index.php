@@ -46,7 +46,8 @@
         <div class="row">
             <div class="col-sm-12">
                 <h1>Minhas Carteiras</h1>
-                <h3>Total investido: R$(Soma dos ultimos totComprar de cada carteira do cliente (table 'investimento'))</h3>
+                <!--Total investido: (Soma dos ultimos totComprar de cada carteira do cliente (table 'investimento'))-->
+                <h3>Total investido: <span class="text-muted">R$ 0.00</span></h3>
 
                 <a href="carteira/addCarteira.php" class="btn btn-primary">Adicionar Carteira</a>
                 <div class="table-responsive">

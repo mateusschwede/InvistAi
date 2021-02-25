@@ -4,7 +4,7 @@
     if(!isset($_SESSION['logado'])){header('Location: ../../acessoNegado.php');}
 
 
-    //Código IF que insere os dados no BD assim que cliente informa simulação. Ao confirmar, remove as variáveis $_SESSION e mantem as coisas. Ao cancelar, deleta nas tables 'investimento' e 'investimento_acao' e remove as $_SESSION
+    /*Código IF que insere os dados no BD assim que cliente informa simulação. Ao confirmar, remove as variáveis $_SESSION e mantem as coisas. Ao cancelar, deleta nas tables 'investimento' e 'investimento_acao' e remove as $_SESSION
     if(!empty($_POST['valorInvestimento'])) {
         
         $r = $db->prepare("INSERT INTO investimento(idCarteira) VALUES (?)");
@@ -52,7 +52,7 @@
             Cotas: ".$l['qtdCotas']."<br>
             Comprar: ".$l['comprar']."<br>
         ";
-    }
+    }*/
 ?>
 
 <!DOCTYPE html>
@@ -149,7 +149,7 @@
                 <form action="simulacaoInvestimento.php" method="post">
                     <input type="hidden" name="valorInvestimento" value="<?$ultimoInvestimento+$_SESSION['valorInvestimento']?>">
                     <a href="canInvestimento.php" class="btn btn-danger">Cancelar</a>
-                    <input type="submit" class="btn btn-success" value="Confirmar">
+                    <button type="submit" class="btn btn-success" disabled>Confirmar</button>
                 </form>
             </div>
         </div>
