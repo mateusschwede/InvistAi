@@ -15,9 +15,9 @@
             $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
             foreach($linhas as $l) {
                 
-                $_SESSION['cpf'] = $l['cpf'];
-                $_SESSION['tipo'] = $l['tipo'];
-                $_SESSION['nome'] = $l['nome'];
+                $_SESSION['cpf'] = addslashes($l['cpf']);
+                $_SESSION['tipo'] = addslashes($l['tipo']);
+                $_SESSION['nome'] = addslashes($l['nome']);
 
                 if($l['tipo']==1) {header("location: analista/index.php");}
                 elseif($l['tipo']==2) {
