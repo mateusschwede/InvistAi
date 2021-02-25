@@ -40,3 +40,6 @@ input:required:valid{color: rgb(115, 190, 115);}
 .setn{
     text-transform: capitalize !important;
 }
+h1{
+    text-align: center !important;
+}
