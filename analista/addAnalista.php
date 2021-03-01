@@ -35,10 +35,10 @@
                 <h1>Novo analista</h1>
                 <form action="addAnalista.php" method="post">
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="cpf" required name="cpf" pattern="\d{11}" onkeypress="return isNumber(event)">
+                        <input type="text" class="form-control" placeholder="cpf" required name="cpf" pattern="\d{11}" maxlength="11" onkeypress="return isNumber(event)">
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="rg" required name="rg" pattern="\d{10}" onkeypress="return isNumber(event)">
+                        <input type="text" class="form-control" placeholder="rg" required name="rg" pattern="\d{10}" maxlength="10" onkeypress="return isNumber(event)">
                     </div>
                     <div class="mb-3">
                         <input type="text" class="form-control" placeholder="nome" required name="nome" maxlength="60" style="text-transform:lowercase;">
