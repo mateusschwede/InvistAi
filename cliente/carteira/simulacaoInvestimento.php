@@ -2,74 +2,6 @@
     require_once '../../conexao.php';
     session_start();
     if(!isset($_SESSION['logado'])){header('Location: ../../acessoNegado.php');}
-
-    /*totValorAtual (Manter comentado)
-    $r = $db->prepare("SELECT totComprar FROM investimento WHERE idCarteira=? ORDER BY id DESC LIMIT 1");
-    $r->execute(array($_SESSION['idCarteira']));
-    if($r->rowCount()==0) {$ultimoInvestimento = 0;}
-    else {
-        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-        foreach($linhas as $l) {$ultimoInvestimento = number_format($l['valor'],2,".",",");}
-    }
-    echo "<span class='btn btn-dark'>R$ ".number_format($_SESSION['valorInvestimento'],2,".",",")." + R$ ".number_format($ultimoInvestimento,2,".",",")." = <span class='badge bg-warning'>R$ ".number_format(($ultimoInvestimento+$_SESSION['valorInvestimento']),2,".",",")."</span></span>";
-    $investimentoReal = $ultimoInvestimento+$_SESSION['valorInvestimento'];*/
-
-
-        
-    //Cria investimento
-    $r = $db->prepare("INSERT INTO investimento(idCarteira,totValorPrevisao) VALUES (?,?)");
-    $r->execute(array($_SESSION['idCarteira'],$_SESSION['valorInvestimento']));
-
-
-    //Pega id investimento criado
-    $r = $db->prepare("SELECT * FROM investimento WHERE idCarteira=? ORDER BY dataInvestimento DESC LIMIT 1");
-    $r->execute(array($_SESSION['idCarteira']));
-    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-    foreach($linhas as $l) {$_SESSION['idInvestimento']=$l['id'];}
-
-
-    //Para cada ação da carteira, add valores em investimento_acao
-    $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
-    $r->execute(array($_SESSION['idCarteira']));
-    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-    foreach($linhas as $l) {
-
-        $r = $db->prepare("SELECT cotacaoAtual FROM acao WHERE ativo=?");
-        $r->execute(array($l['ativoAcao']));
-        $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
-        foreach($linhas2 as $l2) {$cotacaoAtual = $l2['cotacaoAtual'];}
-
-
-
-        //Colocar formulas e variaveis aqui (Se possível, colocar cálculos já dentro de um number_format, pra entrar com 2 casas decimais já no BD)
-        $ativo = $l['ativoAcao'];
-        $previsaoValor = number_format((($_SESSION['valorInvestimento']/100)*$l['objetivo']),2,".",",");
-        $qtdCotas = $previsaoValor / $cotacaoAtual;
-        $comprar = $cotacaoAtual * $qtdCotas;
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-
-
-
-        
-        //Inserir dados na tabela investimento_acao
-        $r = $db->prepare("INSERT INTO investimento_acao(idInvestimento,ativoAcao,valorPrevisao,qtdCotas,comprar) VALUES (?,?,?,?,?)");
-        $r->execute(array($_SESSION['idInvestimento'],$ativo,$previsaoValor,$qtdCotas,$comprar));
-
-        //Depois de inserir dados na tabela investimento_acao, completar(Update) tabela investimento com os dados de 'totais'
-    }
 ?>
 
 <!DOCTYPE html>
@@ -113,56 +45,81 @@
         <div class="row">
             <div class="col-sm-12">
                 <h2>Investir na carteira <?=$_SESSION['idCarteira']?>:</h2>
+                <?php
+                    $r = $db->prepare("SELECT totValorInvestimento FROM investimento WHERE idCarteira=? ORDER BY id DESC LIMIT 1");
+                    $r->execute(array($_SESSION['idCarteira']));
+                    if($r->rowCount()==0) {$ultimoInvestimento = 0;}
+                    else {
+                        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                        foreach($linhas as $l) {$ultimoInvestimento = number_format($l['totValorInvestimento'],2,".",",");}
+                    }
+                    echo "<span class='btn btn-dark'>R$ ".number_format($_SESSION['valorInvestimento'],2,".",",")." + R$ ".number_format($ultimoInvestimento,2,".",",")." = <span class='badge bg-warning'>R$ ".number_format(($ultimoInvestimento+$_SESSION['valorInvestimento']),2,".",",")."</span></span>";
+                    $investimentoReal = $ultimoInvestimento+$_SESSION['valorInvestimento'];
+                ?>
 
                 <div class="table-responsive">
                     <table class='table table-striped'>
                         <thead>
                             <tr>
-                                <th scope='col'>Previsão(%)</th>
-                                <th scope='col'>Previsão(R$)</th>
-                                <th scope='col'>Atual(R$)</th>
-                                <th scope='col'>At/Total(%)</th>
-                                <th scope='col'>Nr Ct</th>
                                 <th scope='col'>Ativo</th>
-                                <th scope='col'>Cotação(R$)</th>
-                                <th scope='col'>Incluir</th>
-                                <th scope='col'>Cotas(Qtd)</th>
-                                <th scope='col'>Comprar(R$)</th>
-                                <th scope='col'>Total(%)</th>
-                                <th scope='col'>Proporção(%)</th>
+                                <th scope='col'>Setor</th>
+                                <th scope='col'>Quantidade</th>
+                                <th scope='col'>Cotação Atual</th>
+                                <th scope='col'>Patrimônio Atualizado</th>
+                                <th scope='col'>Participação Atual(%)</th>
+                                <th scope='col'>Objetivo(%)</th>
+                                <th scope='col'>Distância do Objetivo(%)</th>
+                                <th scope='col'>Quantas Ações Comprar</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                                $r = $db->prepare("SELECT * FROM investimento_acao WHERE idInvestimento=?");
-                                $r->execute(array($_SESSION['idInvestimento']));
+                                //Programar tabela visual com variáveis aqui
+                                $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
+                                $r->execute(array($_SESSION['idCarteira']));
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                                 foreach($linhas as $l) {
-                                    
-                                    //Objetivo ação
-                                    $r = $db->prepare("SELECT objetivo FROM carteira_acao WHERE idCarteira=? AND ativoAcao=?");
-                                    $r->execute(array($_SESSION['idCarteira'],$l['ativoAcao']));
-                                    $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
-                                    foreach($linhas2 as $l2) {$objetivo = $l2['objetivo'];}
 
-                                    //Cotação Atual ação
+                                    //Pegar dados específicos da ação citada
                                     $r = $db->prepare("SELECT * FROM acao WHERE ativo=?");
                                     $r->execute(array($l['ativoAcao']));
-                                    $linhas3 = $r->fetchAll(PDO::FETCH_ASSOC);
-                                    foreach($linhas3 as $l3) {$cotacaoAtual = $l3['cotacaoAtual'];}
-                                
+                                    $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach($linhas2 as $l2) {
+                                        $ativo = $l2['ativo'];
+                                        $setor = $l2['setor'];
+                                        $cotacaoAtual = $l2['cotacaoAtual'];
+                                    }
+
+
+                                    //Programar variáveis aqui
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                     echo "
                                         <tr>
-                                            <td class='set'>".$objetivo."</td>
-                                            <td class='set'>".$l['valorPrevisao']."</td>
+                                            <td class='setx'>".strtoupper($ativo)."</td>
+                                            <td class='set'>".$setor."</td>
+                                            <td class='set'>x</td>
+                                            <td class='setx'>R$ ".$cotacaoAtual."</td>
                                             <td class='set'>x</td>
                                             <td class='set'>x</td>
-                                            <td class='set'>x</td>
-                                            <td class='setx'>".strtoupper($l['ativoAcao'])."</td>
-                                            <td class='set'>".$cotacaoAtual."</td>
-                                            <td class='set'>x</td>
-                                            <td class='set'>".$l['qtdCotas']."</td>
-                                            <td class='set'>".$l['comprar']."</td>
+                                            <td class='set'>".number_format($l['objetivo'],2,".",",")." %</td>
                                             <td class='set'>x</td>
                                             <td class='set'>x</td>
                                         </tr>

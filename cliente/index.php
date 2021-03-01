@@ -76,7 +76,7 @@
                                         <tr>
                                             <th scope='row'>".($l['id'])."</th>
                                             <td class='setn'>".$l['objetivo']."</td>
-                                            <td class='set'>".$l['percInvestimento']."%</td>
+                                            <td class='set'>".number_format($l['percInvestimento'],2,".",",")." %</td>
                                             <td class='set'>x</td>
                                             <td class='set'>x</td>
                                             <td class='set'>x</td>
