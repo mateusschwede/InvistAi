@@ -14,7 +14,7 @@
             if($ativo[0]!="") {
                 $ativoBD = $ativo[0];
                 $nome = strtolower($a->nm_empresa);
-                $setor = strtolower($a->segmento);
+                $setor = mb_convert_case($a->segmento, MB_CASE_LOWER, "UTF-8");
 
                 $r = $db->prepare("INSERT INTO acao(ativo,nome,setor,dtUltimaCotacao) VALUES (?,?,?,?)");
                 $r->execute(array($ativoBD,$nome,$setor,$ultimaCotacao));
