@@ -70,6 +70,7 @@
                                 $r = $db->prepare("SELECT * FROM carteira WHERE cpfCliente=?");
                                 $r->execute(array($_SESSION['cpf']));
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+
                                 foreach($linhas as $l) {
                                     echo "
                                         <tr>
@@ -84,15 +85,22 @@
                                             <td class='set'><button type='button' class='btn btn-danger btn-sm' disabled>Excluir</button> <button type='button' class='btn btn-warning btn-sm' disabled>Editar</button> <a href='carteira/investirCarteira.php?id=".$l['id']."' class='btn btn-success btn-sm'>Investimento</a></td>
                                         </tr>
                                     ";
+                                   
                                 }
                             ?>
                         </tbody>
                     </table>
+
+                   
+
                 </div>
             </div>
         </div>
-
+        
         
     </div>
+
+ 
+
 </body>
 </html>
