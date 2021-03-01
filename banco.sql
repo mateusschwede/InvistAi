@@ -41,9 +41,10 @@ CREATE TABLE carteira_acao (
 CREATE TABLE investimento (
     id INT AUTO_INCREMENT PRIMARY KEY,
     idCarteira INT NOT NULL, /*FK*/
-    dataInvestimento DATE NOT NULL DEFAULT now(),
-    
+    dataInvestimento DATETIME NOT NULL DEFAULT now(),
     totValorPrevisao FLOAT NOT NULL DEFAULT 0, /*Soma das Proporcao(R$) na Carteira do investimento na data atual*/
+    
+    /*Esses totais serão preenchidos por úlimo, após preencher table investimento_acao*/
     totValorAtual FLOAT NOT NULL DEFAULT 0, /*Soma das valorAtual(R$) na Carteira do investimento na data atual*/
     totIncluir FLOAT NOT NULL DEFAULT 0, /*Soma dos Incluir na Carteira do investimento na data atual*/
     totCotas INT NOT NULL DEFAULT 0, /*Soma dos Cotas na Carteira do investimento na data atual*/

@@ -65,7 +65,7 @@
                         <div class="form-text">Use ponto no lugar de vírgula</div>
                     </div>
                     <a href="../index.php" class="btn btn-danger">Voltar</a>
-                    <button type="submit" class="btn btn-success" id="submitWithEnter">Simular</button>
+                    <button type="submit" class="btn btn-success" id="submitWithEnter">Conferir Investimento</button>
                 </form>
             </div>
         </div>

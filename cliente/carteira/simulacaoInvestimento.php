@@ -3,56 +3,73 @@
     session_start();
     if(!isset($_SESSION['logado'])){header('Location: ../../acessoNegado.php');}
 
-
-    /*Código IF que insere os dados no BD assim que cliente informa simulação. Ao confirmar, remove as variáveis $_SESSION e mantem as coisas. Ao cancelar, deleta nas tables 'investimento' e 'investimento_acao' e remove as $_SESSION
-    if(!empty($_POST['valorInvestimento'])) {
-        
-        $r = $db->prepare("INSERT INTO investimento(idCarteira) VALUES (?)");
-        $r->execute(array($_SESSION['idCarteira']));
-
-        $r = $db->prepare("SELECT id FROM investimento WHERE idCarteira=?");
-        $r->execute(array($_SESSION['idCarteira']));
+    /*totValorAtual (Manter comentado)
+    $r = $db->prepare("SELECT totComprar FROM investimento WHERE idCarteira=? ORDER BY id DESC LIMIT 1");
+    $r->execute(array($_SESSION['idCarteira']));
+    if($r->rowCount()==0) {$ultimoInvestimento = 0;}
+    else {
         $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-        foreach($linhas as $l) {$_SESSION['idInvestimento']=$l['id'];}
-
-        $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
-        $r->execute(array($_SESSION['idCarteira']));
-        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-        foreach($linhas as $l) {
-
-            $r = $db->prepare("SELECT cotacaoAtual FROM acao WHERE id=?");
-            $r->execute(array($l['idAcao']));
-            $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
-            foreach($linhas2 as $l2) {$cotacaoAtual = $l2['cotacaoAtual'];}
-
-            //Programar, pra cada ação, o 'investimento_acao'
-            $r = $db->prepare("INSERT INTO investimento_acao(idInvestimento,ativoAcao,valorPrevisao,qtdCotas,comprar) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-            $r->execute(array(
-                $_SESSION['idInvestimento'],
-                $l['ativoAcao'],
-                ($_SESSION['valorInvestimento']/$l['objetivo']),                
-                (($_SESSION['valorInvestimento']/$l['objetivo']) / $cotacaoAtual),
-                ( (($_SESSION['valorInvestimento']/$l['objetivo']) / $cotacaoAtual) * $cotacaoAtual ),
-            ));
-        }
-
-        //unset($_SESSION['idCarteira']);
-        //unset($_SESSION['valorInvestimento']);
+        foreach($linhas as $l) {$ultimoInvestimento = number_format($l['valor'],2,".",",");}
     }
+    echo "<span class='btn btn-dark'>R$ ".number_format($_SESSION['valorInvestimento'],2,".",",")." + R$ ".number_format($ultimoInvestimento,2,".",",")." = <span class='badge bg-warning'>R$ ".number_format(($ultimoInvestimento+$_SESSION['valorInvestimento']),2,".",",")."</span></span>";
+    $investimentoReal = $ultimoInvestimento+$_SESSION['valorInvestimento'];*/
 
-    //Exibir dados para teste (Pra ver se os dados entraram certinho)
-    $r = $db->prepare("SELECT * FROM investimento_acao WHERE idInvestimento=?");
-    $r->execute(array($_SESSION['idInvestimento']));
+
+        
+    //Cria investimento
+    $r = $db->prepare("INSERT INTO investimento(idCarteira,totValorPrevisao) VALUES (?,?)");
+    $r->execute(array($_SESSION['idCarteira'],$_SESSION['valorInvestimento']));
+
+
+    //Pega id investimento criado
+    $r = $db->prepare("SELECT * FROM investimento WHERE idCarteira=? ORDER BY dataInvestimento DESC LIMIT 1");
+    $r->execute(array($_SESSION['idCarteira']));
+    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+    foreach($linhas as $l) {$_SESSION['idInvestimento']=$l['id'];}
+
+
+    //Para cada ação da carteira, add valores em investimento_acao
+    $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
+    $r->execute(array($_SESSION['idCarteira']));
     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
     foreach($linhas as $l) {
-        echo "
-            Id Investimento: ".$l['idInvestimento']."<br>
-            Ativo: ".$l['ativoAcao']."<br>
-            Previsão(R$): ".$l['valorPrevisao']."<br>
-            Cotas: ".$l['qtdCotas']."<br>
-            Comprar: ".$l['comprar']."<br>
-        ";
-    }*/
+
+        $r = $db->prepare("SELECT cotacaoAtual FROM acao WHERE ativo=?");
+        $r->execute(array($l['ativoAcao']));
+        $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
+        foreach($linhas2 as $l2) {$cotacaoAtual = $l2['cotacaoAtual'];}
+
+
+
+        //Colocar formulas e variaveis aqui (Se possível, colocar cálculos já dentro de um number_format, pra entrar com 2 casas decimais já no BD)
+        $ativo = $l['ativoAcao'];
+        $previsaoValor = number_format((($_SESSION['valorInvestimento']/100)*$l['objetivo']),2,".",",");
+        $qtdCotas = $previsaoValor / $cotacaoAtual;
+        $comprar = $cotacaoAtual * $qtdCotas;
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+        
+        //Inserir dados na tabela investimento_acao
+        $r = $db->prepare("INSERT INTO investimento_acao(idInvestimento,ativoAcao,valorPrevisao,qtdCotas,comprar) VALUES (?,?,?,?,?)");
+        $r->execute(array($_SESSION['idInvestimento'],$ativo,$previsaoValor,$qtdCotas,$comprar));
+
+        //Depois de inserir dados na tabela investimento_acao, completar(Update) tabela investimento com os dados de 'totais'
+    }
 ?>
 
 <!DOCTYPE html>
@@ -97,18 +114,6 @@
             <div class="col-sm-12">
                 <h2>Investir na carteira <?=$_SESSION['idCarteira']?>:</h2>
 
-                <?php
-                    $r = $db->prepare("SELECT totComprar FROM investimento WHERE idCarteira=? ORDER BY id DESC LIMIT 1");
-                    $r->execute(array($_SESSION['idCarteira']));
-                    if($r->rowCount()==0) {$ultimoInvestimento = 0;}
-                    else {
-                        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                        foreach($linhas as $l) {$ultimoInvestimento = number_format($l['valor'],2,".",",");}
-                    }
-                    echo "<span class='btn btn-dark'>R$ ".number_format($_SESSION['valorInvestimento'],2,".",",")." + R$ ".number_format($ultimoInvestimento,2,".",",")." = <span class='badge bg-warning'>R$ ".number_format(($ultimoInvestimento+$_SESSION['valorInvestimento']),2,".",",")."</span></span>";
-                    $investimentoReal = $ultimoInvestimento+$_SESSION['valorInvestimento'];
-                ?>
-
                 <div class="table-responsive">
                     <table class='table table-striped'>
                         <thead>
@@ -128,28 +133,48 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='setx'>X</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                            </tr>
+                            <?php
+                                $r = $db->prepare("SELECT * FROM investimento_acao WHERE idInvestimento=?");
+                                $r->execute(array($_SESSION['idInvestimento']));
+                                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                                foreach($linhas as $l) {
+                                    
+                                    //Objetivo ação
+                                    $r = $db->prepare("SELECT objetivo FROM carteira_acao WHERE idCarteira=? AND ativoAcao=?");
+                                    $r->execute(array($_SESSION['idCarteira'],$l['ativoAcao']));
+                                    $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach($linhas2 as $l2) {$objetivo = $l2['objetivo'];}
+
+                                    //Cotação Atual ação
+                                    $r = $db->prepare("SELECT * FROM acao WHERE ativo=?");
+                                    $r->execute(array($l['ativoAcao']));
+                                    $linhas3 = $r->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach($linhas3 as $l3) {$cotacaoAtual = $l3['cotacaoAtual'];}
+                                
+                                    echo "
+                                        <tr>
+                                            <td class='set'>".$objetivo."</td>
+                                            <td class='set'>".$l['valorPrevisao']."</td>
+                                            <td class='set'>x</td>
+                                            <td class='set'>x</td>
+                                            <td class='set'>x</td>
+                                            <td class='setx'>".strtoupper($l['ativoAcao'])."</td>
+                                            <td class='set'>".$cotacaoAtual."</td>
+                                            <td class='set'>x</td>
+                                            <td class='set'>".$l['qtdCotas']."</td>
+                                            <td class='set'>".$l['comprar']."</td>
+                                            <td class='set'>x</td>
+                                            <td class='set'>x</td>
+                                        </tr>
+                                    ";
+                                }
+                            ?>
                         </tbody>
                     </table>
                 </div>
-
-                <form action="simulacaoInvestimento.php" method="post">
-                    <input type="hidden" name="valorInvestimento" value="<?$ultimoInvestimento+$_SESSION['valorInvestimento']?>">
+                <form action="confInvestimento.php" method="post">
                     <a href="canInvestimento.php" class="btn btn-danger">Cancelar</a>
-                    <button type="submit" class="btn btn-success" disabled>Confirmar</button>
+                    <button type="submit" class="btn btn-success">Realizar Investimento</button>
                 </form>
             </div>
         </div>
