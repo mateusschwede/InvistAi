@@ -95,7 +95,7 @@
                                     $qtdAcoesComprar = ($l['objetivo']*($investimentoReal/100)) / $cotacaoAtual;
                                     $patrimonioAtualizado = $quantidadeAcoes * $cotacaoAtual;
                                     $participacaoAtual = ($patrimonioAtualizado / $investimentoReal) * 100;                                
-                                    $distanciaDoObjetivo = $l['objetivo'] - $participacaoAtual;
+                                    $distanciaDoObjetivo = $participacaoAtual -  $l['objetivo'];
 
                                     echo "
                                         <tr>
