@@ -22,7 +22,6 @@
 </head>
 <body>
     <div class="container-fluid">
-
         
         <!-- Menu de Navegação -->
         <div class="row">
@@ -45,7 +44,6 @@
             </div>
         </div>
 
-
         <div class="row">
             <div class="col-sm-12">
                 <a href="addCliente.php" class="btn btn-primary">Pré-cadastrar cliente</a>
@@ -62,14 +60,14 @@
                             echo "
                                 <tr>
                                     <th scope='row'>".strtoupper($l['nome'])."</th>
-                                    <td class='setn'>".$l['cpf']."</td>                                    
-                                    <a  href='removeUnregisteredClient.php?cpf=".$l['cpf']."'  class='btn btn-danger'>remover</a>                        
+                                    <td class='setn'> - ".$l['cpf']."</td>                                    
+                                    <a  href='removeUnregisteredClient.php?cpf=".$l['cpf']."' class='btn btn-danger' onclick='return confirm('Deseja mesmo excluir sua conta?');'> Remover</a>                        
                                 </tr><br>";
                             }
                         ?>
                     </div>
                     <div class="col-sm-4">                        
-                        Clientes ativos (btnInativarCliente) <br>
+                        Clientes ativos <br>
                         <?php
                             $r = $db->query("SELECT * FROM pessoa 
                                             WHERE tipo = 2 and
@@ -81,14 +79,14 @@
                             echo "
                                 <tr>
                                     <th scope='row'>".strtoupper($l['nome'])."</th>
-                                    <td class='setn'>".$l['cpf']."</td>
-                                    <a  href='disableClient.php?cpf=".$l['cpf']."'  class='btn btn-danger'>Desativar</a>                            
+                                    <td class='setn'> - ".$l['cpf']."</td>
+                                    <a  href='disableClient.php?cpf=".$l['cpf']."'  class='btn btn-danger' onclick='return confirm('Deseja mesmo desativar?');'>Desativar</a>                            
                                 </tr><br>";
                             }
                         ?>
                     </div>
                     <div class="col-sm-4">                        
-                        Clientes inativos (btnAtivarCliente) <br>   
+                        Clientes inativos <br>   
                         <?php
                             $r = $db->query("SELECT * FROM pessoa 
                                             WHERE tipo = 2 and
@@ -99,8 +97,8 @@
                             echo "
                                 <tr>
                                     <th scope='row'>".strtoupper($l['nome'])."</th>
-                                    <td class='setn'>".$l['cpf']."</td>
-                                    <a  href='enableClient.php?cpf=".$l['cpf']."'  class='btn btn-danger'>Ativar</a>  
+                                    <td class='setn'> - ".$l['cpf']."</td>
+                                    <a  href='enableClient.php?cpf=".$l['cpf']."' class='btn btn-danger' onclick='return confirm('Deseja mesmo ativar?');'>Ativar</a>  
                                 </tr><br>";
                             }
                         ?>
