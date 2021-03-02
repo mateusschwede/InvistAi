@@ -72,7 +72,7 @@ foreach($pdo->query($sql3) as $lnc) {
     $x=$lnc['idct'];  // ações (id) no lance
     $t=$lnc['tipo'];
 
-    $sql9 = "SELECT * FROM empresa";        
+    $sql9 = "SELECT * FROM empresa";
     foreach($pdo->query($sql9) as $ll) {
         
         if($ll['ide']==$x) { //se id é igual ao id lance só tem uma empr

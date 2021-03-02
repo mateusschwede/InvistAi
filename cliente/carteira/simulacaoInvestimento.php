@@ -56,6 +56,7 @@
                     echo "<span class='btn btn-dark'>R$ ".number_format($_SESSION['valorInvestimento'],2,".",",")." + R$ ".number_format($ultimoInvestimento,2,".",",")." = <span class='badge bg-warning'>R$ ".number_format(($ultimoInvestimento+$_SESSION['valorInvestimento']),2,".",",")."</span></span>";
                     $investimentoReal = $ultimoInvestimento+$_SESSION['valorInvestimento'];
                 ?>
+                <p>Sobra dos Aportes: R$ 0.00</p>
 
                 <div class="table-responsive">
                     <table class='table table-striped'>
@@ -92,9 +93,13 @@
 
 
                                     //Programar variáveis aqui
+                                    $qtdAcoesComprar = ($l['objetivo']*($investimentoReal/100)) / $cotacaoAtual;
+                                    $patrAtualizado = number_format((((int)$qtdAcoesComprar)*$cotacaoAtual),2,".",","); //Mudar $qtdAcoesComprar para qtdAcoesJaAdquiridas
 
 
-
+                                    //Quantidade: qtdAcoesJaAdquiridas + $qtdAcoesComprar
+                                    //Part.Atual: (qtdAcoesJaAdquiridas x participacaoAtual) / $investimentoReal
+                                    //Distância Objetivo: Part. Atual(%) - Objetivo(%)
 
 
 
@@ -117,11 +122,11 @@
                                             <td class='set'>".$setor."</td>
                                             <td class='set'>x</td>
                                             <td class='setx'>R$ ".$cotacaoAtual."</td>
-                                            <td class='set'>x</td>
+                                            <td class='setx'>R$ ".$patrAtualizado."</td>
                                             <td class='set'>x</td>
                                             <td class='set'>".number_format($l['objetivo'],2,".",",")." %</td>
                                             <td class='set'>x</td>
-                                            <td class='set'>x</td>
+                                            <td class='set'>".(int)$qtdAcoesComprar."</td>
                                         </tr>
                                     ";
                                 }
