@@ -22,7 +22,6 @@
 </head>
 <body>
     <div class="container-fluid">
-
         
         <!-- Menu de Navegação -->
         <div class="row">
@@ -44,7 +43,6 @@
             </div>
         </div>
 
-
         <div class="row">
             <div class="col-sm-12">
                 <h1>Perfil do cliente</h1>
@@ -64,10 +62,9 @@
                     }
                 ?>
                 <a href="updateCliente.php?cpf=<?=$_SESSION['cpf']?>" class="btn btn-warning">Editar informações</a>
+                <a href='excluirContaCliente.php?cpf=<?=$_SESSION['cpf']?>' class='btn btn-danger' onclick="return confirm('Deseja mesmo excluir sua conta?');">Excluir conta</a>
             </div>
         </div>
-
-
     </div>
 </body>
 </html>
