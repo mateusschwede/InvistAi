@@ -20,7 +20,6 @@
 <body>
     <div class="container-fluid">
 
-        
         <!-- Menu de Navegação -->
         <div class="row">
             <div class="col-sm-12" id="navbar">
@@ -40,7 +39,6 @@
                 </nav>
             </div>
         </div>
-
 
         <div class="row">
             <div class="col-sm-12">
@@ -70,7 +68,7 @@
                                 <th scope='col'>Participação Atual(%)</th>
                                 <th scope='col'>Objetivo(%)</th>
                                 <th scope='col'>Distância do Objetivo(%)</th>
-                                <th scope='col'>Quantas Ações Comprar</th>
+                                <th scope='col'>Quantas Ações Comprar</th>  
                             </tr>
                         </thead>
                         <tbody>
@@ -79,53 +77,36 @@
                                 $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
                                 $r->execute(array($_SESSION['idCarteira']));
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                                
                                 foreach($linhas as $l) {
-
                                     //Pegar dados específicos da ação citada
                                     $r = $db->prepare("SELECT * FROM acao WHERE ativo=?");
                                     $r->execute(array($l['ativoAcao']));
                                     $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
+                                    
                                     foreach($linhas2 as $l2) {
                                         $ativo = $l2['ativo'];
                                         $setor = $l2['setor'];
                                         $cotacaoAtual = $l2['cotacaoAtual'];
                                     }
 
-
                                     //Programar variáveis aqui
+                                    $quantidadeAcoes = $l['qtdAcao'];
                                     $qtdAcoesComprar = ($l['objetivo']*($investimentoReal/100)) / $cotacaoAtual;
-                                    $patrAtualizado = number_format((((int)$qtdAcoesComprar)*$cotacaoAtual),2,".",","); //Mudar $qtdAcoesComprar para qtdAcoesJaAdquiridas
-
-
-                                    //Quantidade: qtdAcoesJaAdquiridas + $qtdAcoesComprar
-                                    //Part.Atual: (qtdAcoesJaAdquiridas x participacaoAtual) / $investimentoReal
-                                    //Distância Objetivo: Part. Atual(%) - Objetivo(%)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                                    $patrimonioAtualizado = $quantidadeAcoes * $cotacaoAtual;
+                                    $participacaoAtual = ($patrimonioAtualizado / $investimentoReal) * 100;                                
+                                    $distanciaDoObjetivo = $l['objetivo'] - $participacaoAtual;
 
                                     echo "
                                         <tr>
                                             <td class='setx'>".strtoupper($ativo)."</td>
                                             <td class='set'>".$setor."</td>
-                                            <td class='set'>x</td>
+                                            <td class='set'>".$quantidadeAcoes."</td>
                                             <td class='setx'>R$ ".$cotacaoAtual."</td>
-                                            <td class='setx'>R$ ".$patrAtualizado."</td>
-                                            <td class='set'>x</td>
+                                            <td class='setx'>R$ ".number_format($patrimonioAtualizado,2,".",",")."</td>
+                                            <td class='set'>".number_format($participacaoAtual,2,".",",")." %</td>                                            
                                             <td class='set'>".number_format($l['objetivo'],2,".",",")." %</td>
-                                            <td class='set'>x</td>
+                                            <td class='set'>".number_format($distanciaDoObjetivo,2,".",",")." %</td>
                                             <td class='set'>".(int)$qtdAcoesComprar."</td>
                                         </tr>
                                     ";
@@ -141,6 +122,5 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>
