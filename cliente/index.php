@@ -54,15 +54,15 @@
                     <table class='table table-striped'>
                         <thead>
                             <tr>
-                                <th scope='col'>Cód</th>
-                                <th scope='col'>Objetivo</th>
-                                <th scope='col'>Previsto</th>
-                                <th scope='col'>Atual(%)</th>
-                                <th scope='col'>Valor</th>
-                                <th scope='col'>Previsto</th>
-                                <th scope='col'>Diferença</th>
+                                <th scope='col'>Id</th>
+                                <th scope='col'>Descrição</th>
+                                <th scope='col'>Objetivo(%)</th>
+                                <th scope='col'>Participação Atual(%)</th>
+                                <th scope='col'>Patrimônio Atualizado</th>
+                                <th scope='col'>Patrimônio Previsto</th>
+                                <th scope='col'>Diferença de Patrimônios</th>
                                 <th scope='col'>Situação</th>
-                                <th scope='col'>Ação</th>
+                                <th scope='col'></th>
                             </tr>
                         </thead>
                         <tbody>
