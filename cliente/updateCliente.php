@@ -3,26 +3,41 @@
     session_start();
 
     if(!isset($_SESSION['logado'])):
-        header('Location: ../acessoNegado.php');
+        //header('Location: ../acessoNegado.php');
     endif;
     
     $msgSucesso = false;
-    if((!empty($_POST['cpf'])) and (!empty($_POST['rg'])) and (!empty($_POST['nome'])) and (!empty($_POST['email'])) and (!empty($_POST['celular'])) and (!empty($_POST['endereco'])) and  (!empty($_POST['senha']))) {
-        $r = $db->prepare("UPDATE pessoa SET cpf = :cpf, rg = :rg, nome = :nome, email = :email, celular = :celular, endereco = :endereco, senha = :senha, tipo = :tipo WHERE cpf = :cpf");
-        //print_r($_POST);
+    //print_r($_POST);
+    if(!empty($_POST['cpf'])) {
+        $r = $db->prepare("UPDATE pessoa SET nome = :nome, email = :email, celular = :celular, endereco = :endereco WHERE cpf = :cpf");
+        
         //print_r($_SESSION);
         $r->execute(array(
-            ":cpf" => $_SESSION['cpf'],
-            ":rg" => $_POST['rg'],
+            ":cpf" => $_POST['cpf'],
             ":nome" => $_POST['nome'],
             ":email" => $_POST['email'],
             ":celular" => $_POST['celular'],
             ":endereco" => $_POST['endereco'],
-            ":senha" => md5($_POST['senha']),
-            ":tipo" => $_SESSION['tipo']
         ));
-        $msgSucesso = true;
     }
+
+    if(empty($_GET['cpf'])) {
+        //header('Location: ../acessoNegado.php');
+    }
+
+    $req = $db->prepare("SELECT * FROM pessoa WHERE cpf = :cpf");
+
+    $req->execute(array(
+        ":cpf" => $_SESSION['cpf']
+    ));
+
+    $cliente = $req->fetchAll();
+
+    if (!count($cliente)) {
+        //header('Location: ../acessoNegado.php');
+    }
+
+    $cliente = $cliente[0];
 ?>
 
 <!DOCTYPE html>
@@ -39,9 +54,26 @@
     <script type="text/javascript" src="../pace.min.js"></script>
 </head>
 <body>
-<div class="container">
     <div class="container-fluid">
-
+        <!-- Menu de Navegação -->
+        <div class="row">
+            <div class="col-sm-12" id="navbar">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="../index.php"><img src="https://img.icons8.com/fluent/24/000000/bad-idea.png"> InvistAí<font size="2">(Cliente)</font></a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link active" aria-current="page" href="../index.php">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../perfil.php">Perfil</a></li>
+                                <li class="nav-item"><a class="nav-link" href="../acoes.php">Ações</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#" onclick=" confirmlogout('../../logout.php')" id="logout"><?=$_SESSION['nome']?>-logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>  
 
         <div class="row">
             <div class="col-sm-12 text-center">
@@ -50,29 +82,22 @@
                 <h1>Editar Cliente</h1>
                 <form action="updateCliente.php" method="post">
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="cpf" required name="cpf" pattern="\d{11}" maxlength="11" onkeypress="return isNumber(event)">
+                        <input type="text" class="form-control" placeholder="cpf" required name="cpf" pattern="\d{11}" maxlength="11" onkeypress="return isNumber(event)" readonly value="<?=$cliente['cpf']?>">
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="rg" required name="rg" pattern="\d{10}" maxlength="10" onkeypress="return isNumber(event)">
+                        <input type="text" class="form-control" placeholder="rg" required name="rg" pattern="\d{10}" maxlength="10" onkeypress="return isNumber(event)" readonly value="<?=$cliente['rg']?>">
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="nome" required name="nome" maxlength="60" style="text-transform:lowercase;">
+                        <input type="text" class="form-control" placeholder="nome" required name="nome" maxlength="60" style="text-transform:lowercase;" value="<?=$cliente['nome']?>">
                     </div>
                     <div class="mb-3">
-                        <input type="email" class="form-control" placeholder="email" required name="email" maxlength="60" style="text-transform:lowercase;">
+                        <input type="email" class="form-control" placeholder="email" required name="email" maxlength="60" style="text-transform:lowercase;" value="<?=$cliente['email']?>">
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="celular" required name="celular" pattern="\d{11}" onkeypress="return isNumber(event)">
+                        <input type="text" class="form-control" placeholder="celular" required name="celular" pattern="\d{11}" onkeypress="return isNumber(event)" value="<?=$cliente['celular']?>">
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="endereço completo" required name="endereco" maxlength="200" style="text-transform:lowercase;">
-                    </div>
-                   
-                    <div class="mb-3">
-                        <input type="password" class="form-control" placeholder="senha" required name="senha" id="senha" maxlength="5" style="text-transform:lowercase;">
-                    </div>
-                    <div class="mb-3">
-                        <input type="password" class="form-control" placeholder="confirmar senha" required name="senha-confirma" id="senha-confirma" maxlength="5" style="text-transform:lowercase;">
+                        <input type="text" class="form-control" placeholder="endereço completo" required name="endereco" maxlength="200" style="text-transform:lowercase;" value="<?=$cliente['endereco']?>">
                     </div>
                     <button type="button" class="btn btn-danger" onclick="window.location.href='perfil.php'">Voltar</button>
                     <button type="submit" class="btn btn-success" id="submitWithEnter" onclick="return validadePassoword()">Atualizar</button>
@@ -83,6 +108,5 @@
 
 
     </div>
-</div>
 </body>
 </html>

@@ -7,13 +7,12 @@
     endif;
     
     $msgSucesso = false;
-    if(!empty($_POST['nome']) and (!empty($_POST['senha']))) {
-        $r = $db->prepare("UPDATE pessoa SET nome = :nome, senha = :senha WHERE cpf = :cpf");
+    if(!empty($_POST['nome'])) {
+        $r = $db->prepare("UPDATE pessoa SET nome = :nome WHERE cpf = :cpf");
     
         $r->execute(array(
             ":cpf" => $_SESSION['cpf'],
             ":nome" => $_POST['nome'],
-            ":senha" => md5($_POST['senha'])
         ));
         header('Location: ./perfil.php');
     }
@@ -88,12 +87,6 @@
                     </div>
                     <div class="mb-3">
                         <input type="text" class="form-control" placeholder="nome" required name="nome" maxlength="60" style="text-transform:lowercase;" value="<?=$analista['nome']?>">
-                    </div>
-                    <div class="mb-3">
-                        <input type="password" class="form-control" placeholder="senha" required name="senha" id="senha" maxlength="5" style="text-transform:lowercase;" value="<?=$analista['senha']?>">
-                    </div>
-                    <div class="mb-3">
-                        <input type="password" class="form-control" placeholder="confirmar senha" required name="senha-confirma" id="senha-confirma" maxlength="5" style="text-transform:lowercase;" value="<?=$analista['senha']?>">
                     </div>
                 <button type="button" class="btn btn-danger" onclick="window.location.href='perfil.php'">Voltar</button>
                     <button type="submit" class="btn btn-success" id="submitWithEnter" onclick="return validadePassoword()">Atualizar</button>
