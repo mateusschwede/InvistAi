@@ -6,7 +6,15 @@
     //Inserir dados na table 'investimento' e atualizar 'carteira_acao' nos dados vinculados
     if(!empty($_POST['confInvestimento'])) {
 
-        //Insere na tabela investimento
+        //Atualiza saldoTotal de investimento do cliente
+        $r = $db->prepare("SELECT totalInvestido FROM pessoa WHERE cpf=?");
+        $r->execute(array($_SESSION['cpf']));
+        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+        foreach($linhas as $l) {$totalInvestido = $l['totalInvestido'] + $_SESSION['valorInvestimento'];}
+        $r = $db->prepare("UPDATE pessoa SET totalInvestido=? WHERE cpf=?");
+        $r->execute(array($totalInvestido,$_SESSION['cpf']));
+
+        //Insere cabeçalho do investimento na tabela investimento
         $r = $db->prepare("INSERT INTO investimento(idCarteira,totValorPrevisao) VALUES (?,?)");
         $r->execute(array($_SESSION['idCarteira'],$_SESSION['valorInvestimento']));
 
@@ -36,7 +44,7 @@
                 $cotacaoAtual = $l2['cotacaoAtual'];
             }
 
-            //Programar variáveis aqui
+            //Programar variáveis de balanceamento aqui
             $quantidadeAcoes = $l['qtdAcao'] + $qtdAcoesComprar;
             $qtdAcoesComprar = ($l['objetivo']*($_SESSION['investimentoReal']/100)) / $cotacaoAtual;
             $patrimonioAtualizado = $quantidadeAcoes * $cotacaoAtual;
@@ -49,30 +57,14 @@
             $sobraAportes = $_SESSION['investimentoReal']-$totPatrAtualizado;
 
 
-
-
-
-
-            //Inserir dados na tabela 'carteira_acao' (Update)
+            //Inserir, para cada ação da carteira, dados na tabela 'carteira_acao' (Update)
             $r = $db->prepare("UPDATE carteira_acao SET qtdAcao=?, patrAtualizado=?, partAtual=?, distObjetivo=?, qtdAcoesComprar=? WHERE idCarteira=?");
             $r->execute(array($quantidadeAcoes, $patrimonioAtualizado, $participacaoAtual, $distanciaDoObjetivo, $qtdAcoesComprar,$_SESSION['idCarteira']));
 
-            //Inserir totais na tabela 'investimento'
+            //Inserir totais, dados restantes, na tabela 'investimento', do investimento criado lá acima
             $r = $db->prepare("UPDATE investimento SET totValorInvestimento=?, sobraAportes=? WHERE id=?");
             $r->execute(array($totPatrAtualizado,$sobraAportes,$idInvestimento));
-
-            //Inserir investimento digitado pelo cliente no totalInvestido -> VER AQUI (Valor entra duplicado)
-            $r = $db->prepare("SELECT totalInvestido FROM pessoa WHERE cpf=?");
-            $r->execute(array($_SESSION['cpf']));
-            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-            foreach($linhas as $l) {
-                if($l['totalInvestido']==0) {$totalInvestido = $_SESSION['valorInvestimento'];}
-                else {$totalInvestido = $l['totalInvestido'] + $_SESSION['valorInvestimento'];}
-            }
-            $r = $db->prepare("UPDATE pessoa SET totalInvestido=? WHERE cpf=?");
-            $r->execute(array($totalInvestido,$_SESSION['cpf']));
         }
-
 
     }
     unset($_SESSION['idCarteira']);
