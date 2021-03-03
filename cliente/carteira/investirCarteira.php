@@ -79,22 +79,27 @@
                         <thead>
                             <tr>
                                 <th scope='col'>Data</th>
-                                <th scope='col'>Ativo</th>
-                                <th scope='col'>Nome</th>
-                                <th scope='col'>Cotação atual (R$)</th>
-                                <th scope='col'>Quantidade</th>
-                                <th scope='col'>Valor (R$)</th>
+                                <th scope='col'>Previsão Total (R$)</th>
+                                <th scope='col'>Total Investimento (R$)</th>
+                                <th scope='col'>Sobra Aportes (R$)</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope='row'>x</th>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                                <td class='set'>x</td>
-                            </tr>
+                            <?php
+                                $r = $db->prepare("SELECT * FROM investimento WHERE idCarteira=? ORDER BY dataInvestimento DESC");;
+                                $r->execute(array($_GET['id']));
+                                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                                foreach($linhas as $l) {
+                                    echo "
+                                        <tr>
+                                            <th scope='row'>".$l['dataInvestimento']."</th>
+                                            <td class='setx'>R$ ".number_format($l['totValorPrevisao'],2,".",",")."</td>
+                                            <td class='setx'>R$ ".number_format($l['totValorInvestimento'],2,".",",")."</td>
+                                            <td class='setx'>R$ ".number_format($l['sobraAportes'],2,".",",")."</td>
+                                        </tr>
+                                    ";
+                                }
+                            ?>
                         </tbody>
                     </table>
                 </div>

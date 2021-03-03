@@ -52,9 +52,8 @@
                         foreach($linhas as $l) {$ultimoInvestimento = number_format($l['totValorInvestimento'],2,".",",");}
                     }
                     echo "<span class='btn btn-dark'>R$ ".number_format($_SESSION['valorInvestimento'],2,".",",")." + R$ ".number_format($ultimoInvestimento,2,".",",")." = <span class='badge bg-warning'>R$ ".number_format(($ultimoInvestimento+$_SESSION['valorInvestimento']),2,".",",")."</span></span>";
-                    $investimentoReal = $ultimoInvestimento+$_SESSION['valorInvestimento'];
+                    $_SESSION['investimentoReal'] = $ultimoInvestimento+$_SESSION['valorInvestimento'];
                 ?>
-                <p>Sobra dos Aportes: R$ 0.00</p>
 
                 <div class="table-responsive">
                     <table class='table table-striped'>
@@ -77,6 +76,7 @@
                                 $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
                                 $r->execute(array($_SESSION['idCarteira']));
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                                $totPatrAtualizado = 0; //Essa var quer dizer, no BD, campo totValorInvestimento
                                 
                                 foreach($linhas as $l) {
                                     //Pegar dados específicos da ação citada
@@ -92,10 +92,13 @@
 
                                     //Programar variáveis aqui
                                     $quantidadeAcoes = $l['qtdAcao'];
-                                    $qtdAcoesComprar = ($l['objetivo']*($investimentoReal/100)) / $cotacaoAtual;
+                                    $qtdAcoesComprar = ($l['objetivo']*($_SESSION['investimentoReal']/100)) / $cotacaoAtual;
                                     $patrimonioAtualizado = $quantidadeAcoes * $cotacaoAtual;
-                                    $participacaoAtual = ($patrimonioAtualizado / $investimentoReal) * 100;                                
+                                    $participacaoAtual = ($patrimonioAtualizado / $_SESSION['investimentoReal']) * 100;                                
                                     $distanciaDoObjetivo = $participacaoAtual -  $l['objetivo'];
+                                    if($distanciaDoObjetivo >= 0) {$qtdAcoesComprar = 0;}
+                                    $totPatrAtualizado += $patrimonioAtualizado;
+
 
                                     echo "
                                         <tr>
@@ -114,9 +117,14 @@
                             ?>
                         </tbody>
                     </table>
+
+                    <p>Total do Patr Atualizado: R$ <?=$totPatrAtualizado?></p>
+                    <p>Sobra dos Aportes: R$ <?=$_SESSION['investimentoReal']-$totPatrAtualizado?></p>
+
                 </div>
                 <form action="confInvestimento.php" method="post">
                     <a href="canInvestimento.php" class="btn btn-danger">Cancelar</a>
+                    <input type="hidden" name="confInvestimento" value=1>
                     <button type="submit" class="btn btn-success">Realizar Investimento</button>
                 </form>
             </div>

@@ -10,6 +10,7 @@ CREATE TABLE pessoa (
     endereco VARCHAR(200),
     tipo INT NOT NULL, /*1-analista / 2-cliente*/
     senha VARCHAR(32) NOT NULL,
+    totalInvestido FLOAT NOT NULL DEFAULT 0,
     inativado BOOLEAN NOT NULL DEFAULT 0
 );
 
@@ -50,6 +51,7 @@ CREATE TABLE investimento (
     idCarteira INT NOT NULL, /*FK*/
     dataInvestimento DATETIME NOT NULL DEFAULT now(),
     totValorPrevisao FLOAT NOT NULL DEFAULT 0, /*Soma das Proporcao(R$) na Carteira do investimento na data atual*/
+    
     totValorInvestimento FLOAT NOT NULL DEFAULT 0, /*Valor real a ser investido na carteira (Soma dos comprar)*/
     sobraAportes FLOAT NOT NULL DEFAULT 0 /*(totIncluir - totComprar)*/
 );

@@ -46,8 +46,13 @@
         <div class="row">
             <div class="col-sm-12">
                 <h1>Minhas Carteiras</h1>
-                <!--Total investido: (Soma dos ultimos totComprar de cada carteira do cliente (table 'investimento'))-->
-                <h3>Total investido: <span class="text-muted">R$ 0.00</span></h3>
+                <?php
+                    $r = $db->prepare("SELECT totalInvestido FROM pessoa WHERE cpf=?");
+                    $r->execute(array($_SESSION['cpf']));
+                    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                    foreach($linhas as $l) {$totalInvestido = number_format($l['totalInvestido'],2,".",",");}
+                ?>
+                <h3>Total investido: <span class="text-muted">R$ <?=$totalInvestido?></span></h3>
 
                 <a href="carteira/addCarteira.php" class="btn btn-primary">Adicionar Carteira</a>
                 <div class="table-responsive">
