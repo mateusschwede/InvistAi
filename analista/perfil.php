@@ -65,6 +65,8 @@
 
                 <a  href="#" onclick="confirmremove('?cpf=<?=$_SESSION['cpf']?>')"  class="btn btn-danger">Remover Analista</a>
 
+                <a href="../atualizarSenha.php" class="btn btn-warning">Atualizar Senha</a>
+
             </div>
         </div>
 
