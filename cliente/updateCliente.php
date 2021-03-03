@@ -2,8 +2,8 @@
     require_once '../conexao.php';
     session_start();
 
-    if(!isset($_SESSION['logado'])):
-        //header('Location: ../acessoNegado.php');
+    if(!isset($_SESSION['clienteLogado'])):
+        header('Location: ../acessoNegado.php');
     endif;
     
     $msgSucesso = false;

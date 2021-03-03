@@ -1,7 +1,7 @@
 <?php
     require_once '../../conexao.php';
     session_start();
-    if(!isset($_SESSION['logado'])){header('Location: ../../acessoNegado.php');}
+    if(!isset($_SESSION['clienteLogado'])){header('Location: ../../acessoNegado.php');}
 
     $r = $db->prepare("SELECT SUM(objetivo) FROM carteira_acao WHERE idCarteira=?");
     $r->execute(array($_SESSION['idCarteira']));

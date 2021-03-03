@@ -1,7 +1,7 @@
 <?php
     require_once '../../conexao.php';
     session_start();
-    if(!isset($_SESSION['logado'])){header('Location: ../../acessoNegado.php');}
+    if(!isset($_SESSION['clienteLogado'])){header('Location: ../../acessoNegado.php');}
 
     if( (!empty($_GET['idCarteira'])) and (!empty($_POST['valorInvestimento'])) ) {
         $_SESSION['idCarteira'] = $_GET['idCarteira'];

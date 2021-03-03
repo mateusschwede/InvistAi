@@ -2,7 +2,7 @@
     require_once '../conexao.php';
     session_start();
 
-    if(!isset($_SESSION['logado'])):
+    if(!isset($_SESSION['analistaLogado'])):
         header('Location: ../acessoNegado.php');
     endif;
 
