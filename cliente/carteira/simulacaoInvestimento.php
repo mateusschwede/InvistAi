@@ -91,11 +91,11 @@
                                     }
 
                                     //Programar variáveis aqui
-                                    $quantidadeAcoes = $l['qtdAcao'];
-                                    $qtdAcoesComprar = ($l['objetivo']*($_SESSION['investimentoReal']/100)) / $cotacaoAtual;
-                                    $patrimonioAtualizado = $quantidadeAcoes * $cotacaoAtual;
-                                    $participacaoAtual = ($patrimonioAtualizado / $_SESSION['investimentoReal']) * 100;                                
-                                    $distanciaDoObjetivo = $participacaoAtual -  $l['objetivo'];
+                                    $quantidadeAcoes = $l['qtdAcao']; //Taylor(Nr Ct)
+                                    $qtdAcoesComprar = ($l['objetivo']*($_SESSION['investimentoReal']/100)) / $cotacaoAtual; //Taylor(Cotas)
+                                    $patrimonioAtualizado = $quantidadeAcoes * $cotacaoAtual; //Taylor(Atual)
+                                    $participacaoAtual = ($patrimonioAtualizado / $_SESSION['investimentoReal']) * 100; //Taylor(% At/total)
+                                    $distanciaDoObjetivo = $participacaoAtual -  $l['objetivo']; //Taylor(Situação %)
                                     if($distanciaDoObjetivo >= 0) {$qtdAcoesComprar = 0;}
                                     $totPatrAtualizado += $patrimonioAtualizado;
 
