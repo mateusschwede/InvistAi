@@ -87,7 +87,7 @@
                                             <td class='set'>x</td>
                                             <td class='set'>x</td>
                                             <td class='set'>x</td>
-                                            <td class='set'><button type='button' class='btn btn-danger btn-sm' disabled>Excluir</button> <button type='button' class='btn btn-warning btn-sm' disabled>Editar</button> <a href='carteira/investirCarteira.php?id=".$l['id']."' class='btn btn-success btn-sm'>Investimento</a></td>
+                                            <td class='set'><button type='button' class='btn btn-primary btn-sm' disabled>Venda</button> <button type='button' class='btn btn-danger btn-sm' disabled>Excluir</button> <button type='button' class='btn btn-warning btn-sm' disabled>Editar</button> <a href='carteira/investirCarteira.php?id=".$l['id']."' class='btn btn-success btn-sm'>Investimento</a></td>
                                         </tr>
                                     ";
                                    
