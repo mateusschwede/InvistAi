@@ -71,20 +71,7 @@
                 <h1>Adicionar carteira</h1>
                 <form action="addCarteira.php" method="post">
                     <div class="mb-3">
-                        <label class="form-label">Objetivo</label>
-                        <select class="form-select" required name="objetivo">                            
-                            <option value='aposentadoria'>aposentadoria</option>
-                            <option value='estudos'>estudos</option>
-                            <option value='hobbie'>hobbie</option>
-                            <option value='imovel'>imovel</option>
-                            <option value='poupança'>poupança</option>
-                            <option value='saude'>saude</option>
-                            <option value='serimonia'>serimonia</option>
-                            <option value='trabalho'>trabalho</option>
-                            <option value='veiculo'>veiculo</option>
-                            <option value='viagem'>viagem</option>
-                            <option value='outro'>outro</option>
-                        </select>
+                        <input type="text" class="form-control" placeholder="objetivo da carteira" required name="objetivo" maxlength="60" style="text-transform:lowercase;">
                     </div>
                     <div class="mb-3">
                         <input type="number" class="form-control" required name="percInvestimento" min="1" max=<?=$percInvestimento?> step="1" placeholder="Percentual Investimento" value=<?=$percInvestimento?> onkeypress="return isNumberAndDot(event)">
