@@ -87,7 +87,7 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <input type="number" class="form-control" required name="percInvestimento" min="10" max=<?=$percInvestimento?> step="10" placeholder="Percentual Investimento" value=<?=$percInvestimento?> onkeypress="return isNumberAndDot(event)">
+                        <input type="number" class="form-control" required name="percInvestimento" min="1" max=<?=$percInvestimento?> step="1" placeholder="Percentual Investimento" value=<?=$percInvestimento?> onkeypress="return isNumberAndDot(event)">
                         <div class="form-text">O percentual não pode ultrapassar a soma dos percentuais das carteiras cadastradas</div>
                     </div>
                     <a href="../index.php" class="btn btn-danger">Cancelar</a>

@@ -76,7 +76,7 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <input type="number" class="form-control" required name="objetivo" min="10" max="<?=$somaPerc?>" step="10" placeholder="Objetivo(%)" value="<?=$somaPerc?>" onkeypress="return isNumberAndDot(event)">
+                        <input type="number" class="form-control" required name="objetivo" min="1" max="<?=$somaPerc?>" step="1" placeholder="Objetivo(%)" value="<?=$somaPerc?>" onkeypress="return isNumberAndDot(event)">
                         <div class="form-text">O objetivo não pode ultrapassar a soma dos percentuais das ações cadastradas na carteira</div>
                     </div>
                     <a href="telaAcoes.php" class="btn btn-danger">Cancelar</a>
