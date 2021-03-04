@@ -77,13 +77,12 @@
                                 <p>
                                     <b>Nome: </b>".$l['nome']."<br>
                                     <b>CPF: </b>".$l['cpf']."<br>
-                                    <a href='disableClient.php?cpf=".$l['cpf']."'  class='btn btn-danger btn-sm' onclick='return confirm('Deseja mesmo desativar?');'>Desativar</a>
                                 </p>
                                 <hr>";
                             }
                         ?>
                     </div>
-                    <div class="col-sm-4">                        
+                    <div class="col-sm-4">
                         <h3>Clientes inativos</h3><br>   
                         <?php
                             $r = $db->query("SELECT * FROM pessoa WHERE tipo = 2 and inativado = 1 ORDER BY nome");

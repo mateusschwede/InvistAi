@@ -62,7 +62,7 @@
                     }
                 ?>
                 <a href="updateCliente.php?cpf=<?=$_SESSION['cpf']?>" class="btn btn-warning">Editar informações</a>
-                <a href='excluirContaCliente.php?cpf=<?=$_SESSION['cpf']?>' class='btn btn-danger' onclick="return confirm('Deseja mesmo excluir sua conta?');">Excluir conta</a>
+                <a href='disableClient.php?cpf=<?=$_SESSION['cpf']?>' class='btn btn-danger' onclick="return confirm('Deseja mesmo inativar sua conta?');">Inativar conta</a>
             </div>
         </div>
     </div>
