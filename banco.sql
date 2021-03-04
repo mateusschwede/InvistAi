@@ -11,6 +11,7 @@ CREATE TABLE pessoa (
     tipo INT NOT NULL, /*1-analista / 2-cliente*/
     senha VARCHAR(32) NOT NULL,
     totalInvestido FLOAT NOT NULL DEFAULT 0,
+    totalSobraAportes FLOAT NOT NULL DEFAULT 0,
     inativado BOOLEAN NOT NULL DEFAULT 0
 );
 

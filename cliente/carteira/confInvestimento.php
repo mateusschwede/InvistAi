@@ -56,7 +56,6 @@
             $totPatrAtualizado += $patrimonioAtualizado;
             $sobraAportes = $_SESSION['investimentoReal']-$totPatrAtualizado;
 
-
             //Inserir, para cada ação da carteira, dados na tabela 'carteira_acao' (Update)
             $r = $db->prepare("UPDATE carteira_acao SET qtdAcao=?, patrAtualizado=?, partAtual=?, distObjetivo=?, qtdAcoesComprar=? WHERE idCarteira=?");
             $r->execute(array($quantidadeAcoes, $patrimonioAtualizado, $participacaoAtual, $distanciaDoObjetivo, $qtdAcoesComprar,$_SESSION['idCarteira']));
@@ -66,6 +65,14 @@
             $r->execute(array($totPatrAtualizado,$sobraAportes,$idInvestimento));
         }
 
+        //Atualiza totalSobraAportes
+        $r = $db->prepare("SELECT totalSobraAportes FROM pessoa WHERE cpf=?");
+        $r->execute(array($_SESSION['cpf']));
+        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+        foreach($linhas as $l) {$totalSobraAportes = $l['totalSobraAportes'] + $sobraAportes;}
+        $r = $db->prepare("UPDATE pessoa SET totalSobraAportes=? WHERE cpf=?");
+        $r->execute(array($totalSobraAportes,$_SESSION['cpf']));
+        
     }
     unset($_SESSION['idCarteira']);
     unset($_SESSION['investimentoReal']);

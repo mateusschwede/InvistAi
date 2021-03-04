@@ -47,14 +47,17 @@
             <div class="col-sm-12">
                 <h1>Minhas Carteiras</h1>
                 <?php
-                    $r = $db->prepare("SELECT totalInvestido FROM pessoa WHERE cpf=?");
+                    $r = $db->prepare("SELECT totalInvestido,totalSobraAportes FROM pessoa WHERE cpf=?");
                     $r->execute(array($_SESSION['cpf']));
                     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                    foreach($linhas as $l) {$totalInvestido = number_format($l['totalInvestido'],2,".",",");}
+                    foreach($linhas as $l) {$totalInvestido = number_format($l['totalInvestido'],2,".",","); $totalSobraAportes = number_format($l['totalSobraAportes'],2,".",",");}
                 ?>
-                <h3>Total investido: <span class="text-muted">R$ <?=$totalInvestido?></span></h3>
+                <div class="text-center">
+                    <span class='btn btn-dark btn-lg'>Total investido <span class='badge bg-warning'>R$ <?=$totalInvestido?></span></span>
+                    <span class='btn btn-dark btn-lg'>Total sobras aportes <span class='badge bg-secondary'>R$ <?=$totalSobraAportes?></span></span>
+                    <br><br><a href="carteira/addCarteira.php" class="btn btn-primary">Adicionar Carteira</a>
+                </div>
 
-                <a href="carteira/addCarteira.php" class="btn btn-primary">Adicionar Carteira</a>
                 <div class="table-responsive">
                     <table class='table table-striped'>
                         <thead>
@@ -90,7 +93,6 @@
                                             <td class='set'><button type='button' class='btn btn-primary btn-sm' disabled>Venda</button> <button type='button' class='btn btn-danger btn-sm' disabled>Excluir</button> <button type='button' class='btn btn-warning btn-sm' disabled>Editar</button> <a href='carteira/investirCarteira.php?id=".$l['id']."' class='btn btn-success btn-sm'>Investimento</a></td>
                                         </tr>
                                     ";
-                                   
                                 }
                             ?>
                         </tbody>
