@@ -46,60 +46,56 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <a href="addCliente.php" class="btn btn-primary">Pré-cadastrar cliente</a>
+                <div class="text-center">
+                    <h1>Clientes</h1>
+                    <a href="addCliente.php" class="btn btn-primary">Pré-cadastrar cliente</a><br><br>
+                </div>
                 <div class="row">                    
                     <div class="col-sm-4">                         
-                        Clientes pré-cadastrados <br>
+                        <h3>Clientes pré-cadastrados</h3><br>
                         <?php
-                            $r = $db->query("SELECT * FROM pessoa 
-                                            WHERE tipo = 2 and
-                                            email is null
-                                            ORDER BY nome");
+                            $r = $db->query("SELECT * FROM pessoa WHERE tipo = 2 and email is null ORDER BY nome");
                             $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                             foreach($linhas as $l) {
                             echo "
-                                <tr>
-                                    <th scope='row'>".strtoupper($l['nome'])."</th>
-                                    <td class='setn'> - ".$l['cpf']."</td>                                    
-                                    <a  href='removeUnregisteredClient.php?cpf=".$l['cpf']."' class='btn btn-danger' onclick='return confirm('Deseja mesmo excluir sua conta?');'> Remover</a>                        
-                                </tr><br>";
+                                <p>
+                                    <b>Nome: </b>".$l['nome']."<br>
+                                    <b>CPF: </b>".$l['cpf']."<br>
+                                    <a href='removeUnregisteredClient.php?cpf=".$l['cpf']."'  class='btn btn-danger btn-sm' onclick='return confirm('Deseja mesmo desativar?');'>Remover</a>
+                                </p>
+                                <hr>";
                             }
                         ?>
                     </div>
                     <div class="col-sm-4">                        
-                        Clientes ativos <br>
+                        <h3>Clientes ativos</h3><br>
                         <?php
-                            $r = $db->query("SELECT * FROM pessoa 
-                                            WHERE tipo = 2 and
-                                            inativado = 0 and
-                                            email is not null
-                                            ORDER BY nome");
+                            $r = $db->query("SELECT * FROM pessoa WHERE tipo = 2 and inativado = 0 and email is not null ORDER BY nome");
                             $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                             foreach($linhas as $l) {
                             echo "
-                                <tr>
-                                    <th scope='row'>".strtoupper($l['nome'])."</th>
-                                    <td class='setn'> - ".$l['cpf']."</td>
-                                    <a  href='disableClient.php?cpf=".$l['cpf']."'  class='btn btn-danger' onclick='return confirm('Deseja mesmo desativar?');'>Desativar</a>                            
-                                </tr><br>";
+                                <p>
+                                    <b>Nome: </b>".$l['nome']."<br>
+                                    <b>CPF: </b>".$l['cpf']."<br>
+                                    <a href='disableClient.php?cpf=".$l['cpf']."'  class='btn btn-danger btn-sm' onclick='return confirm('Deseja mesmo desativar?');'>Desativar</a>
+                                </p>
+                                <hr>";
                             }
                         ?>
                     </div>
                     <div class="col-sm-4">                        
-                        Clientes inativos <br>   
+                        <h3>Clientes inativos</h3><br>   
                         <?php
-                            $r = $db->query("SELECT * FROM pessoa 
-                                            WHERE tipo = 2 and
-                                            inativado = 1
-                                            ORDER BY nome");
+                            $r = $db->query("SELECT * FROM pessoa WHERE tipo = 2 and inativado = 1 ORDER BY nome");
                             $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                             foreach($linhas as $l) {
                             echo "
-                                <tr>
-                                    <th scope='row'>".strtoupper($l['nome'])."</th>
-                                    <td class='setn'> - ".$l['cpf']."</td>
-                                    <a  href='enableClient.php?cpf=".$l['cpf']."' class='btn btn-danger' onclick='return confirm('Deseja mesmo ativar?');'>Ativar</a>  
-                                </tr><br>";
+                                <p>
+                                    <b>Nome: </b>".$l['nome']."<br>
+                                    <b>CPF: </b>".$l['cpf']."<br>
+                                    <a  href='enableClient.php?cpf=".$l['cpf']."'  class='btn btn-secondary btn-sm' onclick='return confirm('Deseja mesmo desativar?');'>Ativar</a>
+                                </p>
+                                <hr>";
                             }
                         ?>
                     </div>
