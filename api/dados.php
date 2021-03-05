@@ -19,7 +19,7 @@
                 $r = $db->prepare("INSERT INTO acao(ativo,nome,setor,dtUltimaCotacao) VALUES (?,?,?,?)");
                 $r->execute(array($ativoBD,$nome,$setor,$ultimaCotacao));
             }
-            if($c==20){break;} else{$c++;}
+            if($c==100){break;} else{$c++;}
         endforeach;  
     }
 ?>
