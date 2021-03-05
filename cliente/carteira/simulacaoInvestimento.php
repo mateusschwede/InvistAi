@@ -41,9 +41,14 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-12 text-center">
                 <h2>Investir na carteira <?=$_SESSION['idCarteira']?>:</h2>
                 <?php
+                    $r = $db->prepare("SELECT objetivo FROM carteira WHERE id=?");
+                    $r->execute(array($_SESSION['idCarteira']));
+                    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                    foreach($linhas as $l) {echo "<h4 class='text-muted'>".$l['objetivo']."</h4>";}
+
                     $r = $db->prepare("SELECT totValorInvestimento FROM investimento WHERE idCarteira=? ORDER BY id DESC LIMIT 1");
                     $r->execute(array($_SESSION['idCarteira']));
                     if($r->rowCount()==0) {$ultimoInvestimento = 0;}
@@ -117,9 +122,9 @@
                             ?>
                         </tbody>
                     </table>
-
-                    <p>Total do Patr Atualizado: R$ <?=$totPatrAtualizado?></p>
-                    <p>Sobra dos Aportes: R$ <?=$_SESSION['investimentoReal']-$totPatrAtualizado?></p>
+                    <span class='btn btn-dark btn-sm'>Total do Patr Atualizado: <span class='badge bg-success'>R$ <?=number_format($totPatrAtualizado,2,".",",")?></span></span>
+                    <span class='btn btn-dark btn-sm'>Sobra dos Aportes: <span class='badge bg-secondary'>R$ <?=number_format(($_SESSION['investimentoReal']-$totPatrAtualizado),2,".",",")?></span></span>
+                    <br><br>
 
                 </div>
                 <form action="confInvestimento.php" method="post">

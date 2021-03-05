@@ -50,19 +50,26 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <h1>Carteira <?=$_GET['id']?></h1>    
-                <?php
-                    $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
-                    $r->execute(array($_GET['id']));
-                    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                    foreach($linhas as $l) {echo "<span class='btn btn-dark btn-sm'>".$l['ativoAcao']." <span class='badge bg-warning'>".$l['objetivo']."%</span></span> ";}
-                ?>
+                <h1>Carteira <?=$_GET['id']?></h1>
+                
+                <div class="text-center">
+                    <?php
+                        $r = $db->prepare("SELECT objetivo FROM carteira WHERE id=?");
+                        $r->execute(array($_GET['id']));
+                        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                        foreach($linhas as $l) {echo "<h4 class='text-muted'>".$l['objetivo']."</h4>";}
+
+                        $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
+                        $r->execute(array($_GET['id']));
+                        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                        foreach($linhas as $l) {echo "<span class='btn btn-dark btn-sm'>".$l['ativoAcao']." <span class='badge bg-warning'>".$l['objetivo']."%</span></span> ";}
+                    ?>
+                </div>
 
                 <br><br><h3>Investir na carteira:</h3>
                 <form action="investirCarteira.php?idCarteira=<?=$_GET['id']?>" method="post">
                     <div class="mb-3">
-                        <input type="number" class="form-control" required name="valorInvestimento" pattern="\d{1,9}\.\d{2}" placeholder="Valor à investir" min="0.01" onkeypress="return isNumberAndDot(event)">
-                        <div class="form-text">Use ponto no lugar de vírgula</div>
+                        <input type="number" class="form-control" required name="valorInvestimento" placeholder="Valor à investir" step="0.01" min="0.01" max="999999999">
                     </div>
                     <a href="../index.php" class="btn btn-danger">Voltar</a>
                     <button type="submit" class="btn btn-success" id="submitWithEnter">Conferir Investimento</button>
