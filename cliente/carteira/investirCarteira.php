@@ -50,7 +50,7 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <h1>Carteira <?=$_GET['id']?></h1>
+                <h1>Carteira <?=$_GET['id']?></h1>    
                 <?php
                     $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
                     $r->execute(array($_GET['id']));
@@ -61,7 +61,7 @@
                 <br><br><h3>Investir na carteira:</h3>
                 <form action="investirCarteira.php?idCarteira=<?=$_GET['id']?>" method="post">
                     <div class="mb-3">
-                        <input type="text" class="form-control" required name="valorInvestimento" pattern="\d{1,9}\.\d{2}" placeholder="Valor à investir" onkeypress="return isNumberAndDot(event)">
+                        <input type="number" class="form-control" required name="valorInvestimento" pattern="\d{1,9}\.\d{2}" placeholder="Valor à investir" min="0.01" onkeypress="return isNumberAndDot(event)">
                         <div class="form-text">Use ponto no lugar de vírgula</div>
                     </div>
                     <a href="../index.php" class="btn btn-danger">Voltar</a>
