@@ -2,10 +2,19 @@
     require_once './conexao.php';
     session_start();
 
-    if(!isset($_SESSION['logado'])):
-        header('Location: ./acessoNegado.php');
-    endif;
-    
+    function validaAcesso(){
+        $x = 0;
+        if(isset($_SESSION['clienteLogado'])){
+            $x = 1;
+        } elseif(isset($_SESSION['analistaLogado'])){
+            $x = 1;
+        }
+        if($x == 0):
+            header('Location: ./acessoNegado.php');
+        endif;
+    }
+    validaAcesso();
+        
     $msgErro = false;
 
     $msgSucesso = false;
