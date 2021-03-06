@@ -47,14 +47,13 @@
             <div class="col-sm-12">
                 <h1>Minhas Carteiras</h1>
                 <?php
-                    $r = $db->prepare("SELECT totalInvestido,totalSobraAportes FROM pessoa WHERE cpf=?");
+                    $r = $db->prepare("SELECT totalSobraAportes FROM pessoa WHERE cpf=?");
                     $r->execute(array($_SESSION['cpf']));
                     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                    foreach($linhas as $l) {$totalInvestido = number_format($l['totalInvestido'],2,".",","); $totalSobraAportes = number_format($l['totalSobraAportes'],2,".",",");}
+                    foreach($linhas as $l) {$totalSobraAportes = number_format($l['totalSobraAportes'],2,".",",");}
                 ?>
                 <div class="text-center">
-                    <span class='btn btn-dark btn-lg'>Total investido <span class='badge bg-warning'>R$ <?=$totalInvestido?></span></span>
-                    <span class='btn btn-dark btn-lg'>Total sobras aportes <span class='badge bg-secondary'>R$ <?=$totalSobraAportes?></span></span>
+                    <span class='btn btn-dark btn-lg'>Total sobras aportes <span class='badge bg-warning'>R$ <?=$totalSobraAportes?></span></span>
                     <br><br><a href="carteira/addCarteira.php" class="btn btn-primary">Adicionar Carteira</a>
                 </div>
 

@@ -10,7 +10,6 @@ CREATE TABLE pessoa (
     endereco VARCHAR(200),
     tipo INT NOT NULL, /*1-analista / 2-cliente*/
     senha VARCHAR(32) NOT NULL,
-    totalInvestido FLOAT NOT NULL DEFAULT 0,
     totalSobraAportes FLOAT NOT NULL DEFAULT 0,
     inativado BOOLEAN NOT NULL DEFAULT 0
 );
@@ -30,42 +29,21 @@ CREATE TABLE carteira (
     cpfCliente VARCHAR(11) NOT NULL /*FK*/
 );
 
-
-
-
-
-
 CREATE TABLE carteira_acao (
     idCarteira INT NOT NULL, /*FK*/
     ativoAcao VARCHAR(8) NOT NULL, /*FK código ação*/
     objetivo INT NOT NULL, /*percent definido pelo cliente para ação na carteira*/
     
-    qtdAcao INT NOT NULL DEFAULT 0,
-    patrAtualizado FLOAT NOT NULL DEFAULT 0,
+    qtdAcao INT NOT NULL DEFAULT 0, /*COMPRA: qtdAcoes(operacao)+qtdAcoesComprar | VENDA: qtdAcoes(operacao)-qtdAcoesComprar*/
     partAtual FLOAT NOT NULL DEFAULT 0, /*partAtual(%)*/
-    distObjetivo FLOAT NOT NULL DEFAULT 0, /*distObjetivo(%)*/
-    qtdAcoesComprar FLOAT NOT NULL DEFAULT 0
+    distObjetivo FLOAT NOT NULL DEFAULT 0 /*distObjetivo(%)*/
 );
 
-CREATE TABLE investimento (
+CREATE TABLE operacao ( /*Table para representar as movimentações do cliente x ao analista (compras e vendas de ações)*/
     id INT AUTO_INCREMENT PRIMARY KEY,
+    dataOperacao DATETIME NOT NULL DEFAULT now(),
+    qtdAcoes INT NOT NULL, /*Compra(qtdAcoesComprar): Valor positivo | Venda: Valor negativo, //Guardado em BD pra fins de historico de operações*/
     idCarteira INT NOT NULL, /*FK*/
-    dataInvestimento DATETIME NOT NULL DEFAULT now(),
-    totValorPrevisao FLOAT NOT NULL DEFAULT 0, /*Soma das Proporcao(R$) na Carteira do investimento na data atual*/
-    
-    totValorInvestimento FLOAT NOT NULL DEFAULT 0, /*Valor real a ser investido na carteira (Soma dos comprar)*/
+    ativoAcao VARCHAR(5) NOT NULL, /*FK código ação*/
     sobraAportes FLOAT NOT NULL DEFAULT 0 /*(totIncluir - totComprar)*/
-);
-
-
-
-
-
-
-CREATE TABLE movimentacao ( /*Table para representar as movimentações do cliente x ao analista (compras e vendas de ações)*/
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    dataMovimentacao DATETIME NOT NULL DEFAULT now(),
-    qtdAcoes INT NOT NULL, /*Compra: Valor positivo | Venda: Valor negativo*/
-    idCarteira INT NOT NULL, /*FK*/
-    ativoAcao VARCHAR(5) NOT NULL /*FK código ação*/
 );
