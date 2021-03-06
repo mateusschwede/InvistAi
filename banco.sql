@@ -32,18 +32,14 @@ CREATE TABLE carteira (
 CREATE TABLE carteira_acao (
     idCarteira INT NOT NULL, /*FK*/
     ativoAcao VARCHAR(8) NOT NULL, /*FK código ação*/
-    objetivo INT NOT NULL, /*percent definido pelo cliente para ação na carteira*/
-    
-    qtdAcao INT NOT NULL DEFAULT 0, /*COMPRA: qtdAcoes(operacao)+qtdAcoesComprar | VENDA: qtdAcoes(operacao)-qtdAcoesComprar*/
-    partAtual FLOAT NOT NULL DEFAULT 0, /*partAtual(%)*/
-    distObjetivo FLOAT NOT NULL DEFAULT 0 /*distObjetivo(%)*/
+    objetivo INT NOT NULL, /*percent definido pelo cliente para ação na carteira*/    
+    qtdAcao INT NOT NULL DEFAULT 0 /*COMPRA: qtdAcoes(operacao)+qtdAcoesComprar | VENDA: qtdAcoes(operacao)-qtdAcoesComprar*/
 );
 
 CREATE TABLE operacao ( /*Table para representar as movimentações do cliente x ao analista (compras e vendas de ações)*/
     id INT AUTO_INCREMENT PRIMARY KEY,
     dataOperacao DATETIME NOT NULL DEFAULT now(),
-    qtdAcoes INT NOT NULL, /*Compra(qtdAcoesComprar): Valor positivo | Venda: Valor negativo, //Guardado em BD pra fins de historico de operações*/
+    qtdAcoes INT NOT NULL, /*Compra(qtdAcoesComprar): Valor positivo | Venda: Valor negativo, //Qtd de ações adicionadas/removidas no momento do investimento/venda*/
     idCarteira INT NOT NULL, /*FK*/
-    ativoAcao VARCHAR(5) NOT NULL, /*FK código ação*/
-    sobraAportes FLOAT NOT NULL DEFAULT 0 /*(totIncluir - totComprar)*/
+    ativoAcao VARCHAR(5) NOT NULL /*FK código ação*/
 );

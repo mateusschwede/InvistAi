@@ -67,13 +67,11 @@
                         </thead>
                         <tbody>
                             <?php
-                                $_SESSION['valorInvestimento']; //Valor que usuário informa
                                 $totPatrAtualizado = 0;
                                 
                                 $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
                                 $r->execute(array($_SESSION['idCarteira']));
-                                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                                
+                                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);                                
 
                                 //Pegar dados específicos da ação citada
                                 foreach($linhas as $l) {
@@ -89,30 +87,29 @@
 
                                     //Programar variáveis aqui
                                     $qtdAcoes = $l['qtdAcao']; //Ações em saldo do cliente no BD
-                                    $patrAtualizado = $qtdAcoes * $cotacaoAtual;
+                                    $patrAtualizado = $qtdAcoes * $cotacaoAtual;                                    
                                     
                                     
                                     //Pegar totalPatrimonioAtualizado da carteira
-                                    $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
-                                    $r->execute(array($_SESSION['idCarteira']));
-                                    $linhas3 = $r->fetchAll(PDO::FETCH_ASSOC);
-                                    foreach($linhas3 as $l3) {
-                                        $r = $db->prepare("SELECT * FROM acao WHERE ativo=?");
-                                        $r->execute(array($l['ativoAcao']));
-                                        $linhas4 = $r->fetchAll(PDO::FETCH_ASSOC);
+                                    $r2 = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
+                                    $r2->execute(array($_SESSION['idCarteira']));
+                                    $linhas3 = $r2->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach($linhas3 as $l3) {                                    
+                                        $r3 = $db->prepare("SELECT * FROM acao WHERE ativo=?");
+                                        $r3->execute(array($l3['ativoAcao']));
+                                        $linhas4 = $r3->fetchAll(PDO::FETCH_ASSOC);
                                         foreach($linhas4 as $l4) {$cotacaoAtualAcao = $l4['cotacaoAtual'];}
                                         $totPatrAtualizado += $l3['qtdAcao'] * $cotacaoAtualAcao;
-                                    }
-                                    $participacaoAtual = ($patrAtualizado * 100) / $totPatrAtualizado; //Pra inserir no BD, ele precisa ser arredondado na 2ª casa decimal, conforme 3ª casa decimal
-
+                                    }                                    
+                                    $participacaoAtual = $patrAtualizado / $totPatrAtualizado;
 
                                     //Pegar distância do objetivo (Se for maior que zero, aí ñ indica/compra ações)
-                                    $distanciaDoObjetivo = $participacaoAtual - $l['objetivo'];
+                                    $distObjetivo = $participacaoAtual - $l['objetivo'];
                                     
-
+                                    
                                     //Pegar Quantas Ações Comprar
-                                    $qtdAcoesComprar = ($l['objetivo']*($_SESSION['valorInvestimento']/100)) / $cotacaoAtual;
-                                    if($distanciaDoObjetivo >= 0) {$qtdAcoesComprar = 0;}
+                                    $qtdAcoesComprar = ($l['objetivo']*( ($_SESSION['valorInvestimento']+$totPatrAtualizado) /100)) / $cotacaoAtual;
+                                    if($distObjetivo >= 0) {$qtdAcoesComprar = 0;}
 
 
                                     echo "
@@ -124,7 +121,7 @@
                                             <td class='setx'>R$ ".number_format($patrAtualizado,2,".",",")."</td>                                            
                                             <td class='set'>".number_format($participacaoAtual,2,".",",")." %</td>                                            
                                             <td class='set'>".number_format($l['objetivo'],2,".",",")." %</td>
-                                            <td class='set'>".number_format($distanciaDoObjetivo,2,".",",")." %</td>
+                                            <td class='set'>".number_format($distObjetivo,2,".",",")." %</td>
                                             <td class='set'>".(int)$qtdAcoesComprar."</td>
                                         </tr>
                                     ";
