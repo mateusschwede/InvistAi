@@ -38,7 +38,7 @@
                 foreach($linhas4 as $l4) {$cotacaoAtualAcao = $l4['cotacaoAtual'];}
                 $totPatrAtualizado += $l3['qtdAcao'] * $cotacaoAtualAcao;
             }
-            $participacaoAtual = $patrAtualizado / $totPatrAtualizado;
+            $partAtual = ($patrAtualizado * 100) / $totPatrAtualizado;
 
 
 
@@ -46,7 +46,7 @@
 
             
             
-            $distObjetivo = $participacaoAtual - $l['objetivo'];
+            $distObjetivo = $partAtual - $l['objetivo'];
                         
             $qtdAcoesComprar = ($l['objetivo']*( ($_SESSION['valorInvestimento']+$totPatrAtualizado) /100)) / $cotacaoAtual;
             if($distObjetivo >= 0) {$qtdAcoesComprar = 0;}

@@ -100,15 +100,18 @@
                                         $linhas4 = $r3->fetchAll(PDO::FETCH_ASSOC);
                                         foreach($linhas4 as $l4) {$cotacaoAtualAcao = $l4['cotacaoAtual'];}
                                         $totPatrAtualizado += $l3['qtdAcao'] * $cotacaoAtualAcao;
-                                    }                                    
-                                    $participacaoAtual = $patrAtualizado / $totPatrAtualizado;
+                                    }
+                                    //$partAtual = ($patrAtualizado / $totPatrAtualizado) * 100;
+                                    //$partAtual = ($patrAtualizado * 100) / $totPatrAtualizado;
+                                    //$partAtual = ($patrAtualizado / $_SESSION['investimentoReal']) * 100;
+                                    $partAtual = ($patrAtualizado * 100) / $totPatrAtualizado;
 
                                     //Pegar distância do objetivo (Se for maior que zero, aí ñ indica/compra ações)
-                                    $distObjetivo = $participacaoAtual - $l['objetivo'];
+                                    $distObjetivo = $partAtual - $l['objetivo'];
                                     
                                     
                                     //Pegar Quantas Ações Comprar
-                                    $qtdAcoesComprar = ($l['objetivo']*( ($_SESSION['valorInvestimento']+$totPatrAtualizado) /100)) / $cotacaoAtual;
+                                    $qtdAcoesComprar = ($l['objetivo']*( ($_SESSION['valorInvestimento']+$totPatrAtualizado) / 100)) / $cotacaoAtual;
                                     if($distObjetivo >= 0) {$qtdAcoesComprar = 0;}
 
 
@@ -119,7 +122,7 @@
                                             <td class='set'>".$qtdAcoes."</td>
                                             <td class='setx'>R$ ".$cotacaoAtual."</td>
                                             <td class='setx'>R$ ".number_format($patrAtualizado,2,".",",")."</td>                                            
-                                            <td class='set'>".number_format($participacaoAtual,2,".",",")." %</td>                                            
+                                            <td class='set'>".number_format($partAtual,2,".",",")." %</td>
                                             <td class='set'>".number_format($l['objetivo'],2,".",",")." %</td>
                                             <td class='set'>".number_format($distObjetivo,2,".",",")." %</td>
                                             <td class='set'>".(int)$qtdAcoesComprar."</td>
