@@ -22,7 +22,6 @@
     <div class="container-fluid">
 
         
-        <!-- Menu de Navegação -->
         <div class="row">
             <div class="col-sm-12" id="navbar">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -95,18 +94,14 @@
                                 }
                             ?>
                         </tbody>
-                    </table>
-
-                   
+                    </table>                   
 
                 </div>
             </div>
         </div>
         
-        
     </div>
 
- 
 
 </body>
 </html>

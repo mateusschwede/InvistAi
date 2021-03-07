@@ -29,7 +29,6 @@
             $cotacaoAtual = $l2['cotacaoAtual'];
         }
         
-        //Variáveis dos valores aqui
         $qtdAcoes = $l['qtdAcao'];
         if($totPatrAtualizado==0) {$partAtual=0;}
         else {$partAtual = ($patrAtualizado * 100) / $totPatrAtualizado;}
@@ -38,7 +37,7 @@
         else {$qtdAcoesComprar = ($l['objetivo']*( ($_SESSION['valorInvestimento']+$totPatrAtualizado) / 100)) / $cotacaoAtual;}
 
 
-        //Atualiza as quantidades de ações para cada ação na carteira
+        //Atualizar as quantidades de ações para cada ação na carteira
         $qtdAcoesBD = $qtdAcoes + ((int)$qtdAcoesComprar);
         $r = $db->prepare("UPDATE carteira_acao SET qtdAcao=? WHERE idCarteira=? AND ativoAcao=?");
         $r->execute(array($qtdAcoesBD,$_SESSION['idCarteira'],$l['ativoAcao']));
