@@ -67,6 +67,7 @@
                         <tbody>
                             <?php
                                 //Pegar totalPatrimonioAtualizado da carteira
+                                $totPatrAtualizado = 0;
                                 $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
                                 $r->execute(array($_SESSION['idCarteira']));
                                 $linhas3 = $r->fetchAll(PDO::FETCH_ASSOC);

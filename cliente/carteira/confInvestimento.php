@@ -3,7 +3,7 @@
     session_start();
     if(!isset($_SESSION['clienteLogado'])){header('Location: ../../acessoNegado.php');}
 
-
+    $totPatrAtualizado = 0;
     $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
     $r->execute(array($_SESSION['idCarteira']));
     $linhas3 = $r->fetchAll(PDO::FETCH_ASSOC);
@@ -41,7 +41,7 @@
         //Atualiza as quantidades de ações para cada ação na carteira
         $qtdAcoesBD = $qtdAcoes + ((int)$qtdAcoesComprar);
         $r = $db->prepare("UPDATE carteira_acao SET qtdAcao=? WHERE idCarteira=? AND ativoAcao=?");
-        $r->execute(array($qtdAcoesBD,$_SESSION['idCarteira'],$l['ativoAcao']);
+        $r->execute(array($qtdAcoesBD,$_SESSION['idCarteira'],$l['ativoAcao']));
 
         //Inserir dados de ação na tabela operacao
         $r = $db->prepare("INSERT INTO operacao(qtdAcoes,idCarteira,ativoAcao) VALUES (?,?,?)");

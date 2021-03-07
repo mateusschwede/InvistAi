@@ -1,0 +1,84 @@
+<?php
+    require_once '../../conexao.php';
+    session_start();
+    if(!isset($_SESSION['clienteLogado'])){header('Location: ../../acessoNegado.php');}
+
+    if( (!empty($_GET['ativoAcao'])) and (!empty($_GET['idCarteira'])) and (!empty($_POST['qtdAcao'])) ) {
+        /*
+        Programar venda de ação aqui:
+        -> Ativo da ação à vender: $_GET['ativoAcao']
+        -> Id da carteira: $_GET['idCarteira']
+        -> Qtd à diminuir da ação na tabela 'carteira_acao': $_POST['qtdAcao']
+        (Fazer update na tabela carteira_acao, diminuindo o valor da ação)
+        (Fazer insert na tabela operacao, usando as variáveis acima, informando 'qtdAcoes' como valor negativo, pra representar uma venda)
+        (Incluir esse código header:  header("location: ../index.php"); )
+
+
+
+        */
+    }
+
+    //Pega cotacaoAtual e qtd ações da ação na carteira, para estabelecer limite máximo de venda
+    $r = $db->prepare("SELECT qtdAcao FROM carteira_acao WHERE idCarteira=? AND ativoAcao=?");
+    $r->execute(array($_GET['idCarteira'],$_GET['ativo']));
+    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+    foreach($linhas as $l) {$qtdMaxVenda = $l['qtdAcao'];}
+    $r = $db->prepare("SELECT cotacaoAtual FROM acao WHERE ativo=?");
+    $r->execute(array($_GET['ativo']));
+    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+    foreach($linhas as $l) {$cotacaoAtual = number_format($l['cotacaoAtual'],2,".",",");}
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<title>InvistAí</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="https://img.icons8.com/fluent/96/000000/bad-idea.png">
+    <link rel="stylesheet" href="../../estilo.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="../../script.js"></script>
+    <script type="text/javascript" src="../../pace.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-sm-12" id="navbar">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <div class="container-fluid">
+                        <a class="navbar-brand"><img src="https://img.icons8.com/fluent/24/000000/bad-idea.png"> InvistAí<font size="2">(Cliente)</font></a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link disabled">Home</a></li>
+                                <li class="nav-item"><a class="nav-link disabled">Perfil</a></li>
+                                <li class="nav-item"><a class="nav-link disabled">Ações</a></li>
+                                <li class="nav-item"><a class="nav-link disabled"><?=$_SESSION['nome']?>-logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <h1>Vender ação <?=$_GET['ativo']?></h1>
+                <p class="text-center"><b>Cotação Atual:</b> R$ <?=$cotacaoAtual?></p>
+                <form action="venderAcao.php?ativoAcao=<?=$_GET['ativo']?>&idCarteira=<?=$_GET['idCarteira']?>" method="post">
+                    <div class="mb-3">
+                        <input type="number" class="form-control" required name="qtdAcao" min="1" max="<?=$qtdMaxVenda?>" step="1" placeholder="Quantidade">
+                    </div>
+                    <a href="../index.php" class="btn btn-danger">Cancelar</a>
+                    <button type="submit" class="btn btn-success" disabled id="submitWithEnter">Confirmar</button>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+</html>
