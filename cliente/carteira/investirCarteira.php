@@ -79,34 +79,25 @@
 
         <div class="row">
             <div class="col-sm-12">
-            <br><h4>Investimentos:</h4>
+            <br><h3>Operações:</h3>
+            <p><b>Compra:</b> Quantidade positiva<br><b>Venda:</b> Quantidade negativa</p>
+            <button type='button' class='btn btn-primary' disabled>Registrar Venda</button>
                 
                 <div class="table-responsive">
                     <table class='table table-striped'>
                         <thead>
                             <tr>
                                 <th scope='col'>Data</th>
-                                <th scope='col'>Previsão Total (R$)</th>
-                                <th scope='col'>Total Investimento (R$)</th>
-                                <th scope='col'>Sobra Aportes (R$)</th>
+                                <th scope='col'>Ativo</th>
+                                <th scope='col'>Quantidade</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                                $r = $db->prepare("SELECT * FROM investimento WHERE idCarteira=? ORDER BY dataInvestimento DESC");;
-                                $r->execute(array($_GET['id']));
-                                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                                foreach($linhas as $l) {
-                                    echo "
-                                        <tr>
-                                            <th scope='row'>".$l['dataInvestimento']."</th>
-                                            <td class='setx'>R$ ".number_format($l['totValorPrevisao'],2,".",",")."</td>
-                                            <td class='setx'>R$ ".number_format($l['totValorInvestimento'],2,".",",")."</td>
-                                            <td class='setx'>R$ ".number_format($l['sobraAportes'],2,".",",")."</td>
-                                        </tr>
-                                    ";
-                                }
-                            ?>
+                            <tr>
+                                <th scope='row'>x</th>
+                                <td class='setx'>x</td>
+                                <td class='setx'>x</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

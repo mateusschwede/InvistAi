@@ -20,7 +20,6 @@
 <body>
     <div class="container-fluid">
 
-        <!-- Menu de Navegação -->
         <div class="row">
             <div class="col-sm-12" id="navbar">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -67,52 +66,41 @@
                         </thead>
                         <tbody>
                             <?php
-                                $totPatrAtualizado = 0;
-                                
+                                //Pegar totalPatrimonioAtualizado da carteira
+                                $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
+                                $r->execute(array($_SESSION['idCarteira']));
+                                $linhas3 = $r->fetchAll(PDO::FETCH_ASSOC);
+                                foreach($linhas3 as $l3) {                                    
+                                    $r = $db->prepare("SELECT * FROM acao WHERE ativo=?");
+                                    $r->execute(array($l3['ativoAcao']));
+                                    $linhas4 = $r->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach($linhas4 as $l4) {$cotacaoAtualAcao = $l4['cotacaoAtual'];}
+                                    $totPatrAtualizado += $l3['qtdAcao'] * $cotacaoAtualAcao;
+                                }                                
+
+                                //Percorre todas ações da carteira
                                 $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
                                 $r->execute(array($_SESSION['idCarteira']));
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);                                
 
-                                //Pegar dados específicos da ação citada
-                                foreach($linhas as $l) {
+                                foreach($linhas as $l) { //Pegar dados específicos da ação citada
                                     $r = $db->prepare("SELECT * FROM acao WHERE ativo=?");
                                     $r->execute(array($l['ativoAcao']));
-                                    $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
-                                    
+                                    $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);                                    
                                     foreach($linhas2 as $l2) {
                                         $ativo = $l2['ativo'];
                                         $setor = $l2['setor'];
                                         $cotacaoAtual = $l2['cotacaoAtual'];
                                     }
 
-                                    //Programar variáveis aqui
-                                    $qtdAcoes = $l['qtdAcao']; //Ações em saldo do cliente no BD
-                                    $patrAtualizado = $qtdAcoes * $cotacaoAtual;                                    
-                                    
-                                    
-                                    //Pegar totalPatrimonioAtualizado da carteira
-                                    $r2 = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
-                                    $r2->execute(array($_SESSION['idCarteira']));
-                                    $linhas3 = $r2->fetchAll(PDO::FETCH_ASSOC);
-                                    foreach($linhas3 as $l3) {                                    
-                                        $r3 = $db->prepare("SELECT * FROM acao WHERE ativo=?");
-                                        $r3->execute(array($l3['ativoAcao']));
-                                        $linhas4 = $r3->fetchAll(PDO::FETCH_ASSOC);
-                                        foreach($linhas4 as $l4) {$cotacaoAtualAcao = $l4['cotacaoAtual'];}
-                                        $totPatrAtualizado += $l3['qtdAcao'] * $cotacaoAtualAcao;
-                                    }
-                                    //$partAtual = ($patrAtualizado / $totPatrAtualizado) * 100;
-                                    //$partAtual = ($patrAtualizado * 100) / $totPatrAtualizado;
-                                    //$partAtual = ($patrAtualizado / $_SESSION['investimentoReal']) * 100;
-                                    $partAtual = ($patrAtualizado * 100) / $totPatrAtualizado;
-
-                                    //Pegar distância do objetivo (Se for maior que zero, aí ñ indica/compra ações)
+                                    //Variáveis dos valores aqui
+                                    $qtdAcoes = $l['qtdAcao'];
+                                    $patrAtualizado = $qtdAcoes * $cotacaoAtual;
+                                    if($totPatrAtualizado==0) {$partAtual=0;}
+                                    else {$partAtual = ($patrAtualizado * 100) / $totPatrAtualizado;}
                                     $distObjetivo = $partAtual - $l['objetivo'];
-                                    
-                                    
-                                    //Pegar Quantas Ações Comprar
-                                    $qtdAcoesComprar = ($l['objetivo']*( ($_SESSION['valorInvestimento']+$totPatrAtualizado) / 100)) / $cotacaoAtual;
                                     if($distObjetivo >= 0) {$qtdAcoesComprar = 0;}
+                                    else {$qtdAcoesComprar = ($l['objetivo']*( ($_SESSION['valorInvestimento']+$totPatrAtualizado) / 100)) / $cotacaoAtual;}
 
 
                                     echo "
@@ -137,11 +125,8 @@
                     <br><br>
 
                 </div>
-                <form action="confInvestimento.php" method="post">
-                    <a href="canInvestimento.php" class="btn btn-danger">Cancelar</a>
-                    <input type="hidden" name="confInvestimento" value=1>
-                    <button type="submit" class="btn btn-success">Realizar Investimento</button>
-                </form>
+                <a href="canInvestimento.php" class="btn btn-danger">Cancelar</a>
+                <a href="confInvestimento.php" class="btn btn-success">Confirmar Investimento</a>
             </div>
         </div>
     </div>
