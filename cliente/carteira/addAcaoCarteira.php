@@ -15,7 +15,7 @@
         else {
             $r = $db->prepare("INSERT INTO carteira_acao(idCarteira,ativoAcao,objetivo) VALUES (?,?,?)");
             $r->execute(array($_SESSION['idCarteira'],$_POST['ativoAcao'],$_POST['objetivo']));
-            $_SESSION['msg'] = "<div class='alert alert-success alert-dismissible fade show' role='alert'>Ação adicionada na carteira ".$_SESSION['idCarteira']."!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+            $_SESSION['msg'] = "<div class='alert alert-success alert-dismissible fade show' role='alert'>Ação ".$_POST['ativoAcao']." adicionada na carteira ".$_SESSION['idCarteira']."!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
             header("location: telaAcoes.php");
         }
     }
@@ -69,9 +69,7 @@
                             <?php
                                 $r = $db->query("SELECT ativo,nome,cotacaoAtual FROM acao WHERE cotacaoAtual!=0");
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                                foreach($linhas as $l) {
-                                    echo "<option value=".$l['ativo'].">(".$l['ativo'].") ".$l['nome']." - R$ ".number_format($l['cotacaoAtual'],2,".",",")."</option>";
-                                }
+                                foreach($linhas as $l) {echo "<option value=".$l['ativo'].">".$l['nome']." (".$l['ativo'].") - R$ ".number_format($l['cotacaoAtual'],2,".",",")."</option>";}
                             ?>
                         </select>
                     </div>

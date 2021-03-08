@@ -56,77 +56,30 @@
 
 
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-12 text-center">
                 <h1>Carteira <?=$_SESSION['idCarteira']?></h1>
                 <?php
                     $r = $db->prepare("SELECT * FROM carteira WHERE id=?");
                     $r->execute(array($_SESSION['idCarteira']));
                     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                    foreach($linhas as $l) {
-                        echo "
-                            <p><b>Objetivo: </b>".$l['objetivo']."<br>
-                            <b>Participação: </b>".$l['percInvestimento']."%</p>
-                        ";
-                    }
+                    foreach($linhas as $l) {echo "<h4 class='text-muted'>".$l['objetivo']."<br>(".$l['percInvestimento']."%)</h4><br>";}
                 ?>
-                <a href="addAcaoCarteira.php" class="btn btn-primary">Adicionar ação</a>
 
-                <br><br>
                 <h3>Ações vinculadas</h3>
                 <?php
+                    if($_SESSION['msg']!=null) {echo $_SESSION['msg']; $_SESSION['msg']=null;}
+
                     $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
                     $r->execute(array($_SESSION['idCarteira']));
                     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                    foreach($linhas as $l) {echo "<span class='btn btn-dark btn-sm'>".$l['ativoAcao']." <span class='badge bg-warning'>".$l['objetivo']."%</span></span> ";}
+                    foreach($linhas as $l) {echo "<b>(".$l['objetivo']."%)</b> ".$l['ativoAcao']."<br>";}
                 ?>
-
-                <br><br>
-                <h3>Investimentos</h3>
-                <div class="table-responsive">
-                    <table class='table table-striped'>
-                        <thead>
-                            <tr>
-                                <th scope='col'>Data Investimento(BD dataInvestimento, table investimento)</th>
-                                <th scope='col'>Valor(BD valor, table investimento)</th>
-                                <th scope='col'>Ativo(BD ativoAcao, table carteira_acao)</th>
-                                <th scope='col'>Nome(BD nomeAcao)</th>
-                                <th scope='col'>Cotação Atual(BD cotacaoAtual, table acao)</th>
-                                <th scope='col'>Quantidade(valorInvestimento / cotacaoAtual)</th>
-                                <th scope='col'>Valor(cotacao X qtde)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                                $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
-                                $r->execute(array($_SESSION['idCarteira']));
-                                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                                foreach($linhas as $l) {
-
-                                    $r = $db->prepare("SELECT nome,cotacaoAtual FROM acao WHERE ativo=?");
-                                    $r->execute(array($l['ativoAcao']));
-                                    $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
-                                    foreach($linhas2 as $l2) {$nomeAcao = $l2['nome']; $cotacaoAtual = $l2['cotacaoAtual'];}
-
-                                    echo "
-                                        <tr>
-                                            <th scope='row'>x</th>
-                                            <th scope='row'>x</th>
-                                            <td class='setn'>".$l['ativoAcao']."</td>
-                                            <td class='set'>".$nomeAcao."</td>
-                                            <td class='set'>".number_format($cotacaoAtual,2,".",",")."</td>
-                                            <td class='set'>x</td>
-                                            <td class='set'>x</td>
-                                        </tr>
-                                    ";
-                                }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-
+                               
+                <a href="addAcaoCarteira.php" class="btn btn-primary btn-sm">Adicionar ação</a><br><br>
                 <form action="telaAcoes.php" method="post">
                     <input type="hidden" name="finalizarCarteira" value="1">
-                    <input type="submit" class="btn btn-success btn-lg" value="Finalizar">
+                    <a href="canCarteira.php" class="btn btn-danger">Cancelar carteira</a>
+                    <button type="submit" class="btn btn-success" id="submitWithEnter">Finalizar carteira</button>
                 </form>
             </div>
         </div>

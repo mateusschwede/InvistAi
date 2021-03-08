@@ -121,11 +121,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope='row'>x</th>
-                                <td class='setx'>x</td>
-                                <td class='setx'>x</td>
-                            </tr>
+                            <?php
+                                $r = $db->prepare("SELECT * FROM operacao WHERE idCarteira=? ORDER BY dataOperacao DESC");
+                                $r->execute(array($_GET['id']));
+                                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                                foreach($linhas as $l) {
+                                    echo "
+                                        <tr>
+                                            <th scope='row'>".$l['dataOperacao']."</th>
+                                            <td class='setx'>".$l['ativoAcao']."</td>
+                                            <td class='setx'>".$l['qtdAcoes']."</td>
+                                        </tr>
+                                    ";
+                                }
+                            ?>
                         </tbody>
                     </table>
                 </div>
