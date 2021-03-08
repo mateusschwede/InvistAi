@@ -39,8 +39,14 @@
 
         //Atualizar as quantidades de ações para cada ação na carteira
         $qtdAcoesBD = $qtdAcoes + ((int)$qtdAcoesComprar);
+        if($qtdAcoes==0 and $qtdAcoesComprar!=0) {$qtdAcoes=$qtdAcoesComprar;}
+        /*CORRIGIR BUGS DE QTDES ENTRADA
+        -> ENTRA 1 A MAIS NA COM VALOR MENOR
+        -> Em investimentos subsequentes, qtde ñ é atualizada(incrementada com valor do BD)
+        */
+
         $r = $db->prepare("UPDATE carteira_acao SET qtdAcao=? WHERE idCarteira=? AND ativoAcao=?");
-        $r->execute(array($qtdAcoesBD,$_SESSION['idCarteira'],$l['ativoAcao']));
+        $r->execute(array($qtdAcoes,$_SESSION['idCarteira'],$l['ativoAcao']));
 
         //Inserir dados de ação na tabela operacao
         $r = $db->prepare("INSERT INTO operacao(qtdAcoes,idCarteira,ativoAcao) VALUES (?,?,?)");
