@@ -4,7 +4,25 @@
     if(!isset($_SESSION['clienteLogado'])){header('Location: ../../acessoNegado.php');}
 
     if( (!empty($_GET['ativoAcao'])) and (!empty($_GET['idCarteira'])) and (!empty($_POST['qtdAcao'])) ) {
+        $r = $db->prepare("UPDATE carteira_acao SET qtdAcao=?  WHERE idCarteira=? AND ativoAcao=?");
+        $r->execute(array($_POST['qtdAcao'], $_GET['idCarteira'], $_GET['ativoAcao']));
+        
         /*
+        
+        
+            if($r->rowCount()>0) {echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Objetivo já existente!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";}
+            else {
+                $r = $db->prepare("INSERT INTO carteira(objetivo,percInvestimento,cpfCliente) VALUES (?,?,?)");
+                $r->execute(array($_POST['objetivo'],$_POST['percInvestimento'],$_SESSION['cpf']));  
+                
+                $r = $db->prepare("SELECT id FROM carteira WHERE objetivo=? AND percInvestimento=? AND cpfCliente=?");
+                $r->execute(array($_POST['objetivo'],$_POST['percInvestimento'],$_SESSION['cpf']));
+                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                foreach($linhas as $l) {$_SESSION['idCarteira'] = $l['id'];}
+                header("location: telaAcoes.php");
+            }
+
+
         Programar venda de ação aqui:
         -> Ativo da ação à vender: $_GET['ativoAcao']
         -> Id da carteira: $_GET['idCarteira']
@@ -73,7 +91,7 @@
                         <input type="number" class="form-control" required name="qtdAcao" min="1" max="<?=$qtdMaxVenda?>" step="1" placeholder="Quantidade">
                     </div>
                     <a href="../index.php" class="btn btn-danger">Cancelar</a>
-                    <button type="submit" class="btn btn-success" disabled id="submitWithEnter">Confirmar</button>
+                    <button type="submit" class="btn btn-success" id="submitWithEnter">Confirmar</button>
                 </form>
             </div>
         </div>
