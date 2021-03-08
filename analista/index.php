@@ -60,6 +60,7 @@
                         <button type="submit" class="btn btn-success" id="submitWithEnter">Gerar relatório</button>
                         <button type="button" class="btn btn-primary" onclick="window.print()">Imprimir relatório</button>
                     </form>
+                    <br><small><b>Compra:</b> Quantidade positiva<br><b>Venda:</b> Quantidade negativa</small>
 
                     <div class="table-responsive">
                         <table class="table table-striped">
