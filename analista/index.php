@@ -1,10 +1,7 @@
 <?php
     require_once '../conexao.php';
     session_start();
-
-    if(!isset($_SESSION['analistaLogado'])):
-        header('Location: ../acessoNegado.php');
-    endif;
+    if(!isset($_SESSION['analistaLogado'])) {header('Location: ../acessoNegado.php');}
 ?>
 
 <!DOCTYPE html>
@@ -22,9 +19,7 @@
 </head>
 <body>
 <div class="container-fluid">
-
     
-    <!-- Menu de Navegação -->
     <div class="row">
         <div class="col-sm-12" id="navbar">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -37,7 +32,7 @@
                             <li class="nav-item"><a class="nav-link" href="perfil.php">Perfil</a></li>
                             <li class="nav-item"><a class="nav-link" href="acoes.php">Ações</a></li>
                             <li class="nav-item"><a class="nav-link" href="clientes.php">Clientes</a></li>
-                              <li class="nav-item"><a class="nav-link" href="#" onclick=" confirmlogout('../logout.php')" id="logout"><?=$_SESSION['nome']?>-logout</a></li>
+                              <li class="nav-item"><a class="nav-link" href="#" onclick="confirmlogout('../logout.php')" id="logout"><?=$_SESSION['nome']?>-logout</a></li>
                         </ul>
                     </div>
                 </div>
@@ -48,8 +43,63 @@
 
     <div class="row">
         <div class="col-sm-12">
-            CONTEUDO AQUI
-            <a href="movimentacoes.php" class="btn btn-primary">Ver movimentações de cliente</a>
+            <h1>Operações de Cliente</h1>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <form action="index.php" method="post">
+                        <div class="mb-3">
+                            <select class="form-select" name="cpf">
+                                <?php
+                                    $r = $db->query("SELECT cpf,nome FROM pessoa WHERE tipo=2 AND inativado=0");
+                                    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach($linhas as $l) {echo "<option value='".$l['cpf']."'>".$l['nome']." (cpf ".$l['cpf'].")</option>";}
+                                ?>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success" id="submitWithEnter">Gerar relatório</button>
+                        <button type="button" class="btn btn-primary" onclick="window.print()">Imprimir relatório</button>
+                    </form>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Data</th>
+                                    <th scope="col">Carteira</th>
+                                    <th scope="col">Ativo</th>
+                                    <th scope="col">Quantidade</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    if(!empty($_POST['cpf'])) {
+                                        $r = $db->prepare("SELECT id,objetivo FROM carteira WHERE cpfCliente=? ORDER BY objetivo");
+                                        $r->execute(array($_POST['cpf']));
+                                        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                                        foreach($linhas as $l) {                                            
+                                            $r = $db->prepare("SELECT * FROM operacao WHERE idCarteira=? ORDER BY dataOperacao DESC");
+                                            $r->execute(array($l['id']));
+                                            $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
+                                            foreach($linhas2 as $l2) {
+                                                echo "
+                                                    <tr>
+                                                        <th scope='row'>".$l2['dataOperacao']."</th>
+                                                        <td>".$l['objetivo']."</td>
+                                                        <td>".$l2['ativoAcao']."</td>
+                                                        <td>".$l2['qtdAcoes']."</td>
+                                                    </tr>
+                                                ";
+                                            }
+                                        }
+                                    }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
 

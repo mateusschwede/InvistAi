@@ -127,7 +127,7 @@
 
                 </div>
                 <a href="canInvestimento.php" class="btn btn-danger">Cancelar</a>
-                <a href="confInvestimento.php" class="btn btn-success">Confirmar Investimento</a>
+                <a href="confInvestimento.php" class="btn btn-success" id="submitWithEnter">Confirmar Investimento</a>
             </div>
         </div>
     </div>
