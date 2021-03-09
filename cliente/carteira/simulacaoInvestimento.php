@@ -55,18 +55,37 @@
                             <tr>
                                 <th scope='col'>Ativo</th>
                                 <th scope='col'>Setor</th>
-                                <th scope='col'>Quantidade</th>
+                                <th scope='col'>Quantidade Atual</th>
                                 <th scope='col'>Cotação Atual</th>
-                                <th scope='col'>Patrimônio Atualizado</th>
+                                <th scope='col'>Patrimônio Atual</th>
                                 <th scope='col'>Participação Atual(%)</th>
+                                <th scope='col'>Prop Investimento(%)</th>
                                 <th scope='col'>Investimento Real</th>
                                 <th scope='col'>Objetivo(%)</th>
-                                <th scope='col'>Distância do Objetivo(%)</th>
-                                <th scope='col'>Quantas Ações Comprar</th>  
+                                <th scope='col'>Dist Objetivo(%)</th>
+                                <th scope='col'>Valor Projetado</th>
+                                <th scope='col'>Participação Projetada(%)</th>
+                                <th scope='col'>Ações Comprar</th>
+                                <th scope='col'>Quantidade Final</th>
+                                <th scope='col'>Ação / Carteira(%)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
+                                //Taylor (ValorNaCart)
+                                $valornacart = 0;
+                                $r = $db->prepare("SELECT * FROM operacao WHERE idCarteira=?");
+                                $r->execute(array($_SESSION['idCarteira']));
+                                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                                foreach($linhas as $l) {
+                                    $r = $db->prepare("SELECT * FROM acao WHERE ativo=?");
+                                    $r->execute(array($l['ativoAcao']));
+                                    $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);                                    
+                                    foreach($linhas2 as $l2) {$cotacaoAtual = $l2['cotacaoAtual'];}
+                                    $valornacart+=$l['qtdAcoes']*$l2['cotacaoAtual'];
+                                }
+
+
                                 //Pegar totalPatrimonioAtualizado da carteira
                                 $totPatrAtualizado = 0;
                                 $totInvestimentoReal = 0;
@@ -95,7 +114,7 @@
                                         $setor = $l2['setor'];
                                         $cotacaoAtual = $l2['cotacaoAtual'];
                                     }
-
+                                
                                     //Variáveis dos valores aqui
                                     $qtdAcoes = $l['qtdAcao'];
                                     $patrAtualizado = $qtdAcoes * $cotacaoAtual;
@@ -107,18 +126,35 @@
                                     $investimentoReal = (int)$qtdAcoesComprar * $cotacaoAtual;
                                     if($qtdAcoesComprar!=0) {$totInvestimentoReal += ((int)$qtdAcoesComprar*$cotacaoAtual);}
 
+                                    //Taylor (quant)
+                                    $quant = 0; $valcart = 0;
+                                    $r = $db->prepare("SELECT * FROM operacao WHERE idCarteira=?");
+                                    $r->execute(array($_SESSION['idCarteira']));
+                                    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach($linhas as $l8)  {if($l8['ativoAcao']==$l['ativoAcao']) {$quant+=$l8['qtdAcoes'];} }
+                                    if($l['qtdAcao']==0) {$percAcaoCarteira=0; $propInvA=0;}
+                                    else {
+                                        $percAcaoCarteira = ($quant+(int)$qtdAcoesComprar)*$cotacaoAtual*100/$valornacart;
+                                        $propInvA = ($quant*$cotacaoAtual)/$valornacart*100;
+                                    }
+
                                     echo "
                                         <tr>
                                             <td class='setx'>".strtoupper($ativo)."</td>
                                             <td class='set'>".$setor."</td>
                                             <td class='set'>".$qtdAcoes."</td>
                                             <td class='setx'>R$ ".$cotacaoAtual."</td>
-                                            <td class='setx'>R$ ".number_format($patrAtualizado,2,".",",")."</td>                                            
-                                            <td class='set'>".number_format($partAtual,2,".",",")." %</td>                                            
-                                            <td class='setx'>R$ ".number_format($investimentoReal,2,".",",")."</td>                                            
+                                            <td class='setx'>R$ ".number_format($patrAtualizado,2,".",",")."</td>
+                                            <td class='set'>".number_format($partAtual,2,".",",")." %</td>
+                                            <td class='set'>".number_format($propInvA,2,".",",")." %</td>
+                                            <td class='setx'>R$ ".number_format($investimentoReal,2,".",",")."</td>
                                             <td class='set'>".number_format($l['objetivo'],2,".",",")." %</td>
                                             <td class='set'>".number_format($distObjetivo,2,".",",")." %</td>
+                                            <td class='setx'>R$ ".number_format($_SESSION['valorInvestimento']*($l['objetivo']/100)+$quant*$cotacaoAtual,2,".",",")."</td>
+                                            <td class='set'>".number_format(($_SESSION['valorInvestimento']*($l['objetivo']/100)+$quant*$cotacaoAtual)/($_SESSION['valorInvestimento']+$valornacart)*100,2,".",",")." %</td>
                                             <td class='set'>".(int)$qtdAcoesComprar."</td>
+                                            <td class='set'>".(int)($qtdAcoes+$qtdAcoesComprar)."</td>
+                                            <td class='set'>".number_format($percAcaoCarteira,2,".",",")."%</td>
                                         </tr>
                                     ";
                                 }
@@ -126,6 +162,7 @@
                         </tbody>
                     </table>
                     <span class='btn btn-dark btn-sm'>Total do Patr Atualizado: <span class='badge bg-warning'>R$ <?=number_format($totPatrAtualizado,2,".",",")?></span></span>
+                    <span class='btn btn-dark btn-sm'>Total atual projetado: <span class='badge bg-primary'>R$ <?=number_format($totInvestimentoReal+$totPatrAtualizado,2,".",",")?></span></span>
                     <span class='btn btn-dark btn-sm'>Valor real investido: <span class='badge bg-success'>R$ <?=number_format($totInvestimentoReal,2,".",",")?></span></span>
                     <span class='btn btn-dark btn-sm'>Sobra dos Aportes: <span class='badge bg-danger'>R$ <?=number_format(($_SESSION['valorInvestimento']-$totInvestimentoReal),2,".",",")?></span></span>
                     <br><br>
