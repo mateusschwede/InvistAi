@@ -3,37 +3,17 @@
     session_start();
     if(!isset($_SESSION['clienteLogado'])){header('Location: ../../acessoNegado.php');}
 
-    if( (!empty($_GET['ativoAcao'])) and (!empty($_GET['idCarteira'])) and (!empty($_POST['qtdAcao'])) ) {
-        $r = $db->prepare("UPDATE carteira_acao SET qtdAcao=?  WHERE idCarteira=? AND ativoAcao=?");
-        $r->execute(array($_POST['qtdAcao'], $_GET['idCarteira'], $_GET['ativoAcao']));
+    if( (!empty($_GET['ativoAcao'])) and (!empty($_GET['idCarteira'])) and (!empty($_GET['qtdAcao'])) and (!empty($_POST['qtdAcao'])) ) {
         
-        /*
-        
-        
-            if($r->rowCount()>0) {echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Objetivo já existente!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";}
-            else {
-                $r = $db->prepare("INSERT INTO carteira(objetivo,percInvestimento,cpfCliente) VALUES (?,?,?)");
-                $r->execute(array($_POST['objetivo'],$_POST['percInvestimento'],$_SESSION['cpf']));  
-                
-                $r = $db->prepare("SELECT id FROM carteira WHERE objetivo=? AND percInvestimento=? AND cpfCliente=?");
-                $r->execute(array($_POST['objetivo'],$_POST['percInvestimento'],$_SESSION['cpf']));
-                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                foreach($linhas as $l) {$_SESSION['idCarteira'] = $l['id'];}
-                header("location: telaAcoes.php");
-            }
+        $qtdAtual = $_GET['qtdAcao'] - $_POST['qtdAcao'];
+        $r = $db->prepare("UPDATE carteira_acao SET qtdAcao=? WHERE idCarteira=? AND ativoAcao=?");
+        $r->execute(array($qtdAtual,$_GET['idCarteira'],$_GET['ativoAcao']));
 
+        $qtdAtualOperacao = 0-$_POST['qtdAcao'];
+        $r = $db->prepare("INSERT INTO operacao(qtdAcoes,idCarteira,ativoAcao) VALUES (?,?,?)");
+        $r->execute(array($qtdAtualOperacao,$_GET['idCarteira'], $_GET['ativoAcao']));
 
-        Programar venda de ação aqui:
-        -> Ativo da ação à vender: $_GET['ativoAcao']
-        -> Id da carteira: $_GET['idCarteira']
-        -> Qtd à diminuir da ação na tabela 'carteira_acao': $_POST['qtdAcao']
-        (Fazer update na tabela carteira_acao, diminuindo o valor da ação)
-        (Fazer insert na tabela operacao, usando as variáveis acima, informando 'qtdAcoes' como valor negativo, pra representar uma venda)
-        (Incluir esse código header:  header("location: ../index.php"); )
-
-
-
-        */
+        header("location: ../index.php");
     }
 
     //Pega cotacaoAtual e qtd ações da ação na carteira, para estabelecer limite máximo de venda
@@ -86,7 +66,7 @@
             <div class="col-sm-12">
                 <h1>Vender ação <?=$_GET['ativo']?></h1>
                 <p class="text-center"><b>Cotação Atual:</b> R$ <?=$cotacaoAtual?></p>
-                <form action="venderAcao.php?ativoAcao=<?=$_GET['ativo']?>&idCarteira=<?=$_GET['idCarteira']?>" method="post">
+                <form action="venderAcao.php?ativoAcao=<?=$_GET['ativo']?>&idCarteira=<?=$_GET['idCarteira']?>&qtdAcao=<?=$qtdMaxVenda?>" method="post">
                     <div class="mb-3">
                         <input type="number" class="form-control" required name="qtdAcao" min="1" max="<?=$qtdMaxVenda?>" step="1" placeholder="Quantidade">
                     </div>
