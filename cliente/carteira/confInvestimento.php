@@ -1,7 +1,9 @@
 <?php
+
     require_once '../../conexao.php';
     session_start();
     if(!isset($_SESSION['clienteLogado'])){header('Location: ../../acessoNegado.php');}
+
 
     $totPatrAtualizado = 0;
     $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
@@ -13,11 +15,12 @@
         $linhas4 = $r->fetchAll(PDO::FETCH_ASSOC);
         foreach($linhas4 as $l4) {$cotacaoAtualAcao = $l4['cotacaoAtual'];}
         $totPatrAtualizado += $l3['qtdAcao'] * $cotacaoAtualAcao;
-    }
+    }                                
+
 
     $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
     $r->execute(array($_SESSION['idCarteira']));
-    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);                                
 
     foreach($linhas as $l) {
         $r = $db->prepare("SELECT * FROM acao WHERE ativo=?");
@@ -28,43 +31,42 @@
             $setor = $l2['setor'];
             $cotacaoAtual = $l2['cotacaoAtual'];
         }
-        
+
         $qtdAcoes = $l['qtdAcao'];
+        $patrAtualizado = $qtdAcoes * $cotacaoAtual;
         if($totPatrAtualizado==0) {$partAtual=0;}
         else {$partAtual = ($patrAtualizado * 100) / $totPatrAtualizado;}
         $distObjetivo = $partAtual - $l['objetivo'];
+
+
+        //ATUALIZAR QTDACOES NA AÇÃO DA CARTEIRA
         if($distObjetivo >= 0) {$qtdAcoesComprar = 0;}
         else {$qtdAcoesComprar = ($l['objetivo']*( ($_SESSION['valorInvestimento']+$totPatrAtualizado) / 100)) / $cotacaoAtual;}
+        if($qtdAcoes==0 and $qtdAcoesComprar!=0) {$qtdAcoesBD=$qtdAcoesComprar;}
+        else {$qtdAcoesBD = $qtdAcoes + ((int)$qtdAcoesComprar);}
 
-
-        //Atualizar as quantidades de ações para cada ação na carteira
-        $qtdAcoesBD = $qtdAcoes + ((int)$qtdAcoesComprar);
-        if($qtdAcoes==0 and $qtdAcoesComprar!=0) {$qtdAcoes=$qtdAcoesComprar;}
-        /*CORRIGIR BUGS DE QTDES ENTRADA
-        -> ENTRA 1 A MAIS NA COM VALOR MENOR
-        -> Em investimentos subsequentes, qtde ñ é atualizada(incrementada com valor do BD)
-        */
-
-        $r = $db->prepare("UPDATE carteira_acao SET qtdAcao=? WHERE idCarteira=? AND ativoAcao=?");
-        $r->execute(array($qtdAcoes,$_SESSION['idCarteira'],$l['ativoAcao']));
-
-        //Inserir dados de ação na tabela operacao
-        $r = $db->prepare("INSERT INTO operacao(qtdAcoes,idCarteira,ativoAcao) VALUES (?,?,?)");
-        $r->execute(array($qtdAcoes,$_SESSION['idCarteira'],$l['ativoAcao']));
+        if($qtdAcoesComprar!=0) {
+            echo $ativo."- ".$qtdAcoesBD;
+            /*$r = $db->prepare("UPDATE carteira_acao SET qtdAcao=? WHERE idCarteira=? AND ativoAcao=?");
+            $r->execute(array($qtdAcoesBD,$_SESSION['idCarteira'],$l['ativoAcao']));
+        
+            //INSERIR OPERACAO DE COMPRA
+            $r = $db->prepare("INSERT INTO operacao(qtdAcoes,idCarteira,ativoAcao) VALUES (?,?,?)");
+            $r->execute(array((int)$qtdAcoesComprar,$_SESSION['idCarteira'],$l['ativoAcao']));*/
+        }
     }
 
 
-    //Atualizar o valor do saldo de sobra de aportes do cliente
-    $sobraAportesAtual = $_SESSION['valorInvestimento']-$totPatrAtualizado;
-    $r = $db->prepare("SELECT totalSobraAportes FROM pessoa WHERE cpf=?");
-    $r->execute(array($_SESSION['cpf']));
-    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-    foreach($linhas as $l) {$totalSobraAportes = $l['totalSobraAportes'] + $sobraAportesAtual;}
-    $r = $db->prepare("UPDATE pessoa SET totalSobraAportes=? WHERE cpf=?");
-    $r->execute(array($totalSobraAportes,$_SESSION['cpf']));
+    //INSERIR SOBRA APORTES
 
+    /*
+    
+    */
+    $sobraAportes = $_SESSION['valorInvestimento']-$totPatrAtualizado;
+    echo "<br>".$sobraAportes;
+    
 
     unset($_SESSION['idCarteira']);
     unset($_SESSION['valorInvestimento']);
-    header("location: ../index.php");
+    //header("location: ../index.php");
 ?>

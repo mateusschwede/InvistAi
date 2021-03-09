@@ -67,7 +67,7 @@
 
                 <h3>Ações vinculadas</h3>
                 <?php
-                    if($_SESSION['msg']!=null) {echo $_SESSION['msg']; $_SESSION['msg']=null;}
+                    if((isset($_SESSION['msg'])) and ($_SESSION['msg']!=null)) {echo $_SESSION['msg']; $_SESSION['msg']=null;}
 
                     $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
                     $r->execute(array($_SESSION['idCarteira']));
