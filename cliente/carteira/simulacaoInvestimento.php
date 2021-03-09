@@ -158,16 +158,20 @@
                                         </tr>
                                     ";
                                 }
+                                echo "
+                                    <tr>
+                                        <td class='setx' colspan='4' style='color: green;'><b>Total Real Investido:</b> R$ ".number_format($totInvestimentoReal,2,".",",")."</td>
+                                        <td class='setx' colspan='4' style='color: red;'><b>Sobra do Aporte:</b> R$ ".number_format(($_SESSION['valorInvestimento']-$totInvestimentoReal),2,".",",")."</td>
+                                        <td class='setx' colspan='4' style='color: blue;'><b>Total Patr Atual:</b> R$ ".number_format($totPatrAtualizado,2,".",",")."</td>
+                                        <td class='setx' colspan='4' style='color: brown;'><b>Total Atual Projetado:</b> R$ ".number_format($totInvestimentoReal+$totPatrAtualizado,2,".",",")."</td>
+                                    <tr>
+                                ";
                             ?>
                         </tbody>
                     </table>
-                    <span class='btn btn-dark btn-sm'>Total do patr atual: <span class='badge bg-warning'>R$ <?=number_format($totPatrAtualizado,2,".",",")?></span></span>
-                    <span class='btn btn-dark btn-sm'>Total atual projetado: <span class='badge bg-primary'>R$ <?=number_format($totInvestimentoReal+$totPatrAtualizado,2,".",",")?></span></span>
-                    <span class='btn btn-dark btn-sm'>Valor real investido: <span class='badge bg-success'>R$ <?=number_format($totInvestimentoReal,2,".",",")?></span></span>
-                    <span class='btn btn-dark btn-sm'>Sobra dos aportes: <span class='badge bg-danger'>R$ <?=number_format(($_SESSION['valorInvestimento']-$totInvestimentoReal),2,".",",")?></span></span>
-                    <br><br>
-
                 </div>
+                
+                <br>
                 <a href="canInvestimento.php" class="btn btn-danger">Cancelar</a>
                 <a href="confInvestimento.php" class="btn btn-success" id="submitWithEnter">Confirmar Investimento</a>
             </div>
