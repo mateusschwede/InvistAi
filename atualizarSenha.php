@@ -71,7 +71,7 @@
                                 <li class="nav-item"><a class="nav-link disabled">Perfil</a></li>
                                 <li class="nav-item"><a class="nav-link disabled">Ações</a></li>
                                 <li class="nav-item"><a class="nav-link disabled">Clientes</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#" onclick=" confirmlogout('logout.php')" id="logout"><?=$_SESSION['nome']?>-logout</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#" onclick="confirmlogout('logout.php')" id="logout"><?=$_SESSION['nome']?>-logout</a></li>
                             </ul>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                     <div class="mb-3">
                         <input type="password" class="form-control" placeholder="Nova Senha" maxlength="5" required name="novaSenha">
                     </div>
-                <button type="button" class="btn btn-danger" onclick="window.location.href='perfil.php'">Voltar</button>
+                    <button type="button" class="btn btn-danger" onclick="window.location.href='logout.php'">Sair</button>
                     <button type="submit" class="btn btn-success" id="submitWithEnter" onclick="return validadePassoword()">Atualizar</button>
                     <button type="reset" class="btn btn-warning">Limpar</button>
                 </form>
