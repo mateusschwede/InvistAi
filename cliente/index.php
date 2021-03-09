@@ -52,8 +52,8 @@
                     foreach($linhas as $l) {$totalSobraAportes = number_format($l['totalSobraAportes'],2,".",",");}
                 ?>
                 <div class="text-center">
-                    <span class='btn btn-dark btn-lg'>Total sobras aportes <span class='badge bg-warning'>R$ <?=$totalSobraAportes?></span></span>
-                    <br><br><a href="carteira/addCarteira.php" class="btn btn-primary">Adicionar Carteira</a>
+                    <h4><span class='badge bg-dark'>Total sobras aportes <span class='badge bg-warning'>R$ <?=$totalSobraAportes?></span></span></h4>
+                    <a href="carteira/addCarteira.php" class="btn btn-primary">Adicionar Carteira</a>
                 </div>
 
                 <div class="table-responsive">
