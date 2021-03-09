@@ -64,7 +64,7 @@
                                 <th scope='col'>Objetivo(%)</th>
                                 <th scope='col'>Dist Objetivo(%)</th>
                                 <th scope='col'>Valor Projetado</th>
-                                <th scope='col'>Participação Projetada(%)</th>
+                                <th scope='col'>Part Projetada(%)</th>
                                 <th scope='col'>Ações Comprar</th>
                                 <th scope='col'>Quantidade Final</th>
                                 <th scope='col'>Ação / Carteira(%)</th>
@@ -161,10 +161,10 @@
                             ?>
                         </tbody>
                     </table>
-                    <span class='btn btn-dark btn-sm'>Total do Patr Atualizado: <span class='badge bg-warning'>R$ <?=number_format($totPatrAtualizado,2,".",",")?></span></span>
+                    <span class='btn btn-dark btn-sm'>Total do patr atual: <span class='badge bg-warning'>R$ <?=number_format($totPatrAtualizado,2,".",",")?></span></span>
                     <span class='btn btn-dark btn-sm'>Total atual projetado: <span class='badge bg-primary'>R$ <?=number_format($totInvestimentoReal+$totPatrAtualizado,2,".",",")?></span></span>
                     <span class='btn btn-dark btn-sm'>Valor real investido: <span class='badge bg-success'>R$ <?=number_format($totInvestimentoReal,2,".",",")?></span></span>
-                    <span class='btn btn-dark btn-sm'>Sobra dos Aportes: <span class='badge bg-danger'>R$ <?=number_format(($_SESSION['valorInvestimento']-$totInvestimentoReal),2,".",",")?></span></span>
+                    <span class='btn btn-dark btn-sm'>Sobra dos aportes: <span class='badge bg-danger'>R$ <?=number_format(($_SESSION['valorInvestimento']-$totInvestimentoReal),2,".",",")?></span></span>
                     <br><br>
 
                 </div>
