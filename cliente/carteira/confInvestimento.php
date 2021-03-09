@@ -1,11 +1,11 @@
 <?php
-
     require_once '../../conexao.php';
     session_start();
     if(!isset($_SESSION['clienteLogado'])){header('Location: ../../acessoNegado.php');}
 
 
     $totPatrAtualizado = 0;
+    $totInvestimentoReal = 0;
     $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
     $r->execute(array($_SESSION['idCarteira']));
     $linhas3 = $r->fetchAll(PDO::FETCH_ASSOC);
@@ -15,7 +15,7 @@
         $linhas4 = $r->fetchAll(PDO::FETCH_ASSOC);
         foreach($linhas4 as $l4) {$cotacaoAtualAcao = $l4['cotacaoAtual'];}
         $totPatrAtualizado += $l3['qtdAcao'] * $cotacaoAtualAcao;
-    }                                
+    }
 
 
     $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
@@ -42,31 +42,33 @@
         //ATUALIZAR QTDACOES NA AÇÃO DA CARTEIRA
         if($distObjetivo >= 0) {$qtdAcoesComprar = 0;}
         else {$qtdAcoesComprar = ($l['objetivo']*( ($_SESSION['valorInvestimento']+$totPatrAtualizado) / 100)) / $cotacaoAtual;}
+        if($qtdAcoesComprar!=0) {$totInvestimentoReal += ((int)$qtdAcoesComprar*$cotacaoAtual);}
         if($qtdAcoes==0 and $qtdAcoesComprar!=0) {$qtdAcoesBD=$qtdAcoesComprar;}
         else {$qtdAcoesBD = $qtdAcoes + ((int)$qtdAcoesComprar);}
 
-        if($qtdAcoesComprar!=0) {
-            echo $ativo."- ".$qtdAcoesBD;
-            /*$r = $db->prepare("UPDATE carteira_acao SET qtdAcao=? WHERE idCarteira=? AND ativoAcao=?");
+        if((int)$qtdAcoesComprar!=0) {
+            $r = $db->prepare("UPDATE carteira_acao SET qtdAcao=? WHERE idCarteira=? AND ativoAcao=?");
             $r->execute(array($qtdAcoesBD,$_SESSION['idCarteira'],$l['ativoAcao']));
         
             //INSERIR OPERACAO DE COMPRA
             $r = $db->prepare("INSERT INTO operacao(qtdAcoes,idCarteira,ativoAcao) VALUES (?,?,?)");
-            $r->execute(array((int)$qtdAcoesComprar,$_SESSION['idCarteira'],$l['ativoAcao']));*/
+            $r->execute(array((int)$qtdAcoesComprar,$_SESSION['idCarteira'],$l['ativoAcao']));
         }
     }
 
 
-    //INSERIR SOBRA APORTES
-
-    /*
+    //INSERIR SOBRA APORTES ($totSobraAportes + $sobraAportesBD)
+    $totSobraAportes = $_SESSION['valorInvestimento']-$totInvestimentoReal;
+    $r = $db->prepare("SELECT totalSobraAportes FROM pessoa WHERE cpf=?");
+    $r->execute(array($_SESSION['cpf']));
+    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+    foreach($linhas as $l) {$sobraAportesBD = $l['totalSobraAportes'];}
+    $r = $db->prepare("UPDATE pessoa SET totalSobraAportes=? WHERE cpf=?");
+    $r->execute(array($totSobraAportes+$sobraAportesBD,$_SESSION['cpf']));
     
-    */
-    $sobraAportes = $_SESSION['valorInvestimento']-$totPatrAtualizado;
-    echo "<br>".$sobraAportes;
     
 
     unset($_SESSION['idCarteira']);
     unset($_SESSION['valorInvestimento']);
-    //header("location: ../index.php");
+    header("location: ../index.php");
 ?>

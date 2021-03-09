@@ -59,6 +59,7 @@
                                 <th scope='col'>Cotação Atual</th>
                                 <th scope='col'>Patrimônio Atualizado</th>
                                 <th scope='col'>Participação Atual(%)</th>
+                                <th scope='col'>Investimento Real</th>
                                 <th scope='col'>Objetivo(%)</th>
                                 <th scope='col'>Distância do Objetivo(%)</th>
                                 <th scope='col'>Quantas Ações Comprar</th>  
@@ -68,6 +69,7 @@
                             <?php
                                 //Pegar totalPatrimonioAtualizado da carteira
                                 $totPatrAtualizado = 0;
+                                $totInvestimentoReal = 0;
                                 $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
                                 $r->execute(array($_SESSION['idCarteira']));
                                 $linhas3 = $r->fetchAll(PDO::FETCH_ASSOC);
@@ -102,7 +104,8 @@
                                     $distObjetivo = $partAtual - $l['objetivo'];
                                     if($distObjetivo >= 0) {$qtdAcoesComprar = 0;}
                                     else {$qtdAcoesComprar = ($l['objetivo']*( ($_SESSION['valorInvestimento']+$totPatrAtualizado) / 100)) / $cotacaoAtual;}
-
+                                    $investimentoReal = (int)$qtdAcoesComprar * $cotacaoAtual;
+                                    if($qtdAcoesComprar!=0) {$totInvestimentoReal += ((int)$qtdAcoesComprar*$cotacaoAtual);}
 
                                     echo "
                                         <tr>
@@ -111,7 +114,8 @@
                                             <td class='set'>".$qtdAcoes."</td>
                                             <td class='setx'>R$ ".$cotacaoAtual."</td>
                                             <td class='setx'>R$ ".number_format($patrAtualizado,2,".",",")."</td>                                            
-                                            <td class='set'>".number_format($partAtual,2,".",",")." %</td>
+                                            <td class='set'>".number_format($partAtual,2,".",",")." %</td>                                            
+                                            <td class='setx'>R$ ".number_format($investimentoReal,2,".",",")."</td>                                            
                                             <td class='set'>".number_format($l['objetivo'],2,".",",")." %</td>
                                             <td class='set'>".number_format($distObjetivo,2,".",",")." %</td>
                                             <td class='set'>".(int)$qtdAcoesComprar."</td>
@@ -121,8 +125,9 @@
                             ?>
                         </tbody>
                     </table>
-                    <span class='btn btn-dark btn-sm'>Total do Patr Atualizado: <span class='badge bg-success'>R$ <?=number_format($totPatrAtualizado,2,".",",")?></span></span>
-                    <span class='btn btn-dark btn-sm'>Sobra dos Aportes: <span class='badge bg-secondary'>R$ <?=number_format(($_SESSION['valorInvestimento']-$totPatrAtualizado),2,".",",")?></span></span>
+                    <span class='btn btn-dark btn-sm'>Total do Patr Atualizado: <span class='badge bg-warning'>R$ <?=number_format($totPatrAtualizado,2,".",",")?></span></span>
+                    <span class='btn btn-dark btn-sm'>Valor real investido: <span class='badge bg-success'>R$ <?=number_format($totInvestimentoReal,2,".",",")?></span></span>
+                    <span class='btn btn-dark btn-sm'>Sobra dos Aportes: <span class='badge bg-danger'>R$ <?=number_format(($_SESSION['valorInvestimento']-$totInvestimentoReal),2,".",",")?></span></span>
                     <br><br>
 
                 </div>
