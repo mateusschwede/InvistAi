@@ -138,11 +138,6 @@
                                         $propInvA = ($quant*$cotacaoAtual)/$valornacart*100;
                                     }
 
-                                    //Bug $totInvestimentoReal na visualização de 1ª simulação
-                                    $totInvestimentoRealExibido = 0;
-                                    if($patrAtualizado==0) {$totInvestimentoRealExibido = 0;}
-                                    else {$totInvestimentoRealExibido = $totInvestimentoReal;}
-
                                     echo "
                                         <tr>
                                             <td class='setx'>".strtoupper($ativo)."</td>
@@ -165,10 +160,10 @@
                                 }
                                 echo "
                                     <tr>
-                                        <td class='setx' colspan='4' style='color: green;'><b>Total Real Investido:</b> R$ ".number_format($totInvestimentoRealExibido,2,".",",")."</td>
-                                        <td class='setx' colspan='4' style='color: red;'><b>Sobra do Aporte:</b> R$ ".number_format(($_SESSION['valorInvestimento']-$totInvestimentoReal),2,".",",")."</td>
-                                        <td class='setx' colspan='4' style='color: blue;'><b>Total Patr Atual:</b> R$ ".number_format($totPatrAtualizado,2,".",",")."</td>
-                                        <td class='setx' colspan='4' style='color: brown;'><b>Total Atual Projetado:</b> R$ ".number_format($totInvestimentoReal+$totPatrAtualizado,2,".",",")."</td>
+                                        <td class='setx' colspan='4' style='color: green;'><b>Total real do aporte:</b> R$ ".number_format($totInvestimentoReal,2,".",",")."</td>
+                                        <td class='setx' colspan='4' style='color: red;'><b>Sobra do aporte:</b> R$ ".number_format(($_SESSION['valorInvestimento']-$totInvestimentoReal),2,".",",")."</td>
+                                        <td class='setx' colspan='4' style='color: blue;'><b>Total patr atual:</b> R$ ".number_format($totPatrAtualizado,2,".",",")."</td>
+                                        <td class='setx' colspan='4' style='color: brown;'><b>Total atual projetado:</b> R$ ".number_format($totInvestimentoReal+$totPatrAtualizado,2,".",",")."</td>
                                     <tr>
                                 ";
                             ?>
