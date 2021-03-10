@@ -1,3 +1,4 @@
+/* DROP DATABASE invistai;*/
 CREATE DATABASE invistai CHARSET=utf8;
 USE invistai;
 
