@@ -12,6 +12,8 @@
         $qtdAtualOperacao = 0-$_POST['qtdAcao'];
         $r = $db->prepare("INSERT INTO operacao(qtdAcoes,idCarteira,ativoAcao) VALUES (?,?,?)");
         $r->execute(array($qtdAtualOperacao,$_GET['idCarteira'], $_GET['ativoAcao']));
+        $r = $db->prepare("DELETE FROM carteira_acao WHERE qtdAcao=0");
+        $r->execute();
 
         header("location: ../index.php");
     }
