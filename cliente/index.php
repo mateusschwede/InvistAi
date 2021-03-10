@@ -77,17 +77,26 @@
                                 $r->execute(array($_SESSION['cpf']));
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
 
+                                
+
                                 foreach($linhas as $l) {
+                                    $p = $db->prepare("SELECT objetivo FROM carteira_acao WHERE idCarteira=?");
+                                    $p->execute(array($l['id']));
+                                    $ob = $p->fetchAll(PDO::FETCH_ASSOC);
+                                    $tot=0;
+                                    foreach($ob as $o) {$tot=$tot+$o['objetivo'];}
+
+
                                     echo "
                                         <tr>
                                             <th scope='row'>".($l['id'])."</th>
                                             <td class='setn'>".$l['objetivo']."</td>
                                             <td class='set'>".number_format($l['percInvestimento'],2,".",",")." %</td>
+                                            <td class='set'>".$l['percInvestimento']/100*$tot."%</td> 
                                             <td class='set'>x</td>
                                             <td class='set'>x</td>
                                             <td class='set'>x</td>
-                                            <td class='set'>x</td>
-                                            <td class='set'>x</td>
+                                            <td class='set'>Regular</td>
                                             <td class='set'><button type='button' class='btn btn-danger btn-sm' disabled>Excluir</button> <button type='button' class='btn btn-warning btn-sm' disabled>Editar</button> <a href='carteira/investirCarteira.php?id=".$l['id']."' class='btn btn-success btn-sm'>Operações</a></td>
                                         </tr>
                                     ";
