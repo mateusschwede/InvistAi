@@ -162,7 +162,7 @@
                                             <td class='set'>".number_format(($_SESSION['valorInvestimento']*($l['objetivo']/100)+$quant*$cotacaoAtual)/($_SESSION['valorInvestimento']+$valornacart)*100,2,",",".")." %</td>
                                             <td class='set'>".(int)$qtdAcoesComprar."</td>
                                             <td class='set'>".(int)($qtdAcoes+$qtdAcoesComprar)."</td>
-                            <!--            <td class='set'>".number_format(($investimentoReal+$patrAtualizado)/$valornacart+$_SESSION['valorInvestimento'],2,",",".")."%</td> -->
+                          
                                         </tr>
                                     ";
                                     $totproj+=$investimentoReal+$patrAtualizado;
