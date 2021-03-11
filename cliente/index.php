@@ -48,7 +48,7 @@
                     foreach($linhas as $l) {$totalSobraAportes = $l['totalSobraAportes'];}
                 ?>
                 <div class="text-center">
-                    <h4><span class='badge bg-dark'>Total sobras aportes <span class='badge bg-warning'><?=number_format($totalSobraAportes,2,",",".")?></span></span></h4>
+                    <h4><span class='badge bg-dark'>Total sobras aportes <span class='badge bg-warning'>R$ <?=number_format($totalSobraAportes,2,",",".")?></span></span></h4>
                     <a href="carteira/addCarteira.php" class="btn btn-primary">Adicionar Carteira</a>
                 </div>
                 <div class="table-responsive">
@@ -89,10 +89,10 @@
                                             <td class='setn'>".$l['objetivo']."</td>
                                             <td class='set'>".number_format($l['percInvestimento'],2,".",",")." %</td>
                                             <td class='set'>".$l['percInvestimento']/100*$tot."%</td> 
-                                            <td class='set'>".number_format($pati1,2,",",".")."</td>
-                                            <td class='set'>".number_format($pati2,2,",",".")."</td>
-                                            <td class='set'>".number_format($pati2-$pati1,2,",",".")."</td>
-                                            <td class='set'>Regular</td>
+                                            <td class='set'style=' text-transform: capitalize !important;'>R$ ".number_format($pati1,2,",",".")."</td>
+                                            <td class='set'style=' text-transform: capitalize !important;'>R$ ".number_format($pati2,2,",",".")."</td>
+                                            <td class='set'style=' text-transform: capitalize !important;'>R$ ".number_format($pati2-$pati1,2,",",".")."</td>
+                                            <td class='set'style=' text-transform: capitalize !important;'>Regular</td>
                                             <td class='set'><button type='button' class='btn btn-danger btn-sm' disabled>Excluir</button> <button type='button' class='btn btn-warning btn-sm' disabled>Editar</button> <a href='carteira/investirCarteira.php?id=".$l['id']."' class='btn btn-success btn-sm'>Operações</a></td>
                                         </tr>
                                     ";
