@@ -78,8 +78,6 @@
                 </nav>
             </div>
         </div>
-
-
         <div class="row">
             <div class="col-sm-12 text-center">
             <?= $msgSucesso ?  "<div class='alert alert-success alert-dismissible fade show' role='alert'>Senha atualizada!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>" : "" ?>
@@ -87,11 +85,13 @@
 
                 <h1>Atualizar Senha</h1>
                 <form action="atualizarSenha.php" method="post">
-                    <div class="mb-3">
+                    <div class="form-floating mb-3">
                         <input type="password" class="form-control" placeholder="Senha Atual" maxlength="5" required name="senhaAtual">
+                        <label for="floatingInput">Senha atual</label>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-floating mb-3">
                         <input type="password" class="form-control" placeholder="Nova Senha" maxlength="5" required name="novaSenha">
+                        <label for="floatingInput">Nova senha</label>
                     </div>
                     <button type="button" class="btn btn-danger" onclick="window.location.href='logout.php'">Sair</button>
                     <button type="submit" class="btn btn-success" id="submitWithEnter" onclick="return validadePassoword()">Atualizar</button>
@@ -99,8 +99,6 @@
                 </form>
             </div>
         </div>
-
-
     </div>
 </body>
 </html>

@@ -21,9 +21,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <div class="container-fluid">
-
-        
+    <div class="container-fluid">        
         <!-- Menu de Navegação -->
         <div class="row">
             <div class="col-sm-12" id="navbar">
@@ -43,9 +41,7 @@
                     </div>
                 </nav>
             </div>
-        </div>
-
-
+        </div>        
         <div class="row">
             <div class="col-sm-12">
                 <h1>Perfil do analista</h1>
@@ -62,15 +58,10 @@
                     }
                 ?>
                 <a href="updateAnalista.php?cpf=<?=$_SESSION['cpf']?>" class="btn btn-warning">Editar informações</a>
-
                 <a  href="#" onclick="confirmremove('?cpf=<?=$_SESSION['cpf']?>')"  class="btn btn-danger">Remover Analista</a>
-
                 <a href="../atualizarSenha.php" class="btn btn-warning">Alterar Senha</a>
-
             </div>
         </div>
-
-
     </div>
 </div>
 </body>

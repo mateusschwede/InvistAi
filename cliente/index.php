@@ -19,9 +19,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <div class="container-fluid">
-
-        
+    <div class="container-fluid">        
         <div class="row">
             <div class="col-sm-12" id="navbar">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -40,8 +38,6 @@
                 </nav>
             </div>
         </div>
-
-
         <div class="row">
             <div class="col-sm-12">
                 <h1>Minhas Carteiras</h1>
@@ -55,7 +51,6 @@
                     <h4><span class='badge bg-dark'>Total sobras aportes <span class='badge bg-warning'><?=number_format($totalSobraAportes,2,",",".")?></span></span></h4>
                     <a href="carteira/addCarteira.php" class="btn btn-primary">Adicionar Carteira</a>
                 </div>
-
                 <div class="table-responsive">
                     <table class='table table-striped'>
                         <thead>
@@ -75,19 +70,18 @@
                             <?php
                                 $r = $db->prepare("SELECT * FROM carteira WHERE cpfCliente=?");
                                 $r->execute(array($_SESSION['cpf']));
-                                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-
-                                
+                                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);                                
 
                                 foreach($linhas as $l) {
                                     $p = $db->prepare("SELECT objetivo FROM carteira_acao WHERE idCarteira=?");
                                     $p->execute(array($l['id']));
                                     $ob = $p->fetchAll(PDO::FETCH_ASSOC);
                                     $tot=0;
+
                                     foreach($ob as $o) {$tot=$tot+$o['objetivo'];}
+                                    
                                     $pati1= $totalSobraAportes/100*$l['percInvestimento']/100*$tot;
                                     $pati2= $totalSobraAportes/100*$l['percInvestimento'];
-
 
                                     echo "
                                         <tr>
@@ -105,14 +99,10 @@
                                 }
                             ?>
                         </tbody>
-                    </table>                   
-
+                    </table>
                 </div>
             </div>
-        </div>
-        
+        </div>        
     </div>
-
-
 </body>
 </html>

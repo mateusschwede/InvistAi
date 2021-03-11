@@ -40,9 +40,7 @@
     <script type="text/javascript" src="../../pace.min.js"></script>
 </head>
 <body>
-    <div class="container-fluid">
-
-        
+    <div class="container-fluid">        
         <!-- Menu de Navegação -->
         <div class="row">
             <div class="col-sm-12" id="navbar">
@@ -62,8 +60,6 @@
                 </nav>
             </div>
         </div>
-
-
         <div class="row">
             <div class="col-sm-12">
             <div class="container">

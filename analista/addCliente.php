@@ -32,8 +32,6 @@
 </head>
 <body>
     <div class="container-fluid">
-
-        
         <!-- Menu de Navegação -->
         <div class="row">
             <div class="col-sm-12" id="navbar">
@@ -55,26 +53,30 @@
             </div>
         </div>
 
-
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
                     <h1>Novo cliente</h1>
                     <form action="addCliente.php" method="post">
-                        <div class="mb-3">
+                        <div class="form-floating mb-3">
                             <input type="text" class="form-control" placeholder="cpf" required name="cpf" pattern="\d{11}" maxlength="11" onkeypress="return isNumber(event)">
+                            <label for="floatingInput">CPF</label>
                         </div>
-                        <div class="mb-3">
+                        <div class="form-floating mb-3">
                             <input type="text" class="form-control" placeholder="rg" required name="rg" pattern="\d{10}" maxlength="10" onkeypress="return isNumber(event)">
+                            <label for="floatingInput">RG</label>
                         </div>
-                        <div class="mb-3">
+                        <div class="form-floating mb-3">
                             <input type="text" class="form-control" placeholder="nome" required name="nome" maxlength="60" style="text-transform:lowercase;">
+                            <label for="floatingInput">Nome</label>
                         </div>
-                        <div class="mb-3">
+                        <div class="form-floating mb-3">
                         <input type="password" class="form-control" placeholder="senha" required name="senha" id="senha" maxlength="5" style="text-transform:lowercase;">
+                        <label for="floatingInput">Senha</label>
                         </div>
-                        <div class="mb-3">
+                        <div class="form-floating mb-3">
                             <input type="password" class="form-control" placeholder="confirmar senha" required name="senha-confirma" id="senha-confirma" maxlength="5" style="text-transform:lowercase;">
+                            <label for="floatingInput">Confirmar senha</label>
                         </div>
                         <button type="button" class="btn btn-danger" onclick="window.location.href='clientes.php'">Voltar</button>
                         <button type="submit" class="btn btn-success" id="submitWithEnter" onclick="return validadePassoword()">Adicionar</button>
@@ -83,8 +85,6 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 </body>
 </html>

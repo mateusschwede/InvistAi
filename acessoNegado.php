@@ -2,9 +2,9 @@
 <html lang="pt-br">
 <head>
     <?php
-    session_start();
-    session_unset();
-    session_destroy();
+        session_start();
+        session_unset();
+        session_destroy();
     ?>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="https://img.icons8.com/fluent/96/000000/bad-idea.png">

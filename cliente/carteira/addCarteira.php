@@ -41,9 +41,7 @@
     <script type="text/javascript" src="../../pace.min.js"></script>
 </head>
 <body>
-    <div class="container-fluid">
-
-        
+    <div class="container-fluid">        
         <!-- Menu de Navegação -->
         <div class="row">
             <div class="col-sm-12" id="navbar">
@@ -63,15 +61,14 @@
                 </nav>
             </div>
         </div>
-
-
         <div class="row">
             <div class="col-sm-12">
             <div class="container">
                 <h1>Adicionar carteira</h1>
                 <form action="addCarteira.php" method="post">
-                    <div class="mb-3">
+                    <div class="form-floating mb-3">
                         <input type="text" class="form-control" placeholder="objetivo da carteira" required name="objetivo" maxlength="60" style="text-transform:lowercase;">
+                        <label for="floatingPassword">Objetivo da carteira</label>
                     </div>
                     <div class="mb-3">
                         <input type="number" class="form-control" required name="percInvestimento" min="1" max=<?=$percInvestimento?> step="1" placeholder="Percentual Investimento" value=<?=$percInvestimento?> onkeypress="return isNumberAndDot(event)">

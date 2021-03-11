@@ -18,8 +18,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<div class="container-fluid">
-    
+<div class="container-fluid">    
     <div class="row">
         <div class="col-sm-12" id="navbar">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -32,26 +31,24 @@
                             <li class="nav-item"><a class="nav-link" href="perfil.php">Perfil</a></li>
                             <li class="nav-item"><a class="nav-link" href="acoes.php">Ações</a></li>
                             <li class="nav-item"><a class="nav-link" href="clientes.php">Clientes</a></li>
-                              <li class="nav-item"><a class="nav-link" href="#" onclick="confirmlogout('../logout.php')" id="logout"><?=$_SESSION['nome']?>-logout</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#" onclick="confirmlogout('../logout.php')" id="logout"><?=$_SESSION['nome']?>-logout</a></li>
                         </ul>
                     </div>
                 </div>
             </nav>
         </div>
     </div>
-
-
     <div class="row">
         <div class="col-sm-12">
             <h1>Operações de Cliente</h1>
-
             <div class="row">
                 <div class="col-sm-12">
                     <form action="index.php" method="post">
                         <div class="mb-3">
                             <select class="form-select" name="cpf">
+                            <option selected>Selecione o cliente</option>
                                 <?php
-                                    $r = $db->query("SELECT cpf,nome FROM pessoa WHERE tipo=2 AND inativado=0");
+                                    $r = $db->query("SELECT cpf,nome FROM pessoa WHERE tipo=2 AND inativado=0 ORDER BY nome");
                                     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                                     foreach($linhas as $l) {echo "<option value='".$l['cpf']."'>".$l['nome']." (cpf ".$l['cpf'].")</option>";}
                                 ?>
@@ -61,7 +58,6 @@
                         <button type="button" class="btn btn-primary" onclick="window.print()">Imprimir relatório</button>
                     </form>
                     <br><small><b>Compra:</b> Quantidade positiva<br><b>Venda:</b> Quantidade negativa</small>
-
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
@@ -78,10 +74,12 @@
                                         $r = $db->prepare("SELECT id,objetivo FROM carteira WHERE cpfCliente=? ORDER BY objetivo");
                                         $r->execute(array($_POST['cpf']));
                                         $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                                        
                                         foreach($linhas as $l) {                                            
                                             $r = $db->prepare("SELECT * FROM operacao WHERE idCarteira=? ORDER BY dataOperacao DESC");
                                             $r->execute(array($l['id']));
                                             $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
+                                            
                                             foreach($linhas2 as $l2) {
                                                 echo "
                                                     <tr>

@@ -31,9 +31,7 @@
     <script type="text/javascript" src="../../pace.min.js"></script>
 </head>
 <body>
-    <div class="container-fluid">
-
-        
+    <div class="container-fluid">        
         <!-- Menu de Navegação -->
         <div class="row">
             <div class="col-sm-12" id="navbar">
@@ -53,8 +51,6 @@
                 </nav>
             </div>
         </div>
-
-
         <div class="row">
             <div class="col-sm-12 text-center">
                 <h1>Carteira <?=$_SESSION['idCarteira']?></h1>
@@ -62,6 +58,7 @@
                     $r = $db->prepare("SELECT * FROM carteira WHERE id=?");
                     $r->execute(array($_SESSION['idCarteira']));
                     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                    
                     foreach($linhas as $l) {echo "<h4 class='text-muted'>".$l['objetivo']."<br>(".$l['percInvestimento']."%)</h4><br>";}
                 ?>
 
@@ -72,9 +69,9 @@
                     $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
                     $r->execute(array($_SESSION['idCarteira']));
                     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                   
                     foreach($linhas as $l) {echo "<b>(".$l['objetivo']."%)</b> ".$l['ativoAcao']."<br>";}
-                ?>
-                               
+                ?>                               
                 <a href="addAcaoCarteira.php" class="btn btn-primary btn-sm">Adicionar ação</a><br><br>
                 <form action="telaAcoes.php" method="post">
                     <input type="hidden" name="finalizarCarteira" value="1">

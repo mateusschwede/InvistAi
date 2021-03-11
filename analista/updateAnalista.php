@@ -71,31 +71,29 @@
                 </nav>
             </div>
         </div>
-
-
         <div class="row">
             <div class="col-sm-12 text-center">
             <?= $msgSucesso ?  "<div class='alert alert-success alert-dismissible fade show' role='alert'>Dados Atualizados!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>" : "" ?>
-
                 <h1>Editar Perfil</h1>
                 <form action="updateAnalista.php" method="post">
-                    <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="cpf" required name="cpf" pattern="\d{11}" maxlength="11" onkeypress="return isNumber(event)" disabled value="<?=$analista['cpf']?>">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" placeholder="cpf" required name="cpf" pattern="\d{11}" maxlength="11" onkeypress="return isNuform-floating mber(event)" disabled value="<?=$analista['cpf']?>">
+                        <label for="floatingInput">CPF</label>
                     </div>
-                    <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="rg" required name="rg" pattern="\d{10}" maxlength="10" onkeypress="return isNumber(event)" disabled value="<?=$analista['rg']?>">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" placeholder="rg" required name="rg" pattern="\d{10}" maxlength="10" onkeypress="return isNuform-floating mber(event)" disabled value="<?=$analista['rg']?>">
+                        <label for="floatingInput">RG</label>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-floating mb-3">
                         <input type="text" class="form-control" placeholder="nome" required name="nome" maxlength="60" style="text-transform:lowercase;" value="<?=$analista['nome']?>">
+                        <label for="floatingInput">Nome</label>
                     </div>
                 <button type="button" class="btn btn-danger" onclick="window.location.href='perfil.php'">Voltar</button>
-                    <button type="submit" class="btn btn-success" id="submitWithEnter" onclick="return validadePassoword()">Atualizar</button>
+                    <button type="submit" class="btn btn-success" id="submitWithEnter">Atualizar</button>
                     <button type="reset" class="btn btn-warning">Limpar</button>
                 </form>
             </div>
         </div>
-
-
     </div>
 </body>
 </html>

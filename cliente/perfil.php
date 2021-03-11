@@ -21,8 +21,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <div class="container-fluid">
-        
+    <div class="container-fluid">        
         <!-- Menu de Navegação -->
         <div class="row">
             <div class="col-sm-12" id="navbar">
@@ -42,7 +41,6 @@
                 </nav>
             </div>
         </div>
-
         <div class="row">
             <div class="col-sm-12">
                 <h1>Perfil do cliente</h1>
@@ -50,6 +48,7 @@
                     $r = $db->prepare("SELECT * FROM pessoa WHERE cpf=?");
                     $r->execute(array($_SESSION['cpf']));
                     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                    
                     foreach($linhas as $l) {
                         echo "
                             <p><b>CPF:</b> ".$_SESSION['cpf']."</p>

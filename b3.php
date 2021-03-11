@@ -5,3 +5,4 @@ para simular esse comportamento no seu computador mantenha uma guia no navegador
     require_once 'conexao.php';
     require_once 'api/dados.php';
     require_once 'api/valores.php';
+?>

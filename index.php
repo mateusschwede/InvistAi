@@ -39,24 +39,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript" src="script.js"></script>
     <script type="text/javascript" src="pace.min.js"></script>
-
 </head>
 <body id="login">
 <div class="container" id="login2">
     <div class="container-fluid">
-
-
         <div class="row">
             <div class="col-sm-12 text-center">
                 <img src="https://img.icons8.com/fluent/96/000000/bad-idea.png"/>
                 <h1>InvistAí</h1>
                 <h4 class="text-muted">Software de recomendações de compras de ações</h4>
                 <form action="index.php" method="post">
-                    <div class="mb-3">
+                    <div class="form-floating mb-3">
                         <input type="text" class="form-control" placeholder="cpf" required name="cpf" pattern="\d{11}" maxlength="11" onkeypress="return isNumber(event)">
+                        <label for="floatingInput">Email</label>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-floating mb-3">
                         <input type="password" class="form-control" placeholder="senha" required name="senha" maxlength="5" style="text-transform:lowercase;">
+                        <label for="floatingInput">Senha</label>
                     </div>
                     <button id="submitWithEnter" type="submit" class="btn btn-primary btn-lg">Entrar</button>
                 </form>
@@ -64,8 +63,6 @@
                 <a href="analista/addAnalista.php" class="btn btn-secondary btn-sm">Novo analista</a>
             </div>
         </div>
-
-
     </div>
 </div>
 </body>

@@ -21,9 +21,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <div class="container-fluid">
-
-        
+    <div class="container-fluid">        
         <!-- Menu de Navegação -->
         <div class="row">
             <div class="col-sm-12" id="navbar">
@@ -43,9 +41,7 @@
                 </nav>
             </div>
         </div>
-
         <?php require_once '../acoes.php'; ?>
-
     </div>
 </body>
 </html>

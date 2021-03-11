@@ -44,7 +44,6 @@
 </head>
 <body>
     <div class="container-fluid">
-
         <div class="row">
             <div class="col-sm-12" id="navbar">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -63,7 +62,6 @@
                 </nav>
             </div>
         </div>
-
         <div class="row">
             <div class="col-sm-12">
                 <h1>Vender ação <?=$_GET['ativo']?></h1>
@@ -77,8 +75,6 @@
                 </form>
             </div>
         </div>
-
-
     </div>
 </body>
 </html>

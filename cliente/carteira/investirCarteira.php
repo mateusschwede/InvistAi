@@ -24,9 +24,7 @@
     <script type="text/javascript" src="../../pace.min.js"></script>
 </head>
 <body>
-    <div class="container-fluid">
-
-        
+    <div class="container-fluid">        
         <!-- Menu de Navegação -->
         <div class="row">
             <div class="col-sm-12" id="navbar">
@@ -46,8 +44,6 @@
                 </nav>
             </div>
         </div>
-
-
         <div class="row">
             <div class="col-sm-12">            
                 <div class="text-center">
@@ -58,8 +54,7 @@
                         $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                         foreach($linhas as $l) {echo "<h4 class='text-muted'>".$l['objetivo']."</h4>";}
                     ?>
-                </div>
-                
+                </div>                
                 <h3>Investir na carteira:</h3>
                 <form action="investirCarteira.php?idCarteira=<?=$_GET['id']?>" method="post">
                     <div class="mb-3">
@@ -70,7 +65,6 @@
                 </form>
             </div>
         </div>
-
         <div class="row">
             <div class="col-sm-12">
                 <br><h3>Ações:</h3>
@@ -105,7 +99,6 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-sm-12">
             <br><h3>Operações:</h3>
