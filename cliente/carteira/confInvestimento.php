@@ -41,12 +41,12 @@
 
         //ATUALIZAR QTDACOES NA AÇÃO DA CARTEIRA
         if($distObjetivo >= 0) {$qtdAcoesComprar = 0;}
-        else {$qtdAcoesComprar = ($l['objetivo']*( ($_SESSION['valorInvestimento']+$totPatrAtualizado) / 100)) / $cotacaoAtual;}
+        else {$qtdAcoesComprar = (int)($l['objetivo']*( ($_SESSION['valorInvestimento']+$totPatrAtualizado) / 100)) / $cotacaoAtual;}
         
         if($qtdAcoesComprar!=0) {$totInvestimentoReal += ((int)$qtdAcoesComprar*$cotacaoAtual);}
         
-        if($qtdAcoes==0 and $qtdAcoesComprar!=0) {$qtdAcoesBD=$qtdAcoesComprar;}
-        else {$qtdAcoesBD = $qtdAcoes + ((int)$qtdAcoesComprar);}
+        if($qtdAcoes==0 and $qtdAcoesComprar!=0) {$qtdAcoesBD=(int)$qtdAcoesComprar;}
+        else {$qtdAcoesBD = (int)$qtdAcoes + ((int)$qtdAcoesComprar);}
 
         if((int)$qtdAcoesComprar!=0) {
             $r = $db->prepare("UPDATE carteira_acao SET qtdAcao=? WHERE idCarteira=? AND ativoAcao=?");
