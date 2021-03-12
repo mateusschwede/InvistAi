@@ -3,6 +3,7 @@
     session_start();
     if(!isset($_SESSION['clienteLogado'])){header('Location: ../../acessoNegado.php');}
 
+    
     if( (!empty($_GET['ativoAcao'])) and (!empty($_GET['idCarteira'])) and (!empty($_GET['qtdAcao'])) and (!empty($_POST['qtdAcao'])) ) {
         
         $qtdAtual = $_GET['qtdAcao'] - $_POST['qtdAcao'];
@@ -12,8 +13,6 @@
         $qtdAtualOperacao = 0-$_POST['qtdAcao'];
         $r = $db->prepare("INSERT INTO operacao(qtdAcoes,idCarteira,ativoAcao) VALUES (?,?,?)");
         $r->execute(array($qtdAtualOperacao,$_GET['idCarteira'], $_GET['ativoAcao']));
-        $r = $db->prepare("DELETE FROM carteira_acao WHERE qtdAcao=0");
-        $r->execute();
 
         header("location: ../index.php");
     }
@@ -23,10 +22,14 @@
     $r->execute(array($_GET['idCarteira'],$_GET['ativo']));
     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
     foreach($linhas as $l) {$qtdMaxVenda = $l['qtdAcao'];}
-    $r = $db->prepare("SELECT cotacaoAtual FROM acao WHERE ativo=?");
+    
+    $r = $db->prepare("SELECT cotacaoAtual,nome FROM acao WHERE ativo=?");
     $r->execute(array($_GET['ativo']));
     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-    foreach($linhas as $l) {$cotacaoAtual = number_format($l['cotacaoAtual'],2,".",",");}
+    foreach($linhas as $l) {
+        $cotacaoAtual = number_format($l['cotacaoAtual'],2,".",",");
+        $nome=$l['nome'];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -42,8 +45,10 @@
     <script type="text/javascript" src="../../script.js"></script>
     <script type="text/javascript" src="../../pace.min.js"></script>
 </head>
+
 <body>
     <div class="container-fluid">
+
         <div class="row">
             <div class="col-sm-12" id="navbar">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -62,10 +67,12 @@
                 </nav>
             </div>
         </div>
+
         <div class="row">
             <div class="col-sm-12">
-                <h1>Vender ação <?=$_GET['ativo']?></h1>
-                <p class="text-center"><b>Cotação Atual:</b> R$ <?=$cotacaoAtual?></p>
+                <h1>Venda da ação</h1>
+                <h2  style="text-align: center;"> <?=$_GET['ativo'].' - '.strtoupper($nome)?></h2>
+                <p class="text-center"><b>Cotação Atual:</b> R$ <?=$cotacaoAtual?> - Quant. em Carteira: <?=$qtdMaxVenda?></p>
                 <form action="venderAcao.php?ativoAcao=<?=$_GET['ativo']?>&idCarteira=<?=$_GET['idCarteira']?>&qtdAcao=<?=$qtdMaxVenda?>" method="post">
                     <div class="mb-3">
                         <input type="number" class="form-control" required name="qtdAcao" min="1" max="<?=$qtdMaxVenda?>" step="1" placeholder="Quantidade">
@@ -75,6 +82,8 @@
                 </form>
             </div>
         </div>
+
+
     </div>
 </body>
 </html>

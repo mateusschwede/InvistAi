@@ -8,11 +8,11 @@
         $r->execute(array($_SESSION['idCarteira']));
         $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
         foreach($linhas as $l) {
-            if($l['SUM(objetivo)']==100) {
+            if($l['SUM(objetivo)']<=100) {
                 unset($_SESSION['idCarteira']);
                 $_SESSION['msg'] = "<div class='alert alert-success alert-dismissible fade show' role='alert'>Carteira finalizada!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
                 header("location: ../index.php");
-            } else {echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>A distribuição percentual das ações precisa somar 100%!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";}
+            } else {echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>A distribuição percentual das ações não pode exceder 100%!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";}
         }
     }
 ?>
