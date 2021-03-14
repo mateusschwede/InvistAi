@@ -51,7 +51,7 @@
                 <form action="index.php" method="post">
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" placeholder="cpf" required name="cpf" pattern="\d{11}" maxlength="11" onkeypress="return isNumber(event)">
-                        <label for="floatingInput">Email</label>
+                        <label for="floatingInput">CPF</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input type="password" class="form-control" placeholder="senha" required name="senha" maxlength="5" style="text-transform:lowercase;">

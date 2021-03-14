@@ -3,6 +3,7 @@
     session_start();
     if(!isset($_SESSION['clienteLogado'])) {header('Location: ../acessoNegado.php');}
     if(isset($_SESSION['msg'])) {echo $_SESSION['msg'];unset($_SESSION['msg']);}
+    if(isset($_SESSION['idCarteira'])) {unset($_SESSION['idCarteira']);}
 ?>
 
 <!DOCTYPE html>
@@ -93,7 +94,7 @@
                                             <td class='set'style=' text-transform: capitalize !important;'>R$ ".number_format($pati2,2,",",".")."</td>
                                             <td class='set'style=' text-transform: capitalize !important;'>R$ ".number_format($pati2-$pati1,2,",",".")."</td>
                                             <td class='set'style=' text-transform: capitalize !important;'>Regular</td>
-                                            <td class='set'><button type='button' class='btn btn-danger btn-sm' disabled>Excluir</button> <button type='button' class='btn btn-warning btn-sm' disabled>Editar</button> <a href='carteira/investirCarteira.php?id=".$l['id']."' class='btn btn-success btn-sm'>Operações</a></td>
+                                            <td class='set'><a href='carteira/investirCarteira.php?id=".$l['id']."' class='btn btn-success btn-sm'>Acessar carteira</a></td>
                                         </tr>
                                     ";
                                 }

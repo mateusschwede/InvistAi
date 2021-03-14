@@ -3,6 +3,9 @@
     session_start();
     if(!isset($_SESSION['clienteLogado'])){header('Location: ../../acessoNegado.php');}
 
+    if(!empty($_GET['id'])) {$_SESSION['idCarteira'] = $_GET['id'];}
+    if((isset($_SESSION['investimentoReal'])) and (isset($_SESSION['valorInvestimento']))) {unset($_SESSION['investimentoReal']); unset($_SESSION['valorInvestimento']);}
+
     if( (!empty($_GET['idCarteira'])) and (!empty($_POST['valorInvestimento'])) ) {
         $_SESSION['idCarteira'] = $_GET['idCarteira'];
         $_SESSION['valorInvestimento'] = $_POST['valorInvestimento'];
@@ -25,7 +28,7 @@
 </head>
 <body>
     <div class="container-fluid">        
-        <!-- Menu de Navegação -->
+        
         <div class="row">
             <div class="col-sm-12" id="navbar">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -44,19 +47,25 @@
                 </nav>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-sm-12">            
+            <div class="col-sm-12">
                 <div class="text-center">
-                    <h1>Carteira <?=$_GET['id']?></h1>
+                    <h1>Carteira <?=$_SESSION['idCarteira']?></h1>
                     <?php
-                        $r = $db->prepare("SELECT objetivo FROM carteira WHERE id=?");
-                        $r->execute(array($_GET['id']));
+                        $r = $db->prepare("SELECT * FROM carteira WHERE id=?");
+                        $r->execute(array($_SESSION['idCarteira']));
                         $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                        foreach($linhas as $l) {echo "<h4 class='text-muted'>".$l['objetivo']."</h4>";}
+                        foreach($linhas as $l) {
+                            echo "<h4 class='text-muted'>".$l['objetivo']." (".$l['percInvestimento']."%)</h4>";
+                            $percCarteira = $l['percInvestimento'];
+                        }
                     ?>
-                </div>                
+                    <button class='btn btn-danger' disabled>Excluir carteira</button> <a href="editarCarteira/edCarteira.php?perc=<?=$percCarteira?>" class="btn btn-warning">Alterar carteira</a>
+                </div>
+
                 <h3>Investir na carteira:</h3>
-                <form action="investirCarteira.php?idCarteira=<?=$_GET['id']?>" method="post">
+                <form action="investirCarteira.php?idCarteira=<?=$_SESSION['idCarteira']?>" method="post">
                     <div class="mb-3">
                         <input type="number" class="form-control" required name="valorInvestimento" placeholder="Valor à investir" step="0.01" min="0.01" max="999999999">
                     </div>
@@ -65,33 +74,47 @@
                 </form>
             </div>
         </div>
+
         <div class="row">
             <div class="col-sm-12">
                 <br><h3>Ações:</h3>
+                <a href="editarCarteira/addAcaoCarteira.php" class="btn btn-success btn-sm">Incluir ação</a>
                 <div class="table-responsive">
                     <table class='table table-striped'>
                         <thead>
                             <tr>
                                 <th scope='col'>Ativo</th>
+                                <th scope='col'>Nome</th>
                                 <th scope='col'>Objetivo</th>
                                 <th scope='col'>Quantidade</th>
+                                <th scope='col'>Cotação</th>
+                                <th scope='col'>Total</th>
                                 <th scope='col'></th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                                 $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
-                                $r->execute(array($_GET['id']));
+                                $r->execute(array($_SESSION['idCarteira']));
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                                 foreach($linhas as $l) {
-                                    echo "
-                                        <tr>
-                                            <td class='setx'>".strtoupper($l['ativoAcao'])."</td>
-                                            <td class='setx'>".$l['objetivo']." %</td>
-                                            <td class='setx'>".$l['qtdAcao']."</td>
-                                            <td class='setx'><a href='venderAcao.php?ativo=".$l['ativoAcao']."&idCarteira=".$_GET['id']."' class='btn btn-primary btn-sm'>Vender</a></td>
-                                        </tr>
-                                    ";
+                                    
+                                    $r = $db->prepare("SELECT * FROM acao WHERE ativo=?");
+                                    $r->execute(array($l['ativoAcao']));
+                                    $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach($linhas2 as $l2) {
+                                        echo "
+                                            <tr>
+                                                <td class='setx'>".$l['ativoAcao']."</td>
+                                                <td class='setx'>".$l2['nome']."</td>
+                                                <td class='setx'>".$l['objetivo']." %</td>
+                                                <td class='setx'>".$l['qtdAcao']."</td>
+                                                <td class='setx'>R$ ".number_format($l2['cotacaoAtual'],2,".",",")."</td>
+                                                <td class='setx'>R$ ".number_format(($l2['cotacaoAtual']*$l['qtdAcao']),2,".",",")."</td>
+                                                <td class='setx'><button href='excluirCarteira' class='btn btn-danger btn-sm' disabled>Excluir</button> <a href='editarCarteira/edAcaoCarteira.php' class='btn btn-warning btn-sm'>Alterar</a> <a href='editarCarteira/trocarCarteira.php' class='btn btn-info btn-sm'>Trocar carteira</a> <a href='venderAcao.php?ativo=".$l['ativoAcao']."&idCarteira=".$_SESSION['idCarteira']."' class='btn btn-primary btn-sm'>Vender</a></td>
+                                            </tr>
+                                        ";
+                                    }
                                 }
                             ?>
                         </tbody>
@@ -99,6 +122,7 @@
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-sm-12">
             <br><h3>Operações:</h3>
@@ -116,7 +140,7 @@
                         <tbody>
                             <?php
                                 $r = $db->prepare("SELECT * FROM operacao WHERE idCarteira=? ORDER BY dataOperacao DESC");
-                                $r->execute(array($_GET['id']));
+                                $r->execute(array($_SESSION['idCarteira']));
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                                 foreach($linhas as $l) {
                                     echo "
