@@ -70,16 +70,19 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <h1>Venda da ação</h1>
-                <h2  style="text-align: center;"> <?=$_GET['ativo'].' - '.strtoupper($nome)?></h2>
-                <p class="text-center"><b>Cotação Atual:</b> R$ <?=$cotacaoAtual?> - Quant. em Carteira: <?=$qtdMaxVenda?></p>
-                <form action="venderAcao.php?ativoAcao=<?=$_GET['ativo']?>&idCarteira=<?=$_GET['idCarteira']?>&qtdAcao=<?=$qtdMaxVenda?>" method="post">
-                    <div class="mb-3">
-                        <input type="number" class="form-control" required name="qtdAcao" min="1" max="<?=$qtdMaxVenda?>" step="1" placeholder="Quantidade">
-                    </div>
-                    <a href="../index.php" class="btn btn-danger">Cancelar</a>
-                    <button type="submit" class="btn btn-success" id="submitWithEnter">Confirmar</button>
-                </form>
+                <div class="container">
+                    <h1>Vender ação</h1>
+                    <h4 class="text-center text-muted"><?=$_GET['ativo'].' - '.strtoupper($nome)?></h4>
+                    <p class="text-center">Cotação atual: R$ <?=$cotacaoAtual?><br>Quantidade em carteira: <?=$qtdMaxVenda?><br>Total à venda: R$ <?=number_format(($cotacaoAtual*$qtdMaxVenda),2,".",",")?></p>
+                    <form action="venderAcao.php?ativoAcao=<?=$_GET['ativo']?>&idCarteira=<?=$_GET['idCarteira']?>&qtdAcao=<?=$qtdMaxVenda?>" method="post">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" required id="floatingInput" name="qtdAcao" min="1" max="<?=$qtdMaxVenda?>" step="1" placeholder="Quantidade">
+                            <label for="floatingInput">Quantidade de venda</label>
+                        </div>
+                        <a href="investirCarteira.php" class="btn btn-danger">Cancelar</a>
+                        <button type="submit" class="btn btn-success" id="submitWithEnter">Confirmar</button>
+                    </form>
+                </div>
             </div>
         </div>
 

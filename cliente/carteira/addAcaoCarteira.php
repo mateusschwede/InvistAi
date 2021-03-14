@@ -36,7 +36,7 @@
 </head>
 <body>
     <div class="container-fluid">       
-        <!-- Menu de Navegação -->
+        
         <div class="row">
             <div class="col-sm-12" id="navbar">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -55,22 +55,24 @@
                 </nav>
             </div>
         </div>
+
         <div class="row">
             <div class="col-sm-12">
                 <h3>Adicionar ação à carteira <?=$_SESSION['idCarteira']?>:</h3>
                 <form action="addAcaoCarteira.php" method="post">
-                    <div class="mb-3">
-                        <label class="form-label">Ação</label>
-                        <select class="form-select" required name="ativoAcao">                            
+                    <div class="form-floating mb-3">
+                        <select class="form-select" required id="floatingSelect" name="ativoAcao">
                             <?php
                                 $r = $db->query("SELECT ativo,nome,cotacaoAtual FROM acao WHERE cotacaoAtual!=0");
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                                 foreach($linhas as $l) {echo "<option value=".$l['ativo'].">".$l['nome']." (".$l['ativo'].") - R$ ".number_format($l['cotacaoAtual'],2,".",",")."</option>";}
                             ?>
                         </select>
+                        <label for="floatingSelect">Ativo da ação</label>
                     </div>
-                    <div class="mb-3">
-                        <input type="number" class="form-control" required name="objetivo" min="1" max="<?=$somaPerc?>" step="1" placeholder="Objetivo(%)" value="<?=$somaPerc?>" onkeypress="return isNumberAndDot(event)">
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" required id="lblObjetivo" name="objetivo" min="1" max="<?=$somaPerc?>" step="1" placeholder="Objetivo(%)" value="<?=$somaPerc?>" onkeypress="return isNumberAndDot(event)">
+                        <label for="lblObjetivo">Percentual de objetivo</label>
                         <div class="form-text">O objetivo não pode ultrapassar a soma dos percentuais das ações cadastradas na carteira</div>
                     </div>
                     <a href="telaAcoes.php" class="btn btn-danger">Cancelar</a>

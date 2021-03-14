@@ -18,7 +18,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<div class="container-fluid">    
+<div class="container-fluid">
+
     <div class="row">
         <div class="col-sm-12" id="navbar">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -38,14 +39,15 @@
             </nav>
         </div>
     </div>
+
     <div class="row">
         <div class="col-sm-12">
             <h1>Operações de Cliente</h1>
             <div class="row">
                 <div class="col-sm-12">
                     <form action="index.php" method="post">
-                        <div class="mb-3">
-                            <select class="form-select" name="cpf">
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="floatingSelect" name="cpf">
                             <option selected>Selecione o cliente</option>
                                 <?php
                                     $r = $db->query("SELECT cpf,nome FROM pessoa WHERE tipo=2 AND inativado=0 ORDER BY nome");
@@ -53,6 +55,7 @@
                                     foreach($linhas as $l) {echo "<option value='".$l['cpf']."'>".$l['nome']." (cpf ".$l['cpf'].")</option>";}
                                 ?>
                             </select>
+                            <label for="floatingSelect">Dados do cliente</label>
                         </div>
                         <button type="submit" class="btn btn-success" id="submitWithEnter">Gerar relatório</button>
                         <button type="button" class="btn btn-primary" onclick="window.print()">Imprimir relatório</button>

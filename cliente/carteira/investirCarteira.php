@@ -61,15 +61,16 @@
                             $percCarteira = $l['percInvestimento'];
                         }
                     ?>
-                    <button class='btn btn-danger' disabled>Excluir carteira</button> <a href="editarCarteira/edCarteira.php?perc=<?=$percCarteira?>" class="btn btn-warning">Alterar carteira</a>
+                    <button class='btn btn-danger btn-sm' disabled>Excluir carteira</button> <a href="editarCarteira/edCarteira.php?perc=<?=$percCarteira?>" class="btn btn-warning btn-sm">Alterar carteira</a>
+                    <br><br><a href="../index.php" class="btn btn-secondary">Voltar</a>
                 </div>
 
                 <h3>Investir na carteira:</h3>
                 <form action="investirCarteira.php?idCarteira=<?=$_SESSION['idCarteira']?>" method="post">
-                    <div class="mb-3">
-                        <input type="number" class="form-control" required name="valorInvestimento" placeholder="Valor à investir" step="0.01" min="0.01" max="999999999">
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" required id="floatingInput" name="valorInvestimento" placeholder="Valor à investir" step="0.01" min="0.01" max="999999999">
+                        <label for="floatingInput">Valor à investir</label>
                     </div>
-                    <a href="../index.php" class="btn btn-danger">Voltar</a>
                     <button type="submit" class="btn btn-success" id="submitWithEnter">Conferir Investimento</button>
                 </form>
             </div>

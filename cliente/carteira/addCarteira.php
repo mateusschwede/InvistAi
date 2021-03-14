@@ -42,7 +42,7 @@
 </head>
 <body>
     <div class="container-fluid">        
-        <!-- Menu de Navegação -->
+
         <div class="row">
             <div class="col-sm-12" id="navbar">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -61,18 +61,20 @@
                 </nav>
             </div>
         </div>
+        
         <div class="row">
             <div class="col-sm-12">
             <div class="container">
                 <h1>Adicionar carteira</h1>
                 <form action="addCarteira.php" method="post">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" placeholder="objetivo da carteira" required name="objetivo" maxlength="60" style="text-transform:lowercase;">
-                        <label for="floatingPassword">Objetivo da carteira</label>
+                        <input type="text" class="form-control" placeholder="objetivo da carteira" required id="lblObjetivo" name="objetivo" maxlength="60" style="text-transform:lowercase;">
+                        <label for="lblObjetivo">Objetivo da carteira</label>
                     </div>
-                    <div class="mb-3">
-                        <input type="number" class="form-control" required name="percInvestimento" min="1" max=<?=$percInvestimento?> step="1" placeholder="Percentual Investimento" value=<?=$percInvestimento?> onkeypress="return isNumberAndDot(event)">
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" required id="lblPerc" name="percInvestimento" min="1" max=<?=$percInvestimento?> step="1" placeholder="Percentual Investimento" value=<?=$percInvestimento?> onkeypress="return isNumberAndDot(event)">
                         <div class="form-text">O percentual não pode ultrapassar a soma dos percentuais das carteiras cadastradas</div>
+                        <label for="lblPerc">Objetivo da carteira</label>
                     </div>
                     <a href="../index.php" class="btn btn-danger">Cancelar</a>
                     <button type="submit" class="btn btn-success" id="submitWithEnter">Próximo</button>
