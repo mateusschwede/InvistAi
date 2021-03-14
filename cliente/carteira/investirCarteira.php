@@ -94,20 +94,22 @@
                         </thead>
                         <tbody>
                             <?php
+                                $valorCarteira = 0;
                                 $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
                                 $r->execute(array($_SESSION['idCarteira']));
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                                 foreach($linhas as $l) {
-                                    
+
                                     $r = $db->prepare("SELECT * FROM acao WHERE ativo=?");
                                     $r->execute(array($l['ativoAcao']));
                                     $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
                                     foreach($linhas2 as $l2) {
+                                        $valorCarteira += $l2['cotacaoAtual']*$l['qtdAcao'];
                                         echo "
                                             <tr>
                                                 <td class='setx'>".$l['ativoAcao']."</td>
                                                 <td class='setx'>".$l2['nome']."</td>
-                                                <td class='setx'>".$l['objetivo']." %</td>
+                                                <td class='setx'>".$l['objetivo']."%</td>
                                                 <td class='setx'>".$l['qtdAcao']."</td>
                                                 <td class='setx'>R$ ".number_format($l2['cotacaoAtual'],2,".",",")."</td>
                                                 <td class='setx'>R$ ".number_format(($l2['cotacaoAtual']*$l['qtdAcao']),2,".",",")."</td>
@@ -135,6 +137,9 @@
                                 <th scope='col'>Data</th>
                                 <th scope='col'>Ativo</th>
                                 <th scope='col'>Quantidade</th>
+                                <th scope='col'>Valor</th>
+                                <th scope='col'>Proporção</th>
+                                <th scope='col'>Objetivo</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -143,14 +148,37 @@
                                 $r->execute(array($_SESSION['idCarteira']));
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                                 foreach($linhas as $l) {
-                                    echo "
-                                        <tr>
-                                            <th scope='row'>".$l['dataOperacao']."</th>
-                                            <td class='setx'>".$l['ativoAcao']."</td>
-                                            <td class='setx'>".$l['qtdAcoes']."</td>
-                                        </tr>
-                                    ";
+
+                                    $r = $db->prepare("SELECT * FROM acao WHERE ativo=?");
+                                    $r->execute(array($l['ativoAcao']));
+                                    $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach($linhas2 as $l2) {
+
+                                        $r = $db->prepare("SELECT objetivo FROM carteira_acao WHERE idCarteira=? AND ativoAcao=?");
+                                        $r->execute(array($_SESSION['idCarteira'],$l['ativoAcao']));
+                                        $linhas3 = $r->fetchAll(PDO::FETCH_ASSOC);
+                                        foreach($linhas3 as $l3) {
+                                            
+                                            $valorOperacao = $l['qtdAcoes']*$l2['cotacaoAtual'];
+                                            $proporcao = ($valorOperacao*100) / $valorCarteira;
+                                            echo "
+                                                <tr>
+                                                    <th scope='row'>".$l['dataOperacao']."</th>
+                                                    <td class='setx'>".$l['ativoAcao']."</td>
+                                                    <td class='setx'>".$l['qtdAcoes']."</td>
+                                                    <td class='setx'>R$ ".number_format($valorOperacao,2,".",",")."</td>
+                                                    <td class='setx'>".number_format($proporcao,2,".",",")."%</td>
+                                                    <td class='setx'>".$l3['objetivo']."%</td>
+                                                </tr>
+                                            ";
+                                        }
+                                    }
                                 }
+                                echo "
+                                    <tr>
+                                        <td colspan=3></td><td class='setx' colspan=3>R$ ".number_format($valorCarteira,2,".",",")."</td>
+                                    </tr>
+                                ";
                             ?>
                         </tbody>
                     </table>

@@ -41,14 +41,14 @@
 
         <div class="row">
             <div class="col-sm-12 text-center">
-                <h2 style='color: blue;'>Investir na carteira <?=$_SESSION['idCarteira']?>:
+                <h2>Investir na carteira <?=$_SESSION['idCarteira']?>:
                 <?php
-                $id=$_SESSION['idCarteira'];
-                $qac=0;
+                    $id=$_SESSION['idCarteira'];
+                    $qac=0;
                     $r = $db->prepare("SELECT objetivo,percInvestimento FROM carteira WHERE id=?");
                     $r->execute(array($_SESSION['idCarteira']));
                     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                    foreach($linhas as $l) {echo "  ".$l['objetivo']."</h2>"; $objCarteira=$l['objetivo']; $percCart=$l['percInvestimento'];$qac==count($linhas);}
+                    foreach($linhas as $l) {echo " ".$l['objetivo']."</h2>"; $objCarteira=$l['objetivo']; $percCart=$l['percInvestimento'];$qac==count($linhas);}
                 ?>
 
                 <div class="table-responsive">

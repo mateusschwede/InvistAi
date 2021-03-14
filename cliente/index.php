@@ -53,7 +53,7 @@
                     <a href="carteira/addCarteira.php" class="btn btn-primary">Adicionar Carteira</a>
                 </div>
                 <div class="table-responsive">
-                    <table class='table table-striped'>
+                    <table class='table table-striped' style="font-size: 80%">
                         <thead>
                             <tr>
                                 <th scope='col'>Id</th>
@@ -98,6 +98,13 @@
                                         </tr>
                                     ";
                                 }
+                                echo "
+                                    <tr class='text-muted'>
+                                        <th scope='row'>0</th>
+                                        <td class='setn' colspan='7'>Ações sem carteiras</td>
+                                        <td class='set'><a href='editarCarteira/acoesSemCarteira.php' class='btn btn-warning btn-sm'>Acessar ações</a></td>
+                                    </tr>
+                                ";
                             ?>
                         </tbody>
                     </table>
