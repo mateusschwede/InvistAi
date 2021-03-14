@@ -21,6 +21,4 @@ Facilitar as funções do analista de investimentos, automatizando a gestão est
 ## Licença
 MIT - Free Software
 
-> IFRS Campus Feliz, Desenvolvimento de Sistemas, Prof Tiago Cinto. 2020.
-
-![Logotipo IFRS](https://ifrs.edu.br/wp-content/uploads/2017/08/logo_vertical.png)
+> IFRS Campus Feliz, ADS, Desenvolvimento de Sistemas, Prof Tiago Cinto, 2021.
