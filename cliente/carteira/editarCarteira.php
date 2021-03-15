@@ -1,8 +1,30 @@
 <?php
     require_once '../../conexao.php';
     session_start();
+
     if(!isset($_SESSION['clienteLogado'])){
         header('Location: ../../acessoNegado.php');
+    }
+
+    $r = $db->prepare("SELECT SUM(percInvestimento) FROM carteira WHERE cpfCliente=? AND id!=?");
+    $r->execute(array($_SESSION['cpf'], $_SESSION['idCarteira']));
+    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+    foreach($linhas as $l) {$percInvestimento = 100-$l['SUM(percInvestimento)'];}
+
+    if((!empty($_POST['novoObjetivo']) && !empty($_POST['novoPercentual']))){        
+        
+        $r = $db->prepare("SELECT * FROM carteira WHERE cpfCliente=?");
+        $r->execute(array($_SESSION['cpf'])); 
+
+        if($r->rowCount()==0) {echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Não foi possível completar operação!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";}
+        else {
+            $r = $db->prepare("UPDATE carteira SET objetivo = :objetivo, percInvestimento = :novoPercentual WHERE id = :id");
+            $r->execute(array(
+                ":objetivo" => $_POST['novoObjetivo'],
+                ":novoPercentual" => $_POST['novoPercentual'],
+                ":id" => $_SESSION['idCarteira']               
+        ));   
+        }         
     }
 ?>
 
@@ -18,7 +40,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript" src="../../script.js"></script>
     <script type="text/javascript" src="../../pace.min.js"></script>
-    <script> alert("Pagina em contrução!") </script>
 </head>
 <body>
     <div class="container-fluid">      
@@ -55,23 +76,21 @@
                     ?>                    
                     <br>                
                     <br>
-                    <form>
+                    <form method="post">
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" placeholder="objetivo da carteira" required id="lblObjetivo" name="objetivo" maxlength="60" style="text-transform:lowercase;" value="<?=$objetivoDaCarteira?>">
+                            <input type="text" class="form-control" placeholder="objetivo da carteira" required id="lblObjetivo" name="novoObjetivo" maxlength="60" style="text-transform:lowercase;" value="<?=$objetivoDaCarteira?>">
                             <label for="lblObjetivo">Objetivo da carteira</label>
                         </div>                        
                         <div class="form-floating mb-3">
-                            <input type="number" class="form-control" required id="floatingInput" name="novoPercentual" step="0.01" min="0.01" max="100" value=<?=$percCarteira?>>
-                            <label for="floatingInput">Novo percentual</label>
+                            <input type="number" class="form-control" required id="floatingInput" name="novoPercentual" step="0.01" min="0.01" max=<?=$percInvestimento?> value=<?=$percCarteira?>>
+                            <label for="floatingInput">Percentual</label>
                         </div>
-                        <button type="submit" class="btn btn-success" id="submitWithEnter">OK</button> <a href="investirCarteira.php" class="btn btn-secondary">Voltar</a>
+                        <button type="submit" class="btn btn-success" id="submitWithEnter">Confirma</button> 
+                        <a href="investirCarteira.php" class="btn btn-secondary">Voltar</a>
                     </form>
                 </div>
             </div>
-        </div>
-
-       
+        </div>       
     </div>
-
 </body>
 </html>
