@@ -6,14 +6,14 @@
         header('Location: ../../acessoNegado.php');
     }  
     
-    if(!empty($_POST['carteiraDestinoSelecionado'])){        
-        $r = $db->prepare("UPDATE carteira_acao SET idCarteira = :idCarteiraNovo, objetivo = :objetivo WHERE idCarteira = :idCarteira");
+    if(!empty($_POST['carteiraDestinoSelecionado']) && !empty($_GET['ativoAcao'])){        
+        $r = $db->prepare("UPDATE carteira_acao SET idCarteira = :idCarteiraNovo, objetivo = :objetivo WHERE idCarteira = :idCarteira AND ativoAcao = :ativoAcao;");
         $r->execute(array(
             ":idCarteiraNovo" => $_POST['carteiraDestinoSelecionado'],
             ":objetivo" => "0",
-            ":idCarteira" => $_SESSION['idCarteira']               
-        ));
-        
+            ":idCarteira" => $_SESSION['idCarteira'],
+            ":ativoAcao" => $_GET['ativoAcao']             
+        ));        
         header('Location: investirCarteira.php');
     }
 ?>
