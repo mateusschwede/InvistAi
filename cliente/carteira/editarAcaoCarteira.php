@@ -20,10 +20,11 @@
 
         if($r->rowCount()==0) {echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Não foi possível completar operação!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";}
         else {
-            $r = $db->prepare("UPDATE carteira_acao SET objetivo = :objetivo WHERE idCarteira = :idCarteira");
+            $r = $db->prepare("UPDATE carteira_acao SET objetivo = :objetivo WHERE idCarteira = :idCarteira AND ativoAcao = :ativoAcao");
             $r->execute(array(
                 ":objetivo" => $_POST['novoPercentual'],
-                ":idCarteira" => $_SESSION['idCarteira']               
+                ":idCarteira" => $_SESSION['idCarteira'],
+                ":ativoAcao" => $_GET['ativoAcao']
         ));
         }         
     }
