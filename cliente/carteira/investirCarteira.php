@@ -177,7 +177,7 @@
                                 }
                                 echo "
                                     <tr>
-                                        <td colspan=3></td><td class='setx' colspan=3>R$ ".number_format($valorCarteira,2,".",",")."</td>
+                                        <td colspan=2><td class='setx'><b>Total em Carteira:</b></td><td class='setx' colspan=3><b>R$ ".number_format($valorCarteira,2,".",",")."</b></td>
                                     </tr>
                                 ";
                             ?>

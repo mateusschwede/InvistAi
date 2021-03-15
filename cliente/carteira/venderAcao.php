@@ -14,7 +14,7 @@
         $r = $db->prepare("INSERT INTO operacao(qtdAcoes,idCarteira,ativoAcao) VALUES (?,?,?)");
         $r->execute(array($qtdAtualOperacao,$_GET['idCarteira'], $_GET['ativoAcao']));
 
-        header("location: ../index.php");
+        header("location: investirCarteira.php");
     }
 
     //Pega cotacaoAtual e qtd ações da ação na carteira, para estabelecer limite máximo de venda
