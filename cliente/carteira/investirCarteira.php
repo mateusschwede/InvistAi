@@ -27,8 +27,7 @@
     <script type="text/javascript" src="../../pace.min.js"></script>
 </head>
 <body>
-    <div class="container-fluid">        
-        
+    <div class="container-fluid">      
         <div class="row">
             <div class="col-sm-12" id="navbar">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -61,7 +60,7 @@
                             $percCarteira = $l['percInvestimento'];
                         }
                     ?>
-                    <button class='btn btn-danger btn-sm' disabled>Excluir carteira</button> <a href="editarCarteira/edCarteira.php?perc=<?=$percCarteira?>" class="btn btn-warning btn-sm">Alterar carteira</a>
+                    <button class='btn btn-danger btn-sm' disabled>Excluir carteira</button> <a href="editarCarteira.php?perc=<?=$percCarteira?>" class="btn btn-warning btn-sm">Alterar carteira</a>
                     <br><br><a href="../index.php" class="btn btn-secondary">Voltar</a>
                 </div>
 
