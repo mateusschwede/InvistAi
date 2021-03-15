@@ -46,7 +46,6 @@
                 </nav>
             </div>
         </div>
-
         <div class="row">
             <div class="col-sm-12">
                 <div class="text-center">
@@ -55,6 +54,7 @@
                         $r = $db->prepare("SELECT * FROM carteira WHERE id=?");
                         $r->execute(array($_SESSION['idCarteira']));
                         $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                        
                         foreach($linhas as $l) {
                             echo "<h4 class='text-muted'>".$l['objetivo']." (".$l['percInvestimento']."%)</h4>";
                             $percCarteira = $l['percInvestimento'];
@@ -74,7 +74,6 @@
                 </form>
             </div>
         </div>
-
         <div class="row">
             <div class="col-sm-12">
                 <br><h3>Ações:</h3>
@@ -98,11 +97,13 @@
                                 $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
                                 $r->execute(array($_SESSION['idCarteira']));
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                                
                                 foreach($linhas as $l) {
 
                                     $r = $db->prepare("SELECT * FROM acao WHERE ativo=?");
                                     $r->execute(array($l['ativoAcao']));
                                     $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
+                                    
                                     foreach($linhas2 as $l2) {
                                         $valorCarteira += $l2['cotacaoAtual']*$l['qtdAcao'];
                                         echo "
@@ -113,7 +114,7 @@
                                                 <td class='setx'>".$l['qtdAcao']."</td>
                                                 <td class='setx'>R$ ".number_format($l2['cotacaoAtual'],2,".",",")."</td>
                                                 <td class='setx'>R$ ".number_format(($l2['cotacaoAtual']*$l['qtdAcao']),2,".",",")."</td>
-                                                <td class='setx'><button href='excluirCarteira' class='btn btn-danger btn-sm' disabled>Excluir</button> <a href='editarAcaoCarteira.php?ativoAcao=".$l['ativoAcao']."' class='btn btn-warning btn-sm'>Alterar</a> <a href='editarCarteira/trocarCarteira.php' class='btn btn-info btn-sm'>Trocar carteira</a> <a href='venderAcao.php?ativo=".$l['ativoAcao']."&idCarteira=".$_SESSION['idCarteira']."' class='btn btn-primary btn-sm'>Vender</a></td>
+                                                <td class='setx'><button href='excluirCarteira' class='btn btn-danger btn-sm' disabled>Excluir</button> <a href='editarAcaoCarteira.php?ativoAcao=".$l['ativoAcao']."' class='btn btn-warning btn-sm'>Alterar</a> <a href='moverAcaoCarteira.php?ativoAcao=".$l['ativoAcao']."' class='btn btn-info btn-sm'>Trocar carteira</a> <a href='venderAcao.php?ativo=".$l['ativoAcao']."&idCarteira=".$_SESSION['idCarteira']."' class='btn btn-primary btn-sm'>Vender</a></td>
                                             </tr>
                                         ";
                                     }
@@ -124,12 +125,10 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-sm-12">
             <br><h3>Operações:</h3>
-            <small><b>Compra:</b> Quantidade positiva<br><b>Venda:</b> Quantidade negativa</small>
-                
+            <small><b>Compra:</b> Quantidade positiva<br><b>Venda:</b> Quantidade negativa</small>                
                 <div class="table-responsive">
                     <table class='table table-striped'>
                         <thead>
@@ -153,12 +152,11 @@
                                     $r->execute(array($l['ativoAcao']));
                                     $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
                                     foreach($linhas2 as $l2) {
-
                                         $r = $db->prepare("SELECT objetivo FROM carteira_acao WHERE idCarteira=? AND ativoAcao=?");
                                         $r->execute(array($_SESSION['idCarteira'],$l['ativoAcao']));
                                         $linhas3 = $r->fetchAll(PDO::FETCH_ASSOC);
-                                        foreach($linhas3 as $l3) {
-                                            
+                                        
+                                        foreach($linhas3 as $l3) {                                            
                                             $valorOperacao = $l['qtdAcoes']*$l2['cotacaoAtual'];
                                             $proporcao = ($valorOperacao*100) / $valorCarteira;
                                             echo "
