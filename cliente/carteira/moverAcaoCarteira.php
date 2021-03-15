@@ -7,14 +7,38 @@
     }  
     
     if(!empty($_POST['carteiraDestinoSelecionado']) && !empty($_GET['ativoAcao'])){        
-        $r = $db->prepare("UPDATE carteira_acao SET idCarteira = :idCarteiraNovo, objetivo = :objetivo WHERE idCarteira = :idCarteira AND ativoAcao = :ativoAcao;");
+        $r = $db->prepare("UPDATE carteira_acao SET idCarteira = :idCarteiraNovo, objetivo = :objetivo, cpfCliente = :cpfCliente WHERE idCarteira = :idCarteira AND ativoAcao = :ativoAcao;");
         $r->execute(array(
             ":idCarteiraNovo" => $_POST['carteiraDestinoSelecionado'],
             ":objetivo" => "0",
+            ":cpfCliente" => $_SESSION['cpf'],
             ":idCarteira" => $_SESSION['idCarteira'],
-            ":ativoAcao" => $_GET['ativoAcao']             
+            ":ativoAcao" => $_GET['ativoAcao']
         ));        
         header('Location: investirCarteira.php');
+    
+    /* CONDIÇÃO SE MOVER AÇÃO EM CARTEIRA COM MESMA AÇÃO
+    $r = $db->prepare("SELECT ativoAcao FROM carteira_acao WHERE idCarteira = :idCarteira AND ativoAcao = :ativoAcao");
+    $r->execute(array(
+        ":idCarteira" => $_SESSION['idCarteira'],
+        ":ativoAcao" => $_GET['ativoAcao']
+    ));
+
+    if($r->rowCount()>0) {
+        UPDATE INCREMENTANDO QTDE DE AÇÕES NA AÇÃO DA CARTEIRA DESTINO ($_POST['carteiraDestinoSelecionado'])
+        DELETA AÇÃO DA CARTEIRA EM QUESTÃO (DE ORIGEM: $_SESSION['idCarteira'])
+    } else {
+        $r = $db->prepare("UPDATE carteira_acao SET idCarteira = :idCarteiraNovo, objetivo = :objetivo, cpfCliente = :cpfCliente WHERE idCarteira = :idCarteira AND ativoAcao = :ativoAcao;");
+            $r->execute(array(
+                ":idCarteiraNovo" => $_POST['carteiraDestinoSelecionado'],
+                ":objetivo" => "0",
+                ":cpfCliente" => $_SESSION['cpf'],
+                ":idCarteira" => $_SESSION['idCarteira'],
+                ":ativoAcao" => $_GET['ativoAcao']             
+            ));   
+    }
+    header('Location: investirCarteira.php');
+    */
     }
 ?>
 <!DOCTYPE html>
