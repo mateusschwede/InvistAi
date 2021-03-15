@@ -77,7 +77,8 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="text-center">
-                    <h4>Ação <?=$_GET['ativoAcao']?></h4>
+                    <h2>Mover Ação <?=$_GET['ativoAcao']?></h2>
+                    <h4 class="text-muted">Carteira origem: <?=$_SESSION['idCarteira']?></h4>
                     <form method="post">                                         
                         <div class="form-floating mb-3">
                             <select class="form-select" required id="floatingSelect" name="carteiraDestinoSelecionado">
@@ -90,10 +91,10 @@
                                     }
                                 ?>
                             </select>
-                            <label for="floatingSelect">Carteira </label>
+                            <label for="floatingSelect">Carteira destino</label>
                         </div>
-                        <button type="submit" class="btn btn-success" id="submitWithEnter">Confirma</button> 
-                        <a href="investirCarteira.php" class="btn btn-secondary">Voltar</a>
+                        <a href="investirCarteira.php" class="btn btn-danger">Cancelar</a>
+                        <button type="submit" class="btn btn-success" id="submitWithEnter">Confirmar</button>
                     </form>
                 </div>
             </div>

@@ -9,7 +9,18 @@
     $r = $db->prepare("SELECT SUM(percInvestimento) FROM carteira WHERE cpfCliente=? AND id!=?");
     $r->execute(array($_SESSION['cpf'], $_SESSION['idCarteira']));
     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-    foreach($linhas as $l) {$percInvestimento = 100-$l['SUM(percInvestimento)'];}
+    foreach($linhas as $l) {
+        $percInvestimento = 100-$l['SUM(percInvestimento)'];
+    }
+
+    //Pegar dados para preencher form, coloquei Php aqui pra cima
+    $r = $db->prepare("SELECT * FROM carteira WHERE id=?");
+    $r->execute(array($_SESSION['idCarteira']));
+    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);                        
+    foreach($linhas as $l) {        
+        $percCarteira = $l['percInvestimento'];
+        $objetivoDaCarteira = $l['objetivo'];                            
+    }
 
     if((!empty($_POST['novoObjetivo']) && !empty($_POST['novoPercentual']))){        
         
@@ -22,12 +33,12 @@
             $r->execute(array(
                 ":objetivo" => $_POST['novoObjetivo'],
                 ":novoPercentual" => $_POST['novoPercentual'],
-                ":id" => $_SESSION['idCarteira']               
-        ));   
+                ":id" => $_SESSION['idCarteira']
+            ));
+            header("Location: investirCarteira.php");
         }         
     }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -64,29 +75,18 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="text-center">
-                    <?php
-                        $r = $db->prepare("SELECT * FROM carteira WHERE id=?");
-                        $r->execute(array($_SESSION['idCarteira']));
-                        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);                        
-                        foreach($linhas as $l) {
-                            echo "<h4 class='text-muted'>".$l['objetivo']." (".$l['percInvestimento']."%)</h4>";
-                            $percCarteira = $l['percInvestimento'];
-                            $objetivoDaCarteira = $l['objetivo'];                            
-                        }
-                    ?>                    
-                    <br>                
-                    <br>
+                    <h2>Alterar Carteira <?=$_SESSION['idCarteira']?></h2>
                     <form method="post">
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" placeholder="objetivo da carteira" required id="lblObjetivo" name="novoObjetivo" maxlength="60" style="text-transform:lowercase;" value="<?=$objetivoDaCarteira?>">
                             <label for="lblObjetivo">Objetivo da carteira</label>
                         </div>                        
                         <div class="form-floating mb-3">
-                            <input type="number" class="form-control" required id="floatingInput" name="novoPercentual" step="0.01" min="0.01" max=<?=$percInvestimento?> value=<?=$percCarteira?>>
+                            <input type="number" class="form-control" required id="floatingInput" name="novoPercentual" step="1" min="1" max=<?=$percInvestimento?> value=<?=$percCarteira?>>
                             <label for="floatingInput">Percentual</label>
                         </div>
-                        <button type="submit" class="btn btn-success" id="submitWithEnter">Confirma</button> 
-                        <a href="investirCarteira.php" class="btn btn-secondary">Voltar</a>
+                        <a href="investirCarteira.php" class="btn btn-danger">Cancelar</a>
+                        <button type="submit" class="btn btn-success" id="submitWithEnter">Confirmar</button>
                     </form>
                 </div>
             </div>

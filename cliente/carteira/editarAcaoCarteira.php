@@ -6,11 +6,11 @@
         header('Location: ../../acessoNegado.php');
     }
 
-    $r = $db->prepare("SELECT SUM(objetivo) FROM carteira_acao WHERE idCarteira=? AND ativoAcao=?");
+    $r = $db->prepare("SELECT SUM(objetivo) FROM carteira_acao WHERE idCarteira=? AND ativoAcao!=?");
     $r->execute(array($_SESSION['idCarteira'], $_GET['ativoAcao']));
     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
     foreach($linhas as $l) {
-        $percentualAcaoCarteira = 100 - $l['SUM(objetivo)'];
+        $percentualAcaoCarteira = 100-$l['SUM(objetivo)'];
     }
 
     if(!empty($_POST['novoPercentual'])){
@@ -24,7 +24,7 @@
             $r->execute(array(
                 ":objetivo" => $_POST['novoPercentual'],
                 ":idCarteira" => $_SESSION['idCarteira']               
-        ));   
+        ));
         }         
     }
 ?>
@@ -65,25 +65,24 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="text-center">
+                    <h2>Alterar Ação <?=$_GET['ativoAcao']?></h2>
+                    <h4 class="text-muted">Carteira <?=$_SESSION['idCarteira']?></h4>
                     <?php
-                        $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=? AND ativoAcao=?");
-                        $r->execute(array($_SESSION['idCarteira'], $_GET['ativoAcao']));
-                        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);                        
+                        $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
+                        $r->execute(array($_SESSION['idCarteira']));
+                        $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                         foreach($linhas as $l) {
-                            $percentualAcaoCarteira = $l['objetivo'];                            
+                            echo $l['ativoAcao'].": ".$l['objetivo']."%<br>";
                         }
-                        
-                    ?>                    
-                    <br>                
+                    ?>
                     <br>
-                    <h4>Ação <?=$_GET['ativoAcao']?></h4>
                     <form method="post">                                         
                         <div class="form-floating mb-3">
                             <input type="number" class="form-control" required id="floatingInput" name="novoPercentual" step="1" min="1" max=<?=$percentualAcaoCarteira?> value=<?=$percentualAcaoCarteira?>>
                             <label for="floatingInput">Percentual</label>
                         </div>
-                        <button type="submit" class="btn btn-success" id="submitWithEnter">Confirma</button> 
-                        <a href="investirCarteira.php" class="btn btn-secondary">Voltar</a>
+                        <a href="investirCarteira.php" class="btn btn-danger">Cancelar</a>
+                        <button type="submit" class="btn btn-success" id="submitWithEnter">Confirmar</button>
                     </form>
                 </div>
             </div>
