@@ -25,8 +25,9 @@
                 ":objetivo" => $_POST['novoPercentual'],
                 ":idCarteira" => $_SESSION['idCarteira'],
                 ":ativoAcao" => $_GET['ativoAcao']
-        ));
-        }         
+            ));
+            header("Location: investirCarteira.php");
+        }
     }
 ?>
 
