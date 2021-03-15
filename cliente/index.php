@@ -80,10 +80,12 @@
                                     $tot=0;
 
                                     foreach($ob as $o) {$tot=$tot+$o['objetivo'];}
-                                    
+                                    $sit="Objetivo Completo";
                                     $pati1= $totalSobraAportes/100*$l['percInvestimento']/100*$tot;
                                     $pati2= $totalSobraAportes/100*$l['percInvestimento'];
-
+                                    if ($pati2-$pati1>0) {
+                                        $sit="Objetivo incompleto";
+                                    }
                                     echo "
                                         <tr>
                                             <th scope='row'>".($l['id'])."</th>
@@ -93,7 +95,7 @@
                                             <td class='set'style=' text-transform: capitalize !important;'>R$ ".number_format($pati1,2,",",".")."</td>
                                             <td class='set'style=' text-transform: capitalize !important;'>R$ ".number_format($pati2,2,",",".")."</td>
                                             <td class='set'style=' text-transform: capitalize !important;'>R$ ".number_format($pati2-$pati1,2,",",".")."</td>
-                                            <td class='set'style=' text-transform: capitalize !important;'>Regular</td>
+                                            <td class='set'style=' text-transform: capitalize !important;' >".$sit."</td>
                                             <td class='set'><a href='carteira/investirCarteira.php?id=".$l['id']."' class='btn btn-success btn-sm'>Acessar carteira</a></td>
                                         </tr>
                                     ";
