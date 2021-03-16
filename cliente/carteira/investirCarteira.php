@@ -77,7 +77,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <br><h3>Ações:</h3>
-                <a href="editarCarteira/addAcaoCarteira.php" class="btn btn-success btn-sm">Incluir ação</a>
+                <a href="incluirAcaoCarteira.php" class="btn btn-success btn-sm">Incluir ação</a>
                 <div class="table-responsive">
                     <table class='table table-striped'>
                         <thead>
