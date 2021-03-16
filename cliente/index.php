@@ -149,7 +149,7 @@
                 <div>
                 <?php
                 echo "Total em Investimentos: R$ ".number_format($totalCarteiras,2,".",",")."<br>";
-                echo "Total de Sobras R$ ".number_format($totalCarteiras,2,".",",")."<br>";
+                echo "Total de Sobras R$ ".number_format($totalSobraAportes,2,".",",")."<br>";
                 $totalCarteiras += $totalSobras;
                 echo "TOTAL R$ ".number_format($totalCarteiras,2,".",",");
                 ?>
