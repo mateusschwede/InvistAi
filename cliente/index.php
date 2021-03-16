@@ -110,6 +110,50 @@
                         </tbody>
                     </table>
                 </div>
+
+
+
+
+
+                <?php
+                    //VALOR TOTAL DO CLIENTE NO SISTEMA: Soma das quantidades de ações de cada carteira + Total da Sobra dos Aportes
+
+                    $totalCarteiras = 0;
+                    //Pegar Soma das Quantidades de Ações:
+                    $r = $db->prepare("SELECT * FROM carteira WHERE cpfCliente=?");
+                    $r->execute(array($_SESSION['cpf']));
+                    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                    foreach($linhas as $l) {
+                        
+                        //Pegar qtdes das ações na carteira * valor da cotação
+                        $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
+                        $r->execute(array($l['id']));
+                        $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
+                        foreach($linhas2 as $l2) {
+
+                            //Pegar valor da cotação da ação
+                            $r = $db->prepare("SELECT cotacaoAtual FROM acao WHERE ativo=?");
+                            $r->execute(array($l2['ativoAcao']));
+                            $linhas3 = $r->fetchAll(PDO::FETCH_ASSOC);
+                            foreach($linhas3 as $l3) {$cotacaoAtual = $l3['cotacaoAtual'];}
+
+                            if($l2['qtdAcao']!=0) {$totalCarteiras += ($l2['qtdAcao']*$cotacaoAtual);}
+                        }
+
+                    }
+
+                    //Pegar valor total das sobras dos investimentos
+                    $r = $db->prepare("SELECT totalSobraAportes FROM pessoa WHERE cpf=?");
+                    $r->execute(array($_SESSION['cpf']));
+                    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                    foreach($linhas as $l) {$totalSobras = $l['totalSobraAportes'];}
+
+                    echo "Total em Investimentos: ".$totalCarteiras."<br>";
+                    echo "Total de Sobras: ".$totalSobras."<br>";
+                    $totalCarteiras += $totalSobras;
+                    echo "TOTAL: ".$totalCarteiras;
+                ?>
+
             </div>
         </div>        
     </div>
