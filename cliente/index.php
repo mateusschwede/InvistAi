@@ -49,75 +49,9 @@
                     foreach($linhas as $l) {$totalSobraAportes = $l['totalSobraAportes'];}
                 ?>
                 <div class="text-center">
-                    <h4><span class='badge bg-dark'>Total sobras aportes <span class='badge bg-warning'>R$ <?=number_format($totalSobraAportes,2,",",".")?></span></span></h4>
                     <a href="carteira/addCarteira.php" class="btn btn-primary">Adicionar Carteira</a>
-                </div>
-                <div class="table-responsive">
-                    <table class='table table-striped'>
-                        <thead>
-                            <tr>
-                                <th scope='col'>Id</th>
-                                <th scope='col'>Descrição</th>
-                                <th scope='col'>Objetivo(%)</th>
-                                <th scope='col'>Participação Atual(%)</th>
-                                <th scope='col'>Patrimônio Atualizado</th>
-                                <th scope='col'>Patrimônio Previsto</th>
-                                <th scope='col'>Diferença de Patrimônios</th>
-                                <th scope='col'>Situação</th>
-                                <th scope='col'></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                                $r = $db->prepare("SELECT * FROM carteira WHERE cpfCliente=?");
-                                $r->execute(array($_SESSION['cpf']));
-                                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);                                
-
-                                foreach($linhas as $l) {
-                                    $p = $db->prepare("SELECT objetivo FROM carteira_acao WHERE idCarteira=?");
-                                    $p->execute(array($l['id']));
-                                    $ob = $p->fetchAll(PDO::FETCH_ASSOC);
-                                    $tot=0;
-
-                                    foreach($ob as $o) {$tot=$tot+$o['objetivo'];}
-                                    $sit="Objetivo Completo";
-                                    $pati1= $totalSobraAportes/100*$l['percInvestimento']/100*$tot;
-                                    $pati2= $totalSobraAportes/100*$l['percInvestimento'];
-                                    if ($pati2-$pati1>0) {
-                                        $sit="Objetivo incompleto";
-                                    }
-                                    echo "
-                                        <tr>
-                                            <th scope='row'>".($l['id'])."</th>
-                                            <td class='setn'>".$l['objetivo']."</td>
-                                            <td class='set'>".number_format($l['percInvestimento'],2,".",",")." %</td>
-                                            <td class='set'>".$l['percInvestimento']/100*$tot."%</td> 
-                                            <td class='set'style=' text-transform: capitalize !important;'>R$ ".number_format($pati1,2,",",".")."</td>
-                                            <td class='set'style=' text-transform: capitalize !important;'>R$ ".number_format($pati2,2,",",".")."</td>
-                                            <td class='set'style=' text-transform: capitalize !important;'>R$ ".number_format($pati2-$pati1,2,",",".")."</td>
-                                            <td class='set'style=' text-transform: capitalize !important;' >".$sit."</td>
-                                            <td class='set'><a href='carteira/investirCarteira.php?id=".$l['id']."' class='btn btn-success btn-sm'>Acessar carteira</a></td>
-                                        </tr>
-                                    ";
-                                }
-                                echo "
-                                    <tr class='text-muted'>
-                                        <td class='setn' colspan=8>Ações sem carteiras no momento</td>
-                                        <td class='set'><a href='editarCarteira/acoesSemCarteira.php' class='btn btn-warning btn-sm'>Acessar ações</a></td>
-                                    </tr>
-                                ";
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-
-
-
-
-
-                <?php
+                    <?php
                     //VALOR TOTAL DO CLIENTE NO SISTEMA: Soma das quantidades de ações de cada carteira + Total da Sobra dos Aportes
-
                     $totalCarteiras = 0;
                     //Pegar Soma das Quantidades de Ações:
                     $r = $db->prepare("SELECT * FROM carteira WHERE cpfCliente=?");
@@ -148,11 +82,78 @@
                     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                     foreach($linhas as $l) {$totalSobras = $l['totalSobraAportes'];}
 
-                    echo "Total em Investimentos: ".$totalCarteiras."<br>";
-                    echo "Total de Sobras: ".$totalSobras."<br>";
-                    $totalCarteiras += $totalSobras;
-                    echo "TOTAL: ".$totalCarteiras;
+                ?></div>
+
+
+
+
+
+                <div class="table-responsive">
+                    <table class='table table-striped'>
+                        <thead>
+                            <tr>
+                                <th scope='col'>Id</th>
+                                <th scope='col'>Descrição</th>
+                                <th scope='col'>Objetivo(%)</th>
+                                <th scope='col'>Participação Atual(%)</th>
+                                <th scope='col'>Patrimônio Atualizado</th>
+                                <th scope='col'>Patrimônio Previsto</th>
+                                <th scope='col'>Diferença de Patrimônios</th>
+                                <th scope='col'>Situação</th>
+                                <th scope='col'></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                                $r = $db->prepare("SELECT * FROM carteira WHERE cpfCliente=?");
+                                $r->execute(array($_SESSION['cpf']));
+                                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);                                
+
+                                foreach($linhas as $l) {
+                                    $p = $db->prepare("SELECT objetivo FROM carteira_acao WHERE idCarteira=?");
+                                    $p->execute(array($l['id']));
+                                    $ob = $p->fetchAll(PDO::FETCH_ASSOC);
+                                    $tot=0;
+
+                                    foreach($ob as $o) {$tot=$tot+$o['objetivo'];}
+                                    $sit="Objetivo Completo";
+                                    $pati1= $totalCarteiras/100*$l['percInvestimento']/100*$tot;
+                                    $pati2= $totalCarteiras/100*$l['percInvestimento'];
+                                    if ($pati2-$pati1>0) {
+                                        $sit="Objetivo incompleto";
+                                    }
+                                    echo "
+                                        <tr>
+                                            <th scope='row'>".($l['id'])."</th>
+                                            <td class='setn'>".$l['objetivo']."</td>
+                                            <td class='set'>".number_format($l['percInvestimento'],2,".",",")." %</td>
+                                            <td class='set'>".$l['percInvestimento']/100*$tot."%</td> 
+                                            <td class='set'style=' text-transform: capitalize !important;'>R$ ".number_format($pati1,2,",",".")."</td>
+                                            <td class='set'style=' text-transform: capitalize !important;'>R$ ".number_format($pati2,2,",",".")."</td>
+                                            <td class='set'style=' text-transform: capitalize !important;'>R$ ".number_format($pati2-$pati1,2,",",".")."</td>
+                                            <td class='set'style=' text-transform: capitalize !important;' >".$sit."</td>
+                                            <td class='set'><a href='carteira/investirCarteira.php?id=".$l['id']."' class='btn btn-success btn-sm'>Acessar carteira</a></td>
+                                        </tr>
+                                    ";
+                                }
+                                echo "
+                                    <tr class='text-muted'>
+                                        <td class='setn' colspan=8>Ações sem carteiras no momento</td>
+                                        <td class='set'><a href='editarCarteira/acoesSemCarteira.php' class='btn btn-warning btn-sm'>Acessar ações</a></td>
+                                    </tr>
+                                ";
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                <?php
+                echo "Total em Investimentos: R$ ".number_format($totalCarteiras,2,".",",")."<br>";
+                echo "Total de Sobras R$ ".number_format($totalCarteiras,2,".",",")."<br>";
+                $totalCarteiras += $totalSobras;
+                echo "TOTAL R$ ".number_format($totalCarteiras,2,".",",");
                 ?>
+                </div>
 
             </div>
         </div>        
