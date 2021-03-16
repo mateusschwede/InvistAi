@@ -15,7 +15,7 @@
         else {
             $r = $db->prepare("INSERT INTO carteira_acao(idCarteira,ativoAcao,objetivo,cpfCliente) VALUES (?,?,?,?)");
             $r->execute(array($_SESSION['idCarteira'],$_POST['ativoAcao'],$_POST['objetivo'],$_SESSION['cpf']));
-            $_SESSION['msg'] = "<div class='alert alert-success alert-dismissible fade show' role='alert'>Ação ".$_POST['ativoAcao']." adicionada na carteira ".$_SESSION['idCarteira']."!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+
             header("location: investirCarteira.php");
         }
     }
