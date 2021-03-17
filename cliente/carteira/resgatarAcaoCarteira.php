@@ -20,31 +20,24 @@
             $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
             foreach($linhas as $l) {$qtdAcoesDestino = $l['qtdAcao'] + $_POST['qtdAcoesOrigem'];}
             //Update qtdes na carteira destino
-
+            $r = $db->prepare("UPDATE carteira_acao SET qtdAcao=? WHERE idCarteira=? AND ativoAcao=?");
+            $r->execute(array($qtdAcoesDestino, $_POST['cartDestino'], $_POST['ativoAcaoOrigem']));
 
 
             //Remover ação na carteira origem (lixeira, id=0)
-
+            $r = $db->prepare("DELETE from carteira_acao WHERE idCarteira=0 AND ativoAcao=? AND cpfCliente=? ");
+            $r->execute(array($_POST['ativoAcaoOrigem'], $_SESSION['cpf']));
 
 
         } else {          
             //CENÁRIO 1
             $r = $db->prepare("UPDATE carteira_acao SET idCarteira=? WHERE cpfCliente=? AND idCarteira=0 AND ativoAcao=?");
-            $r->execute(array($_POST['cartDestino'],$_SESSION['cpf'],$_POST['qtdAcoesOrigem']));
+            $r->execute(array($_POST['cartDestino'],$_SESSION['cpf'],$_POST['ativoAcaoOrigem']));
         }
         header('Location: acoesSemCarteira.php');
     }
 
-
-
-
-
-
-
-
-
-
-
+    
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
