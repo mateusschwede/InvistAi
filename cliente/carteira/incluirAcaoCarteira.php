@@ -8,13 +8,13 @@
     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
     foreach($linhas as $l) {$somaPerc = 100-$l['SUM(objetivo)'];}
 
-    if( (!empty($_POST['ativoAcao'])) and (!empty($_POST['objetivo'])) ) {
+    if( (!empty($_POST['ativoAcao'])) ) {
         $r = $db->prepare("SELECT ativoAcao FROM carteira_acao WHERE idCarteira=? AND ativoAcao=?");
-        $r->execute(array($_SESSION['idCarteira'],$_POST['ativoAcao']));
+        $r->execute(array($_SESSION['idCarteira'], $_POST['ativoAcao']));
         if($r->rowCount()>0) {echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Ação já adicionada na carteira!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";}
         else {
-            $r = $db->prepare("INSERT INTO carteira_acao(idCarteira,ativoAcao,objetivo,cpfCliente) VALUES (?,?,?,?)");
-            $r->execute(array($_SESSION['idCarteira'],$_POST['ativoAcao'],$_POST['objetivo'],$_SESSION['cpf']));
+            $r = $db->prepare("INSERT INTO carteira_acao(idCarteira,ativoAcao,objetivo,cpfCliente) VALUES (?,?,0,?)");
+            $r->execute(array($_SESSION['idCarteira'],$_POST['ativoAcao'],$_SESSION['cpf']));
 
             header("location: investirCarteira.php");
         }
@@ -70,11 +70,7 @@
                         </select>
                         <label for="floatingSelect">Ativo da ação</label>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input type="number" class="form-control" required id="lblObjetivo" name="objetivo" min="1" max="<?=$somaPerc?>" step="1" placeholder="Objetivo(%)" value="<?=$somaPerc?>" onkeypress="return isNumberAndDot(event)">
-                        <label for="lblObjetivo">Percentual de objetivo</label>
-                        <div class="form-text">O objetivo não pode ultrapassar a soma dos percentuais das ações cadastradas na carteira</div>
-                    </div>
+                    
                     <a href="investirCarteira.php" class="btn btn-danger">Cancelar</a>
                     <button type="submit" class="btn btn-success" id="submitWithEnter">Adicionar</button>
                 </form>
