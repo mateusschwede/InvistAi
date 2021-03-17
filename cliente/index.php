@@ -139,7 +139,7 @@
                                 echo "
                                     <tr class='text-muted'>
                                         <td class='setn' colspan=8>Ações sem carteiras no momento</td>
-                                        <td class='set'><a href='editarCarteira/acoesSemCarteira.php' class='btn btn-warning btn-sm'>Acessar ações</a></td>
+                                        <td class='set'><a href='carteira/acoesSemCarteira.php' class='btn btn-warning btn-sm'>Acessar ações</a></td>
                                     </tr>
                                 ";
                             ?>

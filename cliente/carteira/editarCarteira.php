@@ -24,10 +24,11 @@
 
     if((!empty($_POST['novoObjetivo']) && !empty($_POST['novoPercentual']))){        
         
-        $r = $db->prepare("SELECT * FROM carteira WHERE cpfCliente=?");
-        $r->execute(array($_SESSION['cpf'])); 
+        //Atualizei aqui, e o '>' no rowCount :)
+        $r = $db->prepare("SELECT * FROM carteira WHERE cpfCliente=? AND objetivo=? AND objetivo!=?");
+        $r->execute(array($_SESSION['cpf'],$_POST['novoObjetivo'],$objetivoDaCarteira));
 
-        if($r->rowCount()==0) {echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Não foi possível completar operação!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";}
+        if($r->rowCount()>0) {echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Objetivo já existente em outra carteira!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";}
         else {
             $r = $db->prepare("UPDATE carteira SET objetivo = :objetivo, percInvestimento = :novoPercentual WHERE id = :id");
             $r->execute(array(
