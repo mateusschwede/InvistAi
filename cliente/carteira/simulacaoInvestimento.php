@@ -371,7 +371,12 @@ if(isset($_GET['a'])){$a=$_GET['a'];$_SESSION['conf']=1;}else{$_SESSION['conf']=
     </div> <br><br><br>
 </body>
 <?php
-                     
+function acerto($u,$i){
+    
+                                        
+            if($u/$i>=1){return 1;}
+                                              
+}  
    if($_SESSION['conf']==1)  // #########################################################
                             {
 
