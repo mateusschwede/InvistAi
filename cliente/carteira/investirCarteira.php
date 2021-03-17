@@ -114,7 +114,7 @@
                                                 <td class='setx'>".$l['qtdAcao']."</td>
                                                 <td class='setx'>R$ ".number_format($l2['cotacaoAtual'],2,".",",")."</td>
                                                 <td class='setx'>R$ ".number_format(($l2['cotacaoAtual']*$l['qtdAcao']),2,".",",")."</td>
-                                                <td class='setx'><button href='excluirCarteira' class='btn btn-danger btn-sm' disabled>Excluir</button> <a href='editarAcaoCarteira.php?ativoAcao=".$l['ativoAcao']."' class='btn btn-warning btn-sm'>Alterar</a> <a href='moverAcaoCarteira.php?ativoAcao=".$l['ativoAcao']."' class='btn btn-info btn-sm'>Trocar carteira</a> <a href='venderAcao.php?ativo=".$l['ativoAcao']."&idCarteira=".$_SESSION['idCarteira']."' class='btn btn-primary btn-sm'>Vender</a></td>
+                                                <td class='setx'><a href='excluirAcaoCarteira.php?ativoAcao=".$l['ativoAcao']."&qtdAcao=".$l['qtdAcao']."' class='btn btn-danger btn-sm'>Excluir</a> <a href='editarAcaoCarteira.php?ativoAcao=".$l['ativoAcao']."' class='btn btn-warning btn-sm'>Alterar</a> <a href='moverAcaoCarteira.php?ativoAcao=".$l['ativoAcao']."' class='btn btn-info btn-sm'>Trocar carteira</a> <a href='venderAcao.php?ativo=".$l['ativoAcao']."&idCarteira=".$_SESSION['idCarteira']."' class='btn btn-primary btn-sm'>Vender</a></td>
                                             </tr>
                                         ";
                                     }
