@@ -60,8 +60,7 @@
                             $percCarteira = $l['percInvestimento'];
                         }
                     ?>
-                    <button class='btn btn-danger btn-sm' disabled>Excluir carteira</button> <a href="editarCarteira.php?perc=<?=$percCarteira?>" class="btn btn-warning btn-sm">Alterar carteira</a>
-                    <br><br><a href="../index.php" class="btn btn-secondary">Voltar</a>
+                    <a href="../index.php" class="btn btn-secondary">Voltar</a> <a href="excluirCarteira.php" class="btn btn-danger">Excluir Carteira</a> <a href="editarCarteira.php?perc=<?=$percCarteira?>" class="btn btn-warning">Alterar carteira</a>
                 </div>
 
                 <h3>Investir na carteira:</h3>
