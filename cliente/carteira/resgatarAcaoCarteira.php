@@ -3,60 +3,37 @@
     session_start();
     if(!isset($_SESSION['clienteLogado'])) {header('Location: ../../acessoNegado.php');}
     
+    /*
+    Qtd da ação origem: $_POST['qtdAcoesOrigem']
+    Código da ação origem: $_POST['ativoAcaoOrigem']
+    Id da carteira destino: $_POST['cartDestino']
+    */
 
 
-
-
-
-    //$_GET['ativoAcao'] é agora o ($_POST['qtdAcoesOrigem']
-    if(!empty($_POST['cartDestino']) && !empty($_POST['qtdAcoesOrigem'])){
+    if( (!empty($_POST['cartDestino'])) && (!empty($_POST['qtdAcoesOrigem'])) && (!empty($_POST['ativoAcaoOrigem']))) {
 
         $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=? AND ativoAcao=?");
-        $r->execute(array($_POST['cartDestino'], $_GET['ativoAcao']));
-
-        $linhas02 = $r->fetchAll(PDO::FETCH_ASSOC);
-        foreach($linhas02 as $l02) {$qtdAcoesDestino = $l02['qtdAcao'];}
-
+        $r->execute(array($_POST['cartDestino'], $_POST['ativoAcaoOrigem']));
+        
         if($r->rowCount()>0) {
             //CENÁRIO 2
-            $dadosBD = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=? AND ativoAcao=?");
-            $dadosBD->execute(array($_SESSION['idCarteira'],$_GET['ativoAcao']));
-
-            if($dadosBD->rowCount()==0) {$quantidadeAcoesAtual = 0;}
-            else {
-                $linhas03 = $dadosBD->fetchAll(PDO::FETCH_ASSOC);                
-                foreach($linhas03 as $l03) {$quantidadeAcoesAtual = $l03['qtdAcao'];}
-            }
-
-            $novoDadoQuantidadeAcao = $quantidadeAcoesAtual + $qtdAcoesDestino;
-
-            $atualizarDados = $db->prepare("UPDATE carteira_acao SET qtdAcao=? WHERE idCarteira=? AND ativoAcao=?");
-            $atualizarDados->execute(array($novoDadoQuantidadeAcao,$_POST['cartDestino'],$_GET['ativoAcao']));
-            
-            $r3 = $db->prepare("DELETE FROM carteira_acao WHERE cpfCliente=? AND idCarteira=? AND ativoAcao=?");
-            $r3->execute(array($_SESSION['cpf'],$_SESSION['idCarteira'],$_GET['ativoAcao']));
+            $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+            foreach($linhas as $l) {$qtdAcoesDestino = $l['qtdAcao'] + $_POST['qtdAcoesOrigem'];}
+            //Update qtdes na carteira destino
 
 
+
+            //Remover ação na carteira origem (lixeira, id=0)
 
 
 
         } else {          
             //CENÁRIO 1
-            $r = $db->prepare("UPDATE carteira_acao SET idCarteira=? WHERE cpfCliente=? AND idCarteira=? AND ativoAcao=?");
-            $r->execute(array($_POST['cartDestino'],$_SESSION['cpf'],0,$_GET['ativoAcao']));
+            $r = $db->prepare("UPDATE carteira_acao SET idCarteira=? WHERE cpfCliente=? AND idCarteira=0 AND ativoAcao=?");
+            $r->execute(array($_POST['cartDestino'],$_SESSION['cpf'],$_POST['qtdAcoesOrigem']));
         }
         header('Location: acoesSemCarteira.php');
     }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -123,6 +100,7 @@
                                 <label for="floatingSelect">Carteira destino de resgate</label>
                             </div>
                             <input type="hidden" name="qtdAcoesOrigem" value="<?=$_GET['qtdAcao']?>">
+                            <input type="hidden" name="ativoAcaoOrigem" value="<?=$_GET['ativoAcao']?>">
                             <a href="acoesSemCarteira.php" class="btn btn-danger">Cancelar</a>
                             <button type="submit" class="btn btn-success" id="submitWithEnter">Confirmar</button>
                         </form>
