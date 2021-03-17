@@ -372,11 +372,11 @@ if(isset($_GET['a'])){$a=$_GET['a'];$_SESSION['conf']=1;}else{$_SESSION['conf']=
 </body>
 <?php
 function acerto($u,$i){
-    for($x=1;$x<count($linhas)+2;$x++)
-                                        {
+    
+                                        
             if($u/$i>=1){return 1;}
-    }                                            
-}         
+                                              
+}  
    if($_SESSION['conf']==1)  // #########################################################
                             {
 
