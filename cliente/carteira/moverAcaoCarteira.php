@@ -6,39 +6,69 @@
         header('Location: ../../acessoNegado.php');
     }  
     
-    if(!empty($_POST['carteiraDestinoSelecionado']) && !empty($_GET['ativoAcao'])){        
-        $r = $db->prepare("UPDATE carteira_acao SET idCarteira = :idCarteiraNovo, objetivo = :objetivo, cpfCliente = :cpfCliente WHERE idCarteira = :idCarteira AND ativoAcao = :ativoAcao;");
-        $r->execute(array(
-            ":idCarteiraNovo" => $_POST['carteiraDestinoSelecionado'],
-            ":objetivo" => "0",
-            ":cpfCliente" => $_SESSION['cpf'],
-            ":idCarteira" => $_SESSION['idCarteira'],
-            ":ativoAcao" => $_GET['ativoAcao']
-        ));        
-        header('Location: investirCarteira.php');
-    
-    /* CONDIÇÃO SE MOVER AÇÃO EM CARTEIRA COM MESMA AÇÃO
-    $r = $db->prepare("SELECT ativoAcao FROM carteira_acao WHERE idCarteira = :idCarteira AND ativoAcao = :ativoAcao");
-    $r->execute(array(
-        ":idCarteira" => $_SESSION['idCarteira'],
-        ":ativoAcao" => $_GET['ativoAcao']
-    ));
+    if(!empty($_POST['carteiraDestinoSelecionado']) && !empty($_GET['ativoAcao'])){
 
-    if($r->rowCount()>0) {
-        UPDATE INCREMENTANDO QTDE DE AÇÕES NA AÇÃO DA CARTEIRA DESTINO ($_POST['carteiraDestinoSelecionado'])
-        DELETA AÇÃO DA CARTEIRA EM QUESTÃO (DE ORIGEM: $_SESSION['idCarteira'])
-    } else {
-        $r = $db->prepare("UPDATE carteira_acao SET idCarteira = :idCarteiraNovo, objetivo = :objetivo, cpfCliente = :cpfCliente WHERE idCarteira = :idCarteira AND ativoAcao = :ativoAcao;");
-            $r->execute(array(
-                ":idCarteiraNovo" => $_POST['carteiraDestinoSelecionado'],
-                ":objetivo" => "0",
+        $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira = :idCarteira AND ativoAcao = :ativoAcao");
+        $r->execute(array(
+            ":idCarteira" => $_POST['carteiraDestinoSelecionado'],
+            ":ativoAcao" => $_GET['ativoAcao']
+        ));
+
+        $linhas02 = $r->fetchAll(PDO::FETCH_ASSOC);
+        
+        foreach($linhas02 as $l02) {
+            $quantidadeAcoesDestino = $l02['qtdAcao'];           
+        }
+
+        if($r->rowCount() > 0) {
+            
+            $dadosBD = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira = :idCarteira AND ativoAcao = :ativoAcao");
+            $dadosBD->execute(array(
+                ":idCarteira" => $_SESSION['idCarteira'],
+                ":ativoAcao" => $_GET['ativoAcao']
+            ));
+
+            if($dadosBD->rowCount() == 0) {
+                $quantidadeAcoesAtual = 0;
+            } else {
+                $linhas03 = $dadosBD->fetchAll(PDO::FETCH_ASSOC);
+                
+                foreach($linhas03 as $l03) {
+                    $quantidadeAcoesAtual = $l03['qtdAcao'];                
+                }
+            }
+
+            $novoDadoQuantidadeAcao = $quantidadeAcoesAtual + $quantidadeAcoesDestino;
+
+            $atualizarDados = $db->prepare("UPDATE carteira_acao SET qtdAcao = :qtdAcao WHERE idCarteira = :idCarteira AND ativoAcao = :ativoAcao");
+            $atualizarDados->execute(array(
+                ":qtdAcao" => $novoDadoQuantidadeAcao,
+                ":idCarteira" => $_POST['carteiraDestinoSelecionado'],
+                ":ativoAcao" => $_GET['ativoAcao']
+            ));
+            
+            $r3 = $db->prepare("DELETE FROM carteira_acao WHERE cpfCliente = :cpfCliente AND idCarteira = :idCarteira AND ativoAcao = :ativoAcao");
+            $r3->execute(array(
                 ":cpfCliente" => $_SESSION['cpf'],
                 ":idCarteira" => $_SESSION['idCarteira'],
-                ":ativoAcao" => $_GET['ativoAcao']             
-            ));   
-    }
-    header('Location: investirCarteira.php');
-    */
+                ":ativoAcao" => $_GET['ativoAcao']
+            ));
+
+            header('Location: investirCarteira.php');
+
+        } else {            
+            $r = $db->prepare("UPDATE carteira_acao SET idCarteira = :idCarteiraNovo, objetivo = :objetivo WHERE cpfCliente = :cpfCliente AND idCarteira = :idCarteira AND ativoAcao = :ativoAcao;");
+                $r->execute(array(
+                    ":idCarteiraNovo" => $_POST['carteiraDestinoSelecionado'],
+                    ":objetivo" => "0",
+                    ":cpfCliente" => $_SESSION['cpf'],
+                    ":idCarteira" => $_SESSION['idCarteira'],
+                    ":ativoAcao" => $_GET['ativoAcao']             
+                ));   
+        }
+
+        header('Location: investirCarteira.php');
+    
     }
 ?>
 <!DOCTYPE html>

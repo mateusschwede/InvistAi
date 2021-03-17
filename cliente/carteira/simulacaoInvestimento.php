@@ -2,6 +2,9 @@
     require_once '../../conexao.php';
     session_start();
     if(!isset($_SESSION['clienteLogado'])){header('Location: ../../acessoNegado.php');}
+
+
+ 
 ?>
 
 <!DOCTYPE html>
@@ -41,14 +44,14 @@
 
         <div class="row">
             <div class="col-sm-12 text-center">
-                <h2>Investir na carteira <?=$_SESSION['idCarteira']?>:
+                <h2 style='color: blue;'>Investir na carteira <?=$_SESSION['idCarteira']?>:
                 <?php
-                    $id=$_SESSION['idCarteira'];
-                    $qac=0;
+                $id=$_SESSION['idCarteira'];
+                $qac=0;
                     $r = $db->prepare("SELECT objetivo,percInvestimento FROM carteira WHERE id=?");
                     $r->execute(array($_SESSION['idCarteira']));
                     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                    foreach($linhas as $l) {echo " ".$l['objetivo']."</h2>"; $objCarteira=$l['objetivo']; $percCart=$l['percInvestimento'];$qac==count($linhas);}
+                    foreach($linhas as $l) {echo "  ".$l['objetivo']."</h2>"; $objCarteira=$l['objetivo']; $percCart=$l['percInvestimento'];$qac==count($linhas);}
                 ?>
 
                 <div class="table-responsive">
@@ -224,7 +227,7 @@
                                             <td >".strtoupper($atn[$y])."</td>
                                             <td >".strtoupper($nome)."</td> 
                                             <td class='set'>".$setor."</td>
-                                            <td class='set'>".$quac[$y]."</td>
+                                            <td class='set'>".$qt[$y]."</td>
                                             <td class='setx'>R$ ".number_format($cot[$y],2,",",".")."</td>
                                             <td class='setx'>R$ ".number_format($qt[$y]*$cot[$y],2,",",".")."</td>
                                             
@@ -240,15 +243,15 @@
                                             $totproj+=($tg*$obj[$y]/100)-($qt[$y]*$cot[$y])+$qt[$y]*$cot[$y];
                                     
                                  $qaa = $z = 0;
-                                  
-                                       
+                                 
+                                    
                                     while ($aporte>$cot[$y] && $z<($tg*$obj[$y]/100)-($qt[$y]*$cot[$y])) {
                                         $qaa+=1;
                                         $aporte-=$cot[$y];
                                         $z+=$cot[$y];
                                         }       
-                                     
                                         
+                                       
 
                                 echo       "
                                              <td class='set'>".number_format((((int)$qaa+$qt[$y])*$cot[$y])*100/$tg,2,",",".")." %</td>
@@ -263,16 +266,18 @@
                                 
                                     
                                 }
+                                $redist=$_SESSION['valorInvestimento']-$aporte; 
                                for($x=1;$x<count($linhas)+1;$x++){
-                                 while ($aporte>$cot[$x] ) {
+                                 while ($redist>$cot[$x] ) {
                                         $qaa+=1;
-                                        $aporte-=$cot[$x];
+                                        $redist-=$cot[$x];
                                         $z+=$cot[$x];
                                         
                                         }
 
                                 }
-
+                                
+                                $aporte=$redist;
                                 echo "
                                     <tr>
                                         <td></td><td></td><td></td><td></td><td>Total: </td><td>R$ ".number_format($totPatrAtualizado,2,",",".")."</td><td></td>
@@ -299,7 +304,8 @@
                 </div>
                 
                 <br>
-                <a href="investirCarteira.php" class="btn btn-danger">Cancelar</a>
+                <a href="canInvestimento.php" class="btn btn-danger">Cancelar</a>
+             <?php echo ' <a href="investirCarteira.php?id='.$id.'" class="btn btn-info">Recalcular</a>';?>
                 <a href="confInvestimento.php" class="btn btn-success" id="submitWithEnter">Confirmar Investimento</a>
             </div>
         </div>
