@@ -1,8 +1,11 @@
 <?php
-    require_once '../../conexao.php';
+    require_once 'conexao.php';
     session_start();
+    global $qaa;
+
     if(!isset($_SESSION['clienteLogado'])){header('Location: ../../acessoNegado.php');}
 
+if(isset($_GET['a'])){$a=$_GET['a'];$_SESSION['conf']=1;}else{$_SESSION['conf']=0;}
 
  
 ?>
@@ -47,7 +50,7 @@
                 <h2 style='color: blue;'>Investir na carteira <?=$_SESSION['idCarteira']?>:
                 <?php
                 $id=$_SESSION['idCarteira'];
-                $qac=0;
+                $h=$qac=0;
                     $r = $db->prepare("SELECT objetivo,percInvestimento FROM carteira WHERE id=?");
                     $r->execute(array($_SESSION['idCarteira']));
                     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
@@ -113,6 +116,8 @@
                                     
                                      // armazena na matriz o ativo e sua cotação 
                                 }
+                               
+
                                 $aporte=$_SESSION['valorInvestimento'];
 
                                 //Pegar totalPatrimonioAtualizado da carteira
@@ -143,8 +148,8 @@
                                 $r->execute(array($_SESSION['idCarteira']));
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);                                
 
-                                foreach($linhas as $l) 
-                                { //Pegar dados específicos da ação citada
+                foreach($linhas as $l) 
+                { //Pegar dados específicos da ação citada
 
                                     $r = $db->prepare("SELECT * FROM acao WHERE ativo=?");
                                     $r->execute(array($l['ativoAcao']));
@@ -162,41 +167,56 @@
                                     $qtdAcoes = $l['qtdAcao'];
                                     
                                     $patrAtualizado = $qtdAcoes * $cotacaoAtual;
-                                    if($totPatrAtualizado==0) {$partAtual=0;}
-                                    else {$partAtual = ($patrAtualizado * 100) / $totPatrAtualizado;}
+                                    if($totPatrAtualizado==0) 
+                                        {
+                                            $partAtual=0;
+                                        }
+                                    else 
+                                        {
+                                            $partAtual = ($patrAtualizado * 100) / $totPatrAtualizado;
+                                        }
                                     $distObjetivo = $partAtual - $l['objetivo'];
-                                    if($distObjetivo >= 0) {$qtdAcoesComprar = 0;}
-                                    else {$qtdAcoesComprar = ($l['objetivo']*( ($_SESSION['valorInvestimento']+$totPatrAtualizado) / 100)) / $cotacaoAtual;}
+                                    if($distObjetivo >= 0) 
+                                        {
+                                            $qtdAcoesComprar = 0;
+                                        }
+                                    else 
+                                        {
+                                            $qtdAcoesComprar = ($l['objetivo']*( ($_SESSION['valorInvestimento']+$totPatrAtualizado) / 100)) / $cotacaoAtual;
+                                        }
                                 
                                     $ainv=(($_SESSION['valorInvestimento']+$totPatrAtualizado)*($l['objetivo']/100))-$patrAtualizado;
                                     $qtdAcoesComprar=(int)$ainv/$cotacaoAtual;
 
                                     $investimentoReal = (int)$qtdAcoesComprar * $cotacaoAtual;
-                                    if($qtdAcoesComprar!=0) {$totInvestimentoReal += ((int)$qtdAcoesComprar*$cotacaoAtual);}
+                                    if($qtdAcoesComprar!=0) 
+                                    {
+                                        $totInvestimentoReal += ((int)$qtdAcoesComprar*$cotacaoAtual);
+                                    }
 
                                     //Taylor (quant)
                                     $quant = 0; $valcart = 0;
 
                                     $sobra=$totInvestimentoReal+$totPatrAtualizado;
-                                $qa[]=$qac=0;
+                                    $qa[]=$qac=0;
 
-                                $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
-                                $r->execute(array($_SESSION['idCarteira']));
-                                $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
+                                    $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
+                                    $r->execute(array($_SESSION['idCarteira']));
+                                    $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                                 
                                     foreach($linhas as $z) 
-                                {
-                                    //echo count($linhas).'-'.$z['idCarteira'].'-'.$z['idCarteira'].'-';
-                                    $at=$z['ativoAcao'];
-                                    $r = $db->prepare("SELECT * FROM acao WHERE ativo=?");
-                                    $r->execute(array($z['ativoAcao']));
-                                    $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);                                    
-                                    foreach($linhas2 as $l2) 
                                     {
-                                         $cotacao = $l2['cotacaoAtual'];
+                                        //echo count($linhas).'-'.$z['idCarteira'].'-'.$z['idCarteira'].'-';
+                                        $at=$z['ativoAcao'];
+                                        $r = $db->prepare("SELECT * FROM acao WHERE ativo=?");
+                                        $r->execute(array($z['ativoAcao']));
+                                        $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);                                    
+                                        foreach($linhas2 as $l2) 
+                                        {
+                                             $cotacao = $l2['cotacaoAtual'];
+                                        }
+                                    if($sobra<=$cotacao) {$sobra-=$cotacao; $qa[$qac]+=1;}    
                                     }
-                                if($sobra<=$cotacao) {$sobra-=$cotacao; $qa[$qac]+=1;}    
-                                }
                                 
 
 
@@ -204,9 +224,12 @@
                                     $r->execute(array($_SESSION['idCarteira']));
                                     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                                     foreach($linhas as $l8)  
-                                        {if($l8['ativoAcao']==$l['ativoAcao']) {$quant+=$l8['qtdAcoes'];} }
+                                    {
+                                        if($l8['ativoAcao']==$l['ativoAcao']) {$quant+=$l8['qtdAcoes'];} 
+                                    }
                                     if($l['qtdAcao']==0) {$percAcaoCarteira=0; $propInvA=0;}
-                                    else {
+                                    else 
+                                    {
                                         $percAcaoCarteira = ($quant+(int)$qtdAcoesComprar)*$cotacaoAtual*100/$valornacart;
                                         $propInvA = ($quant*$cotacaoAtual)/$valornacart*100;
                                     }
@@ -241,49 +264,83 @@
                                            ";
                                             $infaz+=($tg*$obj[$y]/100)-($qt[$y]*$cot[$y]);
                                             $totproj+=($tg*$obj[$y]/100)-($qt[$y]*$cot[$y])+$qt[$y]*$cot[$y];
+
+                                            //$qad=array();   //#############################################################
                                     
-                                 $qaa = $z = 0;
+                                 $qaa[$y] = $z = 0;
                                  
                                     
-                                    while ($aporte>$cot[$y] && $z<($tg*$obj[$y]/100)-($qt[$y]*$cot[$y])) {
-                                        $qaa+=1;
+                                    while ($aporte>$cot[$y] && $z<($tg*$obj[$y]/100)-($qt[$y]*$cot[$y])) 
+                                    {
+                                        $qaa[$y]+=1;
                                         $aporte-=$cot[$y];
                                         $z+=$cot[$y];
-                                        }       
+                                    }       
                                         
                                        
 
                                 echo       "
-                                             <td class='set'>".number_format((((int)$qaa+$qt[$y])*$cot[$y])*100/$tg,2,",",".")." %</td>
-                                            <td class='set'>".(int)$qaa."</td>
-                                            <td >R$ ".number_format((int)$qaa*$cot[$y],2,",",".")."</td>
-                                            <td class='set'>".(int)($qt[$y]+$qaa)."</td>
+                                             <td class='set'>".number_format((((int)$qaa[$y]+$qt[$y])*$cot[$y])*100/$tg,2,",",".")." %</td>
+                                            <td class='set'>".(int)$qaa[$y]."</td>
+                                            <td >R$ ".number_format((int)$qaa[$y]*$cot[$y],2,",",".")."</td>
+                                            <td class='set'>".(int)($qt[$y]+$qaa[$y])."</td>
                                             
                                         </tr>
                                     ";
                                     
 
                                 
-                                    
-                                }
-                                $redist=$_SESSION['valorInvestimento']-$aporte; 
-                               for($x=1;$x<count($linhas)+1;$x++){
-                                 while ($redist>$cot[$x] ) {
-                                        $qaa+=1;
-                                        $redist-=$cot[$x];
-                                        $z+=$cot[$x];
-                                        
-                                        }
+            }   
+                               
 
-                                }
-                                
-                                $aporte=$redist;
                                 echo "
                                     <tr>
                                         <td></td><td></td><td></td><td></td><td>Total: </td><td>R$ ".number_format($totPatrAtualizado,2,",",".")."</td><td></td>
                                         <td></td><td></td><td>R$ ".number_format($infaz,2,",",".")."</td><td>R$ ".number_format($totproj,2,",",".")."</td><td></td><td></td><td>R$ ".number_format($_SESSION['valorInvestimento']-$aporte,2,",",".")."</td><td></td>
-                                    </tr>";?>    
-                                    </tbody>
+
+
+                                    </tr> </tbody></table>";
+                                   
+                                 $ap=$aporte;   
+                                $p=0; $qta=array();
+                                for($q=1;$q<count($linhas)+1;$q++)
+                                {
+                                        while($aporte/$cot[$y]>=1)
+                                    {
+                                        for($x=1;$x<count($linhas)+2;$x++)
+                                        {
+
+                                        $p=acerto($aporte,$cot[$y]);
+                                        $h+=$p;
+                                        $qaa[$y]+=$p;
+                                        $qta[$x]=$qaa[$y];
+                                        $aporte-=$p*$cot[$y];
+                                        }                                        
+                                   }
+                               }
+//echo '<h1>'.$_SESSION['conf'].'<h1>';                          
+
+                                   if($h>0){
+                                     echo '
+                                    <table class="table table-striped" style="font-size: 80%; text-align: right; line-height: 95%;">
+                                    <thead>
+                            <tr><th></th><th></th></th><th></th>
+                                <th scope="col">Ativo</th>
+                                <th scope="col">Quant. Atual</th>
+                                <th scope="col">Cotação Atual</th>
+                                <th scope="col">Quant. a adq.</th>
+                                <th scope="col">Valor c/ Aporte</th>
+                                <th scope="col">Quant. Cotas</th>                                
+                            </tr>
+                        </thead>
+                        <tbody>                               
+                                    ';    
+                                   echo '<tr><td></td><td></td></td><td ></td><td>'.strtoupper($atn[$q]).'</td><td>'.$qt[$q].'</td><td>'.$cot[$q].'</td></td><td>'.$qta[$q].'</td><td>valor:R$ '.number_format($qta[$q]*$cot[$q],2,",",".").'</td><td>'.number_format((int)$qta[$q]+(int)$qt[$q],0,",",".").'</td></tr>';
+                                    }
+                    
+                                    if($h>0){
+                                        echo '<td>Valor anterior da Sobra: R$ '.number_format($ap,2,",",".").'</td><td>Valor final da Sobra: R$ '.number_format($aporte,2,",",".").'</td><td></td></tr>';}?>
+                                   </tbody>
                                     </table>
                                     
                                     
@@ -304,11 +361,38 @@
                 </div>
                 
                 <br>
-                <a href="canInvestimento.php" class="btn btn-danger">Cancelar</a>
-             <?php echo ' <a href="investirCarteira.php?id='.$id.'" class="btn btn-info">Recalcular</a>';?>
-                <a href="confInvestimento.php" class="btn btn-success" id="submitWithEnter">Confirmar Investimento</a>
+                <a href="../index.php" class="btn btn-danger">Cancelar</a>
+             <?php echo ' <a href="investirCarteira.php?id='.$id.'" class="btn btn-info">Recalcular</a>
+                <a href="simulacaoInvestimento.php?a='.$_SESSION['conf'] .'"class="btn btn-success" id="submitWithEnter" name="conf" target="_blank">Confirmar Investimento</a>';
+                ?>
+                <br><br><br>
             </div>
         </div>
-    </div>
+    </div> <br><br><br>
 </body>
-</html> 
+<?php
+                     
+   if($_SESSION['conf']==1)  // #########################################################
+                            {
+
+                                   $i=0;
+                                $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
+                                $r->execute(array($_SESSION['idCarteira']));
+                                $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);                                    
+                                foreach($linhas2 as $l2){
+                                    $i++;
+                                    $ativo=$l2['ativoAcao'];
+                                $d=date('Y/m/d');
+                                    $r = $db->prepare("UPDATE carteira_acao SET qtdAcao=?,cpfCliente=? WHERE idCarteira=? AND ativoAcao=?");
+                                    $r->execute(array((int)$qaa[$i]+$l2['qtdAcao'],$_SESSION['cpf'],$_SESSION['idCarteira'],$ativo));
+                                    $r = $db->prepare("INSERT INTO operacao(dataOperacao,qtdAcoes,idCarteira,ativoAcao) VALUES (?,?,?,?)");
+                                            $r->execute(array($d,(int)$qaa[$i],$_SESSION['idCarteira'],$ativo));
+                                    }        
+                                    unset($_SESSION['conf']);
+                                    include("confInvestimento.php");
+                                    echo '<a href=" ../index.php?"class="btn btn-success" id="submitWithEnter" name="conf" style="text-align: center;" target="_top">Voltar</a>';
+
+                            }       ?>                   
+                             
+    </html> 
+
