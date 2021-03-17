@@ -85,9 +85,6 @@
                 ?></div>
 
 
-
-
-
                 <div class="table-responsive">
                     <table class='table table-striped'>
                         <thead>
@@ -141,18 +138,17 @@
                                         <td class='setn' colspan=8>Ações sem carteiras no momento</td>
                                         <td class='set'><a href='carteira/acoesSemCarteira.php' class='btn btn-warning btn-sm'>Acessar ações</a></td>
                                     </tr>
+                                    <tr>
+                                        <td class='setx table-success text-center' colspan=3><b>Total Investimentos: R$ ".number_format($totalCarteiras,2,".",",")."</b></td>
+                                        <td class='setx table-success text-center' colspan=3><b>Total Sobras: R$ ".number_format($totalSobraAportes,2,".",",")."</b></td>
+                                        <td class='setx table-success text-center' colspan=3><b>Total Geral: R$ ".number_format($totalCarteiras+$totalSobraAportes,2,".",",")."</b></td>
+                                    </tr>
                                 ";
                             ?>
                         </tbody>
                     </table>
                 </div>
                 <div>
-                <?php
-                echo "Total em Investimentos: R$ ".number_format($totalCarteiras,2,".",",")."<br>";
-                echo "Total de Sobras R$ ".number_format($totalSobraAportes,2,".",",")."<br>";
-                $totalCarteiras += $totalSobras;
-                echo "TOTAL R$ ".number_format($totalCarteiras,2,".",",");
-                ?>
                 </div>
 
             </div>
