@@ -6,7 +6,6 @@
         header('Location: ../acessoNegado.php');
     endif;
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -21,8 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <div class="container-fluid">        
-        <!-- Menu de Navegação -->
+    <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12" id="navbar">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -56,7 +54,8 @@
                             <p><b>Nome:</b> ".$l['nome']."</p>
                             <p><b>Email:</b> ".$l['email']."</p>
                             <p><b>Celular:</b> ".$l['celular']."</p>
-                            <p><b>Endereço:</b> ".$l['endereco']."</p>                            
+                            <p><b>Endereço:</b> ".$l['endereco']."</p>
+                            <p><b>Total de Sobras:</b> R$ ".number_format($l['totalSobraAportes'],2,",",".")."</p>
                         ";
                     }
                 ?>
