@@ -107,28 +107,50 @@
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);                                
 
                                 foreach($linhas as $l) {
+
+                                    $patrAtualizado = 0;
+                                    $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
+                                    $r->execute(array($l['id']));
+                                    $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach($linhas2 as $l2) {
+                                        $r = $db->prepare("SELECT * FROM acao WHERE ativo=?");
+                                        $r->execute(array($l2['ativoAcao']));
+                                        $linhas3 = $r->fetchAll(PDO::FETCH_ASSOC);
+                                        foreach($linhas3 as $l3) {
+                                            $valorAcao = $l3['cotacaoAtual']*$l2['qtdAcao'];
+                                            $patrAtualizado += $valorAcao;
+                                        }
+                                    }
+
+
+
                                     $p = $db->prepare("SELECT objetivo FROM carteira_acao WHERE idCarteira=?");
                                     $p->execute(array($l['id']));
                                     $ob = $p->fetchAll(PDO::FETCH_ASSOC);
                                     $tot=0;
 
                                     foreach($ob as $o) {$tot=$tot+$o['objetivo'];}
-                                    $sit="Objetivo Completo";
-                                    $pati1= $totalCarteiras/100*$l['percInvestimento']/100*$tot;
+                                    
+                                    //$pati1= $totalCarteiras/100*$l['percInvestimento']/100*$tot;
                                     $pati2= $totalCarteiras/100*$l['percInvestimento'];
-                                    if ($pati2-$pati1>0) {
-                                        $sit="Objetivo incompleto";
-                                    }
+                                    if ($pati2-$patrAtualizado>0) {
+                                        $sit="Objetivo Incompleto";
+                                    } else if ($pati2-$patrAtualizado<0) {
+                                        $sit="Objetivo Superado";
+                                    } else {$sit="Objetivo Completo";}
+
+                                    if($totalCarteiras==0) {$partAtual=0;}
+                                    else {$partAtual = ($patrAtualizado*100)/$totalCarteiras;}
                                     echo "
                                         <tr>
                                             <th scope='row'>".($l['id'])."</th>
                                             <td class='setn'>".$l['objetivo']."</td>
-                                            <td class='set'>".number_format($l['percInvestimento'],2,".",",")." %</td>
-                                            <td class='set'>".$l['percInvestimento']/100*$tot."%</td> 
-                                            <td class='set'style=' text-transform: capitalize !important;'>R$ ".number_format($pati1,2,",",".")."</td>
-                                            <td class='set'style=' text-transform: capitalize !important;'>R$ ".number_format($pati2,2,",",".")."</td>
-                                            <td class='set'style=' text-transform: capitalize !important;'>R$ ".number_format($pati2-$pati1,2,",",".")."</td>
-                                            <td class='set'style=' text-transform: capitalize !important;' >".$sit."</td>
+                                            <td class='set'>".number_format($l['percInvestimento'],2,".",",")." %</td>                                            
+                                            <td class='set'>".number_format($partAtual,2,".",",")."%</td>
+                                            <td class='setx'>R$ ".number_format($patrAtualizado,2,".",",")."</td>
+                                            <td class='setx'>R$ ".number_format($pati2,2,",",".")."</td>
+                                            <td class='setx'>R$ ".number_format($pati2-$patrAtualizado,2,",",".")."</td>
+                                            <td class='setx' >".$sit."</td>
                                             <td class='set'><a href='carteira/investirCarteira.php?id=".$l['id']."' class='btn btn-success btn-sm'>Acessar carteira</a></td>
                                         </tr>
                                     ";
@@ -139,7 +161,7 @@
                                         <td class='set'><a href='carteira/acoesSemCarteira.php' class='btn btn-warning btn-sm'>Acessar ações</a></td>
                                     </tr>
                                     <tr>
-                                        <td class='setx table-success text-center' colspan=3><b>Total Investimentos: R$ ".number_format($totalCarteiras,2,".",",")."</b></td>
+                                        <td class='setx table-success text-center' colspan=3><b>Total em Carteiras: R$ ".number_format($totalCarteiras,2,".",",")."</b></td>
                                         <td class='setx table-success text-center' colspan=3><b>Total Sobras: R$ ".number_format($totalSobraAportes,2,".",",")."</b></td>
                                         <td class='setx table-success text-center' colspan=3><b>Total Geral: R$ ".number_format($totalCarteiras+$totalSobraAportes,2,".",",")."</b></td>
                                     </tr>
