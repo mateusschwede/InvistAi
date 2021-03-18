@@ -140,7 +140,7 @@
                                     echo "
                                         <tr>
                                             <th scope='row'>".($l['id'])."</th>
-                                            <td class='setn'>".$l['objetivo']."</td>
+                                            <td class='set'>".$l['objetivo']."</td>
                                             <td class='set'>".number_format($l['percInvestimento'],2,".",",")." %</td>                                            
                                             <td class='set'>".number_format($partAtual,2,".",",")."%</td>
                                             <td class='setx'>R$ ".number_format($patrAtualizado,2,".",",")."</td>

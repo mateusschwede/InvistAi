@@ -59,7 +59,7 @@
                     $r->execute(array($_SESSION['idCarteira']));
                     $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
                     
-                    foreach($linhas as $l) {echo "<h4 class='text-muted'>".$l['objetivo']."<br>(".$l['percInvestimento']."%)</h4><br>";}
+                    foreach($linhas as $l) {echo "<h4 class='text-muted'>".strtolower($l['objetivo'])."<br>(".$l['percInvestimento']."%)</h4><br>";}
                 ?>
 
                 <h3>Ações vinculadas</h3>
