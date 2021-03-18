@@ -43,6 +43,6 @@
     $r = $db->prepare("DELETE FROM carteira WHERE id=?");
     $r->execute(array($_SESSION['idCarteira']));
     
-    $_SESSION['msg'] = "<div class='alert alert-success alert-dismissible fade show' role='alert'>Carteira ".$_SESSION['idCarteira']." removida, ação com quantidades conservadas na lista de ações sem carteiras, se houverem!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+    $_SESSION['msg'] = "<div class='alert alert-success alert-dismissible fade show' role='alert'>Carteira ".$_SESSION['idCarteira']." removida!<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
     header("location: ../index.php");
 ?>
