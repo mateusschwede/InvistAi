@@ -41,7 +41,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <h1>Suas Carteiras de Ativos</h1>
+                <h1>Carteiras de Ativos</h1>
                 <?php
                     $r = $db->prepare("SELECT totalSobraAportes FROM pessoa WHERE cpf=?");
                     $r->execute(array($_SESSION['cpf']));
@@ -141,11 +141,11 @@
                                         <tr>
                                             <th scope='row'>".($l['id'])."</th>
                                             <td class='set'>".$l['objetivo']."</td>
-                                            <td class='set'>".number_format($l['percInvestimento'],2,".",",")." %</td>                                            
+                                            <td class='set'>".number_format($l['percInvestimento'],2,",",".")." %</td>                                            
                                             <td class='set'>".number_format($partAtual,2,",",".")."%</td>
                                             <td class='setx'>R$ ".number_format($patrAtualizado,2,",",".")."</td>
-                                            <td class='setx'>R$ ".number_format($pati2,2,".",",")."</td>
-                                            <td class='setx'>R$ ".number_format($patrAtualizado-$pati2,2,".",",")."</td>
+                                            <td class='setx'>R$ ".number_format($pati2,2,",",".")."</td>
+                                            <td class='setx'>R$ ".number_format($patrAtualizado-$pati2,2,",",".")."</td>
                                             <td class='setx' >".$sit."</td>
                                             <td class='setx'><a href='carteira/investirCarteira.php?id=".$l['id']."' class='btn btn-success btn-sm'>Acessar Carteira</a></td>
                                         </tr>
