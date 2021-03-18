@@ -314,7 +314,7 @@
                 </div>                
                 <br>
                 <a href="../index.php" class="btn btn-danger">Cancelar</a>
-             <?php echo '       <a href="simulacaoInvestimento.php?id='.$id.'" class="btn btn-info">Recalcular</a>
+             <?php echo '       <a href="investirCarteira.php?id='.$id.'" class="btn btn-info">Recalcular</a>
                                 <a href="simulacaoInvestimento.php?a='. 1 .'"class="btn btn-success" id="submitWithEnter" name="conf" >Confirmar Investimento</a>';
             ?>
                 <br><br><br>
