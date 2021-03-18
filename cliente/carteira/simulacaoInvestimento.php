@@ -356,7 +356,7 @@ function acerto($u,$i){
                                 }        
                                     unset($_SESSION['conf']);
                                     include("confInvestimento.php");
-                                    echo '<a href=" ../index.php?"class="btn btn-success" id="submitWithEnter" name="conf" style="text-align: center;" target="_top">Voltar</a>';
+                                    //echo '<a href=" ../index.php?"class="btn btn-success" id="submitWithEnter" name="conf" style="text-align: center;" target="_top">Voltar</a>';
                 }      
 ?>                   
 </html> 
