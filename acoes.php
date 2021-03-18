@@ -23,7 +23,7 @@
                                 <th scope='row'>".strtoupper($l['ativo'])."</th>
                                 <td class='setn'>".$l['nome']."</td>
                                 <td class='set'>".$l['setor']."</td>";
-                                if($l['cotacaoAtual']!=0) {echo "<td> R$ ".number_format($l['cotacaoAtual'],2)."</td>";}
+                                if($l['cotacaoAtual']!=0) {echo "<td> R$ ".number_format($l['cotacaoAtual'],2,",",".")."</td>";}
                                 else {echo "<td class='text-muted'>Sem cotação disponível no momento</td>";}
                             echo "</tr>";
                         }

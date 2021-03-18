@@ -73,7 +73,7 @@
                 <div class="container">
                     <h1>Vender ação</h1>
                     <h4 class="text-center text-muted"><?=$_GET['ativo'].' - '.strtoupper($nome)?></h4>
-                    <p class="text-center">Cotação atual: R$ <?=$cotacaoAtual?><br>Quantidade em carteira: <?=$qtdMaxVenda?><br>Total à venda: R$ <?=number_format(($cotacaoAtual*$qtdMaxVenda),2,".",",")?></p>
+                    <p class="text-center">Cotação atual: R$ <?=$cotacaoAtual?><br>Quantidade em carteira: <?=$qtdMaxVenda?><br>Total à venda: R$ <?=number_format(($cotacaoAtual*$qtdMaxVenda),2,",",".")?></p>
                     <form action="venderAcao.php?ativoAcao=<?=$_GET['ativo']?>&idCarteira=<?=$_GET['idCarteira']?>&qtdAcao=<?=$qtdMaxVenda?>" method="post">
                         <div class="form-floating mb-3">
                             <input type="number" class="form-control" required id="floatingInput" name="qtdAcao" min="1" max="<?=$qtdMaxVenda?>" step="1" placeholder="Quantidade">

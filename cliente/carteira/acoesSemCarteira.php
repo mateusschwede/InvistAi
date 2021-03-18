@@ -53,7 +53,7 @@
                         $linhas2 = $r->fetchAll(PDO::FETCH_ASSOC);
                         foreach($linhas2 as $l2) {
                             echo "
-                                <b>(".$l['ativoAcao'].") ".$l2['nome']."</b><br>Cotação: R$ ".number_format($l2['cotacaoAtual'],2,".",",")." - Quantidade: ".$l['qtdAcao']." - Total: R$ ".number_format(($l['qtdAcao']*$l2['cotacaoAtual']),2,".",",")."<br>
+                                <b>(".$l['ativoAcao'].") ".$l2['nome']."</b><br>Cotação: R$ ".number_format($l2['cotacaoAtual'],2,",",".")." - Quantidade: ".$l['qtdAcao']." - Total: R$ ".number_format(($l['qtdAcao']*$l2['cotacaoAtual']),2,",",".")."<br>
                                 <a href='resgatarAcaoCarteira.php?ativoAcao=".$l['ativoAcao']."&qtdAcao=".$l['qtdAcao']."' class='btn btn-success btn-sm'>Resgatar em Carteira</a>
                                 <hr>
                             ";

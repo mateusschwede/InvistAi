@@ -65,7 +65,7 @@
                             <?php
                                 $r = $db->query("SELECT ativo,nome,cotacaoAtual FROM acao WHERE cotacaoAtual!=0");
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
-                                foreach($linhas as $l) {echo "<option value=".$l['ativo'].">".$l['nome']." (".$l['ativo'].") - R$ ".number_format($l['cotacaoAtual'],2,".",",")."</option>";}
+                                foreach($linhas as $l) {echo "<option value=".$l['ativo'].">".$l['nome']." (".$l['ativo'].") - R$ ".number_format($l['cotacaoAtual'],2,",",".")."</option>";}
                             ?>
                         </select>
                         <label for="floatingSelect">Ativo da ação</label>
