@@ -144,7 +144,7 @@
                                 <th scope='col'>Ativo</th>
                                 <th scope='col'>Quantidade</th>
                                 <th scope='col'>Valor</th>
-                                <th scope='col'>Proporção</th>
+                                <th scope='col'>Proporção Atual</th>
                                 <th scope='col'>Objetivo</th>
                             </tr>
                         </thead>
@@ -165,7 +165,9 @@
                                         
                                         foreach($linhas3 as $l3) {                                            
                                             $valorOperacao = $l['qtdAcoes']*$l2['cotacaoAtual'];
-                                            $proporcao = ($valorOperacao*100) / $valorCarteira;
+                                            if($valorCarteira == 0) {$proporcao=0;}
+                                            else {$proporcao = ($valorOperacao*100) / $valorCarteira;}
+                                            
                                             echo "
                                                 <tr>
                                                     <th scope='row'>".$l['dataOperacao']."</th>
