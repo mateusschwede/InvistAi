@@ -41,7 +41,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <h1>Minhas Carteiras</h1>
+                <h1>Suas Carteiras de Ativos</h1>
                 <?php
                     $r = $db->prepare("SELECT totalSobraAportes FROM pessoa WHERE cpf=?");
                     $r->execute(array($_SESSION['cpf']));
@@ -91,8 +91,8 @@
                             <tr>
                                 <th scope='col'>Id</th>
                                 <th scope='col'>Descrição</th>
-                                <th scope='col'>Objetivo(%)</th>
-                                <th scope='col'>Participação Atual(%)</th>
+                                <th scope='col'>Objetivo</th>
+                                <th scope='col'>Participação Atual</th>
                                 <th scope='col'>Patrimônio Atualizado</th>
                                 <th scope='col'>Patrimônio Previsto</th>
                                 <th scope='col'>Diferença de Patrimônios</th>
@@ -107,7 +107,6 @@
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);                                
 
                                 foreach($linhas as $l) {
-
                                     $patrAtualizado = 0;
                                     $r = $db->prepare("SELECT * FROM carteira_acao WHERE idCarteira=?");
                                     $r->execute(array($l['id']));
@@ -123,7 +122,6 @@
                                     }
 
 
-
                                     $p = $db->prepare("SELECT objetivo FROM carteira_acao WHERE idCarteira=?");
                                     $p->execute(array($l['id']));
                                     $ob = $p->fetchAll(PDO::FETCH_ASSOC);
@@ -131,13 +129,11 @@
 
                                     foreach($ob as $o) {$tot=$tot+$o['objetivo'];}
                                     
-                                    //$pati1= $totalCarteiras/100*$l['percInvestimento']/100*$tot;
                                     $pati2= $totalCarteiras/100*$l['percInvestimento'];
-                                    if ($pati2-$patrAtualizado>0) {
-                                        $sit="Objetivo Incompleto";
-                                    } else if ($pati2-$patrAtualizado<0) {
-                                        $sit="Objetivo Superado";
-                                    } else {$sit="Objetivo Completo";}
+                                    
+                                    if ($pati2-$patrAtualizado>0) {$sit="Objetivo Incompleto";}
+                                    else if ($pati2-$patrAtualizado<0) {$sit="Objetivo Superado";}
+                                    else {$sit="Objetivo Completo";}
 
                                     if($totalCarteiras==0) {$partAtual=0;}
                                     else {$partAtual = ($patrAtualizado*100)/$totalCarteiras;}
@@ -149,27 +145,35 @@
                                             <td class='set'>".number_format($partAtual,2,".",",")."%</td>
                                             <td class='setx'>R$ ".number_format($patrAtualizado,2,".",",")."</td>
                                             <td class='setx'>R$ ".number_format($pati2,2,",",".")."</td>
-                                            <td class='setx'>R$ ".number_format($pati2-$patrAtualizado,2,",",".")."</td>
+                                            <td class='setx'>R$ ".number_format($patrAtualizado-$pati2,2,",",".")."</td>
                                             <td class='setx' >".$sit."</td>
-                                            <td class='set'><a href='carteira/investirCarteira.php?id=".$l['id']."' class='btn btn-success btn-sm'>Acessar carteira</a></td>
+                                            <td class='setx'><a href='carteira/investirCarteira.php?id=".$l['id']."' class='btn btn-success btn-sm'>Acessar Carteira</a></td>
                                         </tr>
-                                    ";
+                                    ";                                            
                                 }
+                                
+                                $r = $db->prepare("SELECT ativoAcao FROM carteira_acao WHERE idCarteira=0 AND cpfCliente=?");
+                                $r->execute(array($_SESSION['cpf']));
+                                if($r->rowCount()>0) {
+                                    echo "
+                                        <tr class='text-muted'>
+                                            <td class='setn' colspan=8>Ações sem carteiras no momento</td>
+                                            <td class='setx'><a href='carteira/acoesSemCarteira.php' class='btn btn-warning btn-sm'>Resgatar Ações</a></td>
+                                        </tr>
+                                    ";                                    
+                                }                                
                                 echo "
-                                    <tr class='text-muted'>
-                                        <td class='setn' colspan=8>Ações sem carteiras no momento</td>
-                                        <td class='set'><a href='carteira/acoesSemCarteira.php' class='btn btn-warning btn-sm'>Acessar ações</a></td>
-                                    </tr>
                                     <tr>
-                                        <td class='setx table-success text-center' colspan=3><b>Total em Carteiras: R$ ".number_format($totalCarteiras,2,".",",")."</b></td>
-                                        <td class='setx table-success text-center' colspan=3><b>Total Sobras: R$ ".number_format($totalSobraAportes,2,".",",")."</b></td>
-                                        <td class='setx table-success text-center' colspan=3><b>Total Geral: R$ ".number_format($totalCarteiras+$totalSobraAportes,2,".",",")."</b></td>
+                                        <td class='setx table-success text-center' colspan=9><b>Total em Carteiras: R$ ".number_format($totalCarteiras,2,".",",")."</b></td>
                                     </tr>
                                 ";
                             ?>
                         </tbody>
                     </table>
                 </div>
+                <?php
+                    echo "<b>Total Sobras:</b> R$ ".number_format($totalSobraAportes,2,".",",")."<br><b>Carteiras + Sobras:</b> R$ ".number_format($totalCarteiras+$totalSobraAportes,2,".",",");
+                ?>
                 <div>
                 </div>
 
