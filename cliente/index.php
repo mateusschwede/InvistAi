@@ -171,9 +171,6 @@
                         </tbody>
                     </table>
                 </div>
-                <?php
-                    echo "<b>Total Sobras:</b> R$ ".number_format($totalSobraAportes,2,".",",")."<br><b>Carteiras + Sobras:</b> R$ ".number_format($totalCarteiras+$totalSobraAportes,2,".",",");
-                ?>
                 <div>
                 </div>
 
