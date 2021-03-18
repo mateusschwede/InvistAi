@@ -7,7 +7,7 @@ Facilitar as funções do analista de investimentos, automatizando a gestão est
 
 ## Integrantes
 - (**Dev**) Angélica de Oliveira
-- (**Dev**) Diego Vieira
+- (**Dev**) Diego Rafael Vieira
 - (**Scrum Master**) Mateus Schwede
 - (**Dev**) Miguel Schmidt
 - (**PO**) Taylor dos Santos
