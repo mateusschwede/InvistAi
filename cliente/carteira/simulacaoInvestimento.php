@@ -78,7 +78,7 @@
                         <tbody>
                             <?php
                                 //Taylor (ValorNaCart)
-                                $infaz=$quac[] = $cot[] = $atn[] = $n = $valAtivo[] = $valAt= $valornacart = 0;
+                                $infaz=$quac[] = $cot[] = $atn[] = $n = $valAtivo[] = $valAt= $valornacart = 0.01;
                                 $r = $db->prepare("SELECT * FROM operacao WHERE idCarteira=?");
                                 $r->execute(array($_SESSION['idCarteira']));
                                 $linhas = $r->fetchAll(PDO::FETCH_ASSOC);
