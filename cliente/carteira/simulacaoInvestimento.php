@@ -347,12 +347,11 @@ function acerto($u,$i){
                                 {
                                     $i++;
                                     $ativo=$l2['ativoAcao'];
-                                    $d=date('Y/m/d');
                                     $r = $db->prepare("UPDATE carteira_acao SET qtdAcao=?,cpfCliente=? WHERE idCarteira=? AND ativoAcao=?");
                                     $r->execute(array((int)$qaa[$i]+$l2['qtdAcao'],$_SESSION['cpf'],$_SESSION['idCarteira'],$ativo));
                                     
-                                    $r = $db->prepare("INSERT INTO operacao(dataOperacao,qtdAcoes,idCarteira,ativoAcao) VALUES (?,?,?,?)");
-                                            $r->execute(array($d,(int)$qaa[$i],$_SESSION['idCarteira'],$ativo));
+                                    $r = $db->prepare("INSERT INTO operacao(qtdAcoes,idCarteira,ativoAcao) VALUES (?,?,?,?)");
+                                    $r->execute(array((int)$qaa[$i],$_SESSION['idCarteira'],$ativo));
                                 }        
                                     unset($_SESSION['conf']);
                                     include("confInvestimento.php");
