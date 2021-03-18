@@ -3,7 +3,7 @@
     session_start();
     if(!isset($_SESSION['clienteLogado'])){header('Location: ../../acessoNegado.php');}
 
-    if(!empty($_GET['id'])) {$_SESSION['idCarteira'] = $_GET['id'];}
+    if(isset($_GET['id'])) {$_SESSION['idCarteira'] = $_GET['id'];}
     if((isset($_SESSION['investimentoReal'])) and (isset($_SESSION['valorInvestimento']))) {unset($_SESSION['investimentoReal']); unset($_SESSION['valorInvestimento']);}
 
     if( (!empty($_GET['idCarteira'])) and (!empty($_POST['valorInvestimento'])) ) {
