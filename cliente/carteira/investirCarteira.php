@@ -69,7 +69,15 @@
                         <input type="number" class="form-control" required id="floatingInput" name="valorInvestimento" placeholder="Valor à investir" step="0.01" min="0.01" max="999999999">
                         <label for="floatingInput">Valor à investir</label>
                     </div>
-                    <button type="submit" class="btn btn-success" id="submitWithEnter">Conferir Investimento</button>
+                    <?php
+                        $r = $db->prepare("SELECT ativoAcao FROM carteira_acao WHERE idCarteira=?");
+                        $r->execute(array($_SESSION['idCarteira']));
+                        if($r->rowCount()>0) {
+                            echo "<button type='submit' class='btn btn-success'>Conferir Investimento</button>";
+                        } else {
+                            echo "<small class='text-muted'>Para poder investir, inclua ações na carteira!</small><br><button type='submit' class='btn btn-success' disabled>Conferir Investimento</button>";
+                        }
+                    ?>
                 </form>
             </div>
         </div>
