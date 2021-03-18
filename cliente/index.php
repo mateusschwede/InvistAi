@@ -95,7 +95,7 @@
                                 <th scope='col'>Participação Atual</th>
                                 <th scope='col'>Patrimônio Atualizado</th>
                                 <th scope='col'>Patrimônio Previsto</th>
-                                <th scope='col'>Diferença de Patrimônios</th>
+                                <th scope='col'>Diferença</th>
                                 <th scope='col'>Situação</th>
                                 <th scope='col'></th>
                             </tr>
