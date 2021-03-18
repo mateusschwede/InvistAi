@@ -164,7 +164,7 @@
                                 }                                
                                 echo "
                                     <tr>
-                                        <td class='setx table-success text-center' colspan=9><b>Total em Carteiras: R$ ".number_format($totalCarteiras,2,".",",")."</b></td>
+                                        <td class='setx table-success text-center' colspan=9><b>Total em Carteiras: R$ ".number_format($totalCarteiras,2,",",".")."</b></td>
                                     </tr>
                                 ";
                             ?>
