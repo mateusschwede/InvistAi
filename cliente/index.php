@@ -243,14 +243,14 @@ if (isset($_SESSION['idCarteira'])) {
                                 ?>
                             ]);
                             let options = {
-                                title: 'Carteiras',
+                                title: 'Participação Atual em Carteiras',
                                 pieHole: 0.4
                             };
                             let chart = new google.visualization.PieChart(document.getElementById('donutchart3'));
                             chart.draw(data, options);
                         }
                     </script>
-                    <div id="donutchart3" style="width: 800px; height: 600px; margin: auto;"></div>
+                    <div id="donutchart3" style="width: 700px; height: 500px; margin: auto;"></div>
                 </div>
                 <!--FECHA GRÁFICO-->
 
